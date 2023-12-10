@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "mhutchie.git-graph",
+    "ms-vsliveshare.vsliveshare",
+    "prisma.prisma",
+    "AlexShen.classdiagram-ts",
+    "GitHub.copilot",
+    "Orta.vscode-jest",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  // 基本的な設定
+  "editor.formatOnSave": true,
+  "prettier.configPath": ".vscode/.prettierrc.js",
+
+  // Prettier をデフォルトのフォーマッターとして設定
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // cSpell の設定
+  "cSpell.words": ["Consts", "datepicker", "JPYC", "sbps", "unredeem"]
+}

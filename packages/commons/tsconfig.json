@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json", // ルートの tsconfig への相対パス
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
