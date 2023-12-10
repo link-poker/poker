@@ -1,0 +1,11 @@
+# Prouduction
+dist
+
+# Dependency directories
+node_modules
+
+# Optional npm cache directory
+.npm
+
+# mac files
+.DS_Store
