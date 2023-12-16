@@ -10,6 +10,9 @@ importers:
 
   apps/client:
     dependencies:
+      io:
+        specifier: link:@types/react-icons/io
+        version: link:@types/react-icons/io
       next:
         specifier: 14.0.2
         version: 14.0.2(react-dom@18.2.0)(react@18.2.0)
@@ -19,6 +22,9 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.49.0
+        version: 7.49.0(react@18.2.0)
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -29,6 +35,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.2.15
+      '@types/react-icons':
+        specifier: ^3.0.0
+        version: 3.0.0(react@18.2.0)
       autoprefixer:
         specifier: ^10.0.1
         version: 10.4.16(postcss@8.4.31)
@@ -1043,6 +1052,15 @@ packages:
     resolution: {integrity: sha512-HWMdW+7r7MR5+PZqJF6YFNSCtjz1T0dsvo/f1BV6HkV+6erD/nA7wd9NM00KVG83zf2nJ7uATPO9ttdIPvi3gg==}
     dependencies:
       '@types/react': 18.2.37
+    dev: true
+
+  /@types/react-icons@3.0.0(react@18.2.0):
+    resolution: {integrity: sha512-Vefs6LkLqF61vfV7AiAqls+vpR94q67gunhMueDznG+msAkrYgRxl7gYjNem/kZ+as2l2mNChmF1jRZzzQQtMg==}
+    deprecated: This is a stub types definition. react-icons provides its own type definitions, so you do not need this installed.
+    dependencies:
+      react-icons: 4.12.0(react@18.2.0)
+    transitivePeerDependencies:
+      - react
     dev: true
 
   /@types/react@18.2.37:
@@ -4122,6 +4140,23 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-hook-form@7.49.0(react@18.2.0):
+    resolution: {integrity: sha512-gf4qyY4WiqK2hP/E45UUT6wt3Khl49pleEVcIzxhLBrD6m+GMWtLRk0vMrRv45D1ZH8PnpXFwRPv0Pewske2jw==}
+    engines: {node: '>=18', pnpm: '8'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /react-icons@4.12.0(react@18.2.0):
+    resolution: {integrity: sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: true
+
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
@@ -4135,7 +4170,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /read-cache@1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}

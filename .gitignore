@@ -1,15 +1,12 @@
 # Monorepo
-apps/*/credentials.json
-apps/*/build
-packages/*/build
+**/build
+**/dist
+**/.next
+**/node_modules
+
 
 # Turborepo
 .turbo
-
-# Expo
-.expo
-__generated__
-web-build
 
 # macOS
 .DS_Store
