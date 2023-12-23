@@ -1,13 +1,62 @@
+/* Tailwind CSSの基本設定をインポート */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.blue-btn {
-  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+/* 標準ボタンスタイル - ボールドフォント */
+.btn {
+  @apply font-bold;
 }
 
-.blue-btn:hover {
-  @apply bg-blue-700;
+/* 青色ボタン - 通常時は青、ホバー時は濃い青 */
+.blue-btn {
+  @apply bg-blue-500 hover:bg-blue-700 text-white btn;
+}
+
+/* 緑色ボタン - 通常時は緑、ホバー時は濃い緑 */
+.green-btn {
+  @apply bg-green-500 hover:bg-green-700 text-white btn;
+}
+
+/* 赤色ボタン - 通常時は赤、ホバー時は濃い赤 */
+.red-btn {
+  @apply bg-red-500 hover:bg-red-700 text-white btn;
+}
+
+/* 枠線付きの青色ボタン - 通常時は青の枠、ホバー時は濃い青の枠 */
+.outline-blue-btn {
+  @apply border-blue-500 hover:border-blue-700 text-blue-500 hover:text-blue-700 border-4;
+}
+
+/* 枠線付きの緑色ボタン - 通常時は緑の枠、ホバー時は濃い緑の枠 */
+.outline-green-btn {
+  @apply border-green-500 hover:border-green-700 text-green-500 hover:text-green-700 border-4;
+}
+
+/* 枠線付きの赤色ボタン - 通常時は赤の枠、ホバー時は濃い赤の枠 */
+.outline-red-btn {
+  @apply border-red-500 hover:border-red-700 text-red-500 hover:text-red-700 border-4;
+}
+
+/* 枠線付きの白色ボタン - 通常時は白の枠、ホバー時は石色の枠 */
+.outline-white-btn {
+  @apply border-white hover:border-stone-400 text-white hover:text-stone-400 border-4;
+}
+
+/* 点滅効果を定義 - 透明度を変化させる */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 点滅クラス - 2秒間隔で無限に繰り返す */
+.blinking {
+  animation: blink 2s linear infinite;
 }
 
 /* :root {

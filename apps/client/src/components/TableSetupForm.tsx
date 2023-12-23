@@ -22,13 +22,13 @@ export default function TableSetupForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='p-4 max-w-sm bg-white rounded-lg border shadow-md'>
+    <form onSubmit={handleSubmit(onSubmit)} className='p-8 bg-stone-800 rounded-3xl'>
       {/* Select Currency */}
       <div className='mb-4'>
-        <label className='block text-sm font-medium text-gray-700'>Currency</label>
+        <label className='block'>Currency</label>
         <select
           {...register('currency', { required: true })}
-          className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm'
+          className='block w-full p-2 mt-2 bg-white rounded-md text-sm text-stone-800'
         >
           <option value='POTATO'>POTATO</option>
           <option value='USDT'>USDT</option>
@@ -37,10 +37,10 @@ export default function TableSetupForm() {
       </div>
       {/* Select Blind */}
       <div className='mb-4'>
-        <label className='block text-sm font-medium text-gray-700'>Blind</label>
+        <label className='block'>Blind</label>
         <select
           {...register('blind', { required: true })}
-          className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm'
+          className='block w-full p-2 mt-2 bg-white rounded-md text-sm text-stone-800'
         >
           <option value='1/2'>1/2</option>
           <option value='5/10'>5/10</option>
@@ -51,22 +51,19 @@ export default function TableSetupForm() {
 
       {/* バイインの入力 */}
       <div className='mb-4'>
-        <label className='block text-sm font-medium text-gray-700'>Buy-In</label>
+        <label className='block'>Buy-In</label>
         <input
           type='number'
           defaultValue='200'
           {...register('buyIn', { required: true, min: 200 })}
-          className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm'
+          className='block w-full p-2 mt-2 bg-white rounded-md text-sm text-stone-800'
         />
         {errors.buyIn && <p className='text-red-500 text-xs italic'>Input Valid Number</p>}
       </div>
 
       {/* 送信ボタン */}
-      <button
-        type='submit'
-        className='w-full text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-      >
-        CREATE A NEW table
+      <button type='submit' className='green-btn mt-8'>
+        CREATE A NEW TABLE
       </button>
     </form>
   );

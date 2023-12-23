@@ -1,17 +1,10 @@
+import { IPlayer } from 'interfaces/IPlayer';
 import Image from 'next/image';
 import { FaTrophy } from 'react-icons/fa';
 import { ImLoop } from 'react-icons/im';
 
 type Props = {
-  player: {
-    name: string;
-    stack: number;
-    bet: number;
-    hole: string[];
-    hand: string | null;
-    status: string;
-    isYou: boolean;
-  } | null;
+  player: IPlayer | null;
   game: {
     status: string;
   };
@@ -20,7 +13,7 @@ type Props = {
 export default function PlayerSeat(props: Props) {
   const { player, game } = props;
   if (!player) {
-    if (game.status !== 'playing') {
+    if (game.status === 'playing') {
       return <div></div>;
     } else {
       return <div className='m-2 p-4 border border-dashed rounded-lg h-[9vh] w-[18vw]'></div>;
@@ -44,52 +37,52 @@ export default function PlayerSeat(props: Props) {
   };
 
   return (
-    <div className={getActionBgClassName('rounded-lg h-[9vh] w-[18vw]')}>
+    <div className={getActionBgClassName('rounded-lg h-[9vh] w-64')}>
       {player.status === 'action' && (
         <div>
-          <div className='absolute mt-[7vh] ml-[12vw] transform -translate-x-1/2'>
-            <div className='bg-yellow-300 h-4 w-[12vw]'></div>
+          <div className='absolute mt-[7vh]'>
+            <div className='bg-yellow-300 rounded h-4 w-64'></div>
           </div>
-          <div className='absolute mt-[7vh] ml-[7vw] transform -translate-x-1/2'>
-            <div className='bg-red-500 rounded h-4 w-[6vw]'></div>
+          <div className='absolute mt-[7vh]'>
+            <div className='bg-red-500 h-4 w-40'></div>
           </div>
         </div>
       )}
-      <div className='absolute -mt-[1vh] ml-[14.25vw] transform -translate-x-1/2'>
-        <div className='flex justify-center items-center gap-1 bg-green-600 rounded-2xl h-[2vh] w-[3vw]'>
+      <div className='absolute -mt-2 ml-48 transform -translate-x-1/2'>
+        <div className='flex justify-center items-center gap-1 bg-green-600 rounded-2xl h-[2vh] w-12'>
           <FaTrophy size={10} />
           <div className='text-xs'>19</div>
         </div>
       </div>
-      <div className='absolute -mt-[1vh] ml-[17vw] transform -translate-x-1/2'>
-        <div className='flex justify-center items-center gap-1 bg-red-400 rounded-2xl h-[2vh] w-[3vw]'>
+      <div className='absolute -mt-2 ml-48 transform translate-x-1/2'>
+        <div className='flex justify-center items-center gap-1 bg-red-400 rounded-2xl h-[2vh] w-12'>
           <ImLoop size={10} />
           <div className='text-xs'>2</div>
         </div>
       </div>
       <div className='flex flex-row'>
-        <div key={'hole1'} className='absolute -mt-2 -ml-8 -rotate-12'>
+        <div key={'hole1'} className='absolute -mt-2 -ml-4 -rotate-12'>
           <Image alt='card' src={`cards/${player.hole[0]}.svg`} width={80} height={120} />
         </div>
-        <div key={'hole2'} className='absolute -mt-2 ml-6 rotate-12'>
+        <div key={'hole2'} className='absolute -mt-2 ml-8 rotate-12'>
           <Image alt='card' src={`cards/${player.hole[1]}.svg`} width={80} height={120} />
         </div>
         {player.hand && (
-          <div key={'hole2'} className='absolute mt-20 ml-8 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
+          <div key={'hole2'} className='absolute mt-20 ml-11 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
             <div className='text-ms'>{player.hand}</div>
           </div>
         )}
       </div>
-      <div className='absolute mt-[1.5vh] ml-[10vw] flex flex-col justify-center items-start'>
-        <div className={getActionTextClassName('text-base text-stone-700')}>{player.name}</div>
-        <div className={getActionTextClassName('text-lg text-stone-700')}>{player.stack}</div>
+      <div className='absolute mt-3 ml-32 flex flex-col justify-center items-start'>
+        <div className={getActionTextClassName('text-sm text-stone-700')}>{player.name}</div>
+        <div className={getActionTextClassName('text-base text-stone-700')}>{player.stack}</div>
       </div>
       {player.isYou && (
         <div>
-          <div className='absolute mt-[1.5vh] ml-[17vw]'>
+          <div className='absolute mt-[1.5vh] ml-52 transform translate-x-3/4'>
             <div className='text-3xl'>😜</div>
           </div>
-          <div className='absolute mt-[2.5vh] ml-[15vw]'>
+          <div className='absolute mt-[1.5vh] ml-52 transform translate-y-1/4'>
             <div className='text-4xl'>😃</div>
           </div>
         </div>

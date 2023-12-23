@@ -1,4 +1,6 @@
 'use client';
+import { useState } from 'react';
+import OptionsView from 'views/Options';
 import CommunityCards from 'components/CommunityCards';
 import PlayerSeat from 'components/PlayerSeat';
 import LogCard from 'components/LogCard';
@@ -9,9 +11,11 @@ import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
 import Pot from 'components/Pot';
 import TotalPot from 'components/TotalPot';
+import { IPlayer } from 'interfaces/IPlayer';
 
 export default function Table() {
-  const you = {
+  const you: IPlayer = {
+    seat: 6,
     name: 'me',
     stack: 1000,
     bet: 0,
@@ -20,8 +24,9 @@ export default function Table() {
     status: 'action',
     isYou: true,
   };
-  const otherUsers = [
+  const otherUsers: IPlayer[] = [
     {
+      seat: 2,
       name: 'player2',
       stack: 1000,
       bet: 0,
@@ -31,6 +36,7 @@ export default function Table() {
       isYou: false,
     },
     {
+      seat: 3,
       name: 'player3',
       stack: 1000,
       bet: 0,
@@ -40,6 +46,7 @@ export default function Table() {
       isYou: false,
     },
     {
+      seat: 4,
       name: 'player4',
       stack: 1000,
       bet: 0,
@@ -48,22 +55,78 @@ export default function Table() {
       status: 'WAITING',
       isYou: false,
     },
+    {
+      seat: 7,
+      name: 'player5',
+      stack: 1000,
+      bet: 0,
+      hole: ['Blue_Back', 'Blue_Back'],
+      hand: null,
+      status: 'playing',
+      isYou: false,
+    },
+    {
+      seat: 8,
+      name: 'player6',
+      stack: 1000,
+      bet: 0,
+      hole: ['Blue_Back', 'Blue_Back'],
+      hand: null,
+      status: 'playing',
+      isYou: false,
+    },
+    {
+      seat: 9,
+      name: 'player7',
+      stack: 1000,
+      bet: 0,
+      hole: ['Blue_Back', 'Blue_Back'],
+      hand: null,
+      status: 'playing',
+      isYou: false,
+    },
+    {
+      seat: 10,
+      name: 'player8',
+      stack: 1000,
+      bet: 0,
+      hole: ['Blue_Back', 'Blue_Back'],
+      hand: null,
+      status: 'playing',
+      isYou: false,
+    },
+    {
+      seat: 11,
+      name: 'player9',
+      stack: 1000,
+      bet: 0,
+      hole: ['Blue_Back', 'Blue_Back'],
+      hand: null,
+      status: 'playing',
+      isYou: false,
+    },
   ];
-  const seatPlayers = {
-    seat1: null,
-    seat2: otherUsers[0],
-    seat3: otherUsers[1],
-    seat4: otherUsers[2],
-    seat5: null,
-    seat6: you,
-    seat7: null,
-    seat8: null,
-    seat9: null,
-    seat10: null,
-  };
+  const seatPlayers: (IPlayer | null)[] = [
+    otherUsers.find(player => player.seat === 1) ?? null,
+    otherUsers.find(player => player.seat === 2) ?? null,
+    otherUsers.find(player => player.seat === 3) ?? null,
+    otherUsers.find(player => player.seat === 4) ?? null,
+    otherUsers.find(player => player.seat === 5) ?? null,
+    you,
+    otherUsers.find(player => player.seat === 7) ?? null,
+    otherUsers.find(player => player.seat === 8) ?? null,
+    otherUsers.find(player => player.seat === 9) ?? null,
+    otherUsers.find(player => player.seat === 10) ?? null,
+  ];
   const game = {
     status: 'playing',
   };
+
+  const [showOptionsView, setShowOptionsView] = useState(false);
+  if (showOptionsView) {
+    return <OptionsView backTable={() => setShowOptionsView(false)} players={[you, ...otherUsers]} />;
+  }
+
   return (
     <div className='h-screen'>
       <div className='relative h-screen w-screen bg-stone-800'>
@@ -78,44 +141,44 @@ export default function Table() {
         <div className='absolute mt-[0vh] ml-[0vw]'>
           <ExternalInfoContainer />
         </div>
-        <div className='absolute mt-[1vh] ml-[85vw]'>
+        <div className='absolute mt-[1vh] ml-[97.5vw] transform -translate-x-full'>
           <GameInfoContainer />
         </div>
         <div className='absolute mt-[5vh] ml-[1vw]'>
-          <TopLeftButtons />
+          <TopLeftButtons showOptionsView={() => setShowOptionsView(true)} />
         </div>
-        <div className='absolute mt-[9vh] ml-[93vw]'>
+        <div className='absolute mt-[9vh] ml-[99vw] transform -translate-x-full'>
           <TopRightButtons />
         </div>
         <div key={'seat1'} className='absolute mt-[2vh] ml-[37.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat1']} game={game} />
+          <PlayerSeat player={seatPlayers[0]} game={game} />
         </div>
         <div key={'seat2'} className='absolute mt-[2vh] ml-[62.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat2']} game={game} />
+          <PlayerSeat player={seatPlayers[1]} game={game} />
         </div>
         <div key={'seat3'} className='absolute mt-[15vh] ml-[82.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat3']} game={game} />
+          <PlayerSeat player={seatPlayers[2]} game={game} />
         </div>
-        <div key={'seat4'} className='absolute mt-[35vh] ml-[90vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat4']} game={game} />
+        <div key={'seat4'} className='absolute mt-[35vh] ml-[99vw] transform -translate-x-full'>
+          <PlayerSeat player={seatPlayers[3]} game={game} />
         </div>
         <div key={'seat5'} className='absolute mt-[55vh] ml-[82.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat5']} game={game} />
+          <PlayerSeat player={seatPlayers[4]} game={game} />
         </div>
-        <div key={'seat6'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat6']} game={game} />
+        <div key={'seat6'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2 z-10'>
+          <PlayerSeat player={seatPlayers[5]} game={game} />
         </div>
         <div key={'seat7'} className='absolute mt-[68vh] ml-[37.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat7']} game={game} />
+          <PlayerSeat player={seatPlayers[6]} game={game} />
         </div>
-        <div key={'seat8'} className='absolute mt-[55vh] ml-[17.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat8']} game={game} />
+        <div key={'seat8'} className='absolute mt-[55vh] ml-[13vw]'>
+          <PlayerSeat player={seatPlayers[7]} game={game} />
         </div>
-        <div key={'seat9'} className='absolute mt-[35vh] ml-[10vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat9']} game={game} />
+        <div key={'seat9'} className='absolute mt-[35vh] ml-[3vw]'>
+          <PlayerSeat player={seatPlayers[8]} game={game} />
         </div>
-        <div key={'seat10'} className='absolute mt-[15vh] ml-[17.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers['seat10']} game={game} />
+        <div key={'seat10'} className='absolute mt-[15vh] ml-[13vw]'>
+          <PlayerSeat player={seatPlayers[9]} game={game} />
         </div>
         <div className='absolute mt-[19vh] ml-[54vw] transform -translate-x-1/2 -translate-y-1/2'>
           <TotalPot />
@@ -126,10 +189,10 @@ export default function Table() {
         <div className='absolute mt-[30vh] ml-[50vw] transform -translate-x-1/2'>
           <CommunityCards />
         </div>
-        <div className='absolute mt-[85vh] ml-[1vw]'>
+        <div className='absolute mt-[77.5vh] ml-[1vw]'>
           <LogCard />
         </div>
-        <div className='absolute mt-[90vh] ml-[60vw]'>
+        <div className='absolute mt-[99vh] ml-[60vw] transform -translate-y-full'>
           <ActionContainer />
         </div>
       </div>

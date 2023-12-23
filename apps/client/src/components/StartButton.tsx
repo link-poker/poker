@@ -9,10 +9,7 @@ export default function StartButton() {
 
   return (
     <div>
-      <button
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-        onClick={navigateToRoomSetup}
-      >
+      <button className='green-btn' onClick={navigateToRoomSetup}>
         START A NEW GAME
       </button>
     </div>
