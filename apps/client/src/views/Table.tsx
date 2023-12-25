@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import OptionsView from 'views/Options';
-import CommunityCards from 'components/CommunityCards';
+import CommonCards from 'components/CommonCards';
 import PlayerSeat from 'components/PlayerSeat';
 import LogCard from 'components/LogCard';
 import ActionContainer from 'components/ActionContainer';
@@ -187,7 +187,7 @@ export default function Table() {
           <Pot />
         </div>
         <div className='absolute mt-[30vh] ml-[50vw] transform -translate-x-1/2'>
-          <CommunityCards />
+          <CommonCards />
         </div>
         <div className='absolute mt-[77.5vh] ml-[1vw]'>
           <LogCard />

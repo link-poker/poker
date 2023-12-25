@@ -9,7 +9,7 @@ export default function StartButton() {
 
   return (
     <div>
-      <button className='green-btn' onClick={navigateToRoomSetup}>
+      <button className='green-btn rounded-md p-2' onClick={navigateToRoomSetup}>
         START A NEW GAME
       </button>
     </div>

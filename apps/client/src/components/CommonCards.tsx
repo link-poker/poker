@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-export default function CommunityCards() {
+export default function CommonCards() {
   return (
     <div className='flex justify-center gap-2'>
       <div key={'flop1'}>

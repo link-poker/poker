@@ -62,7 +62,7 @@ export default function TableSetupForm() {
       </div>
 
       {/* 送信ボタン */}
-      <button type='submit' className='green-btn mt-8'>
+      <button type='submit' className='green-btn rounded-md p-2 mt-8'>
         CREATE A NEW TABLE
       </button>
     </form>
