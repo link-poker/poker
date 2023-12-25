@@ -6,12 +6,13 @@ import { UserRepository } from './infrastructure/repositories/UserRepository';
 import { GameRepository } from './infrastructure/repositories/GameRepository';
 import { TableRepository } from './infrastructure/repositories/TableRepository';
 import { UserFactory } from './domain/factories/UserFactory';
+import { GameFactory } from './domain/factories/GameFactory';
+import { TableFactory } from './domain/factories/TableFactory';
 import { UserApplicationService } from './application/services/UserApplicationService';
 import { TableHttpController } from './application/controllers/http/TableHttpController';
 import { TableWsController } from './application/controllers/ws/TableWsController';
+import { TableApplicationService } from './application/services/TableApplicationSerivce';
 import { registerRoutes } from './route';
-import { GameFactory } from './domain/factories/GameFactory';
-import { TableFactory } from './domain/factories/TableFactory';
 
 export const createApp = async () => {
   const prisma = new PrismaClient();
@@ -21,7 +22,10 @@ export const createApp = async () => {
   const userFactory = new UserFactory();
   const gameFactory = new GameFactory();
   const tableFactory = new TableFactory();
-  const userService = new UserApplicationService(userFactory, userRepository);
+  const userApplicationService = new UserApplicationService(userFactory, userRepository);
+  const tableApplicationService = new TableApplicationService(tableFactory, tableRepository, userApplicationService);
+  const tableHttpController = new TableHttpController(tableApplicationService);
+  const tableWsController = new TableWsController(userApplicationService);
 
   const app: FastifyInstance = fastify({ logger: true });
 

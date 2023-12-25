@@ -19,7 +19,9 @@ export class TableWsController {
 
   async standUp(connection: SocketStream, request: FastifyRequest) {}
 
+  async action(connection: SocketStream, request: FastifyRequest) {}
+
   async buyIn(connection: SocketStream, request: FastifyRequest) {}
 
-  async action(connection: SocketStream, request: FastifyRequest) {}
+  async delayTime(connection: SocketStream, request: FastifyRequest) {}
 }

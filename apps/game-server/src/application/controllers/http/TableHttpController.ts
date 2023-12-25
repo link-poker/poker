@@ -1,14 +1,30 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { UserApplicationService } from '../../services/UserApplicationService';
+import { TableApplicationService } from '../../services/TableApplicationSerivce';
 import { UserData } from '../../dtos/userData';
+import { TableData } from '../../dtos/tableData';
 
 export class TableHttpController {
-  constructor(private readonly userApplicationService: UserApplicationService) {}
+  constructor(private readonly tableApplicationService: TableApplicationService) {}
 
   async create(request: FastifyRequest, reply: FastifyReply) {
-    const { name, stack } = request.body as { name: string; stack: number };
-    const user = await this.userApplicationService.createUser(name, stack);
+    const { name, stack, currency, smallBlind, bigBlind, buyIn } = request.body as {
+      name: string;
+      stack: number;
+      currency: string;
+      smallBlind: number;
+      bigBlind: number;
+      buyIn: number;
+    };
+    const { user, table } = await this.tableApplicationService.createTable(
+      name,
+      stack,
+      currency,
+      smallBlind,
+      bigBlind,
+      buyIn,
+    );
     const userData = new UserData(user);
-    reply.send(userData);
+    const tableData = new TableData(table);
+    reply.send({ user: userData, table: tableData });
   }
 }
