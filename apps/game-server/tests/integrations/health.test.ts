@@ -2,7 +2,7 @@
 import { FastifyInstance } from 'fastify';
 import { createApp } from '../../src/app';
 
-describe('Server Test', () => {
+describe('Health Test', () => {
   let app: FastifyInstance;
 
   beforeEach(async () => {

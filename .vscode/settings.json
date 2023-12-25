@@ -7,5 +7,5 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   // cSpell の設定
-  "cSpell.words": ["Consts", "datepicker", "JPYC", "sbps", "unredeem"]
+  "cSpell.words": ["Consts", "datepicker", "fastify", "JPYC", "pokersolver", "sbps", "unredeem"]
 }
