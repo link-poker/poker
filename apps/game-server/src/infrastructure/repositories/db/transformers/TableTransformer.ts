@@ -7,6 +7,7 @@ import { Currency } from '../../../../domain/value-objects/Currency';
 import { SmallBlind } from '../../../../domain/value-objects/SmallBlind';
 import { BigBlind } from '../../../../domain/value-objects/BigBlind';
 import { BuyIn } from '../../../../domain/value-objects/BuyIn';
+import { Poker } from '../../../../domain/core/Poker';
 
 const prismaAggregateTable = Prisma.validator<Prisma.TableDefaultArgs>()({
   include: {
@@ -18,6 +19,9 @@ type PrismaAggregateModel = Prisma.TableGetPayload<typeof prismaAggregateTable>;
 
 export class TableTransformer {
   static toModel(prismaAggregateTable: PrismaAggregateModel): Table {
+    const poker = new Poker(prismaAggregateTable.buyIn, prismaAggregateTable.smallBlind, prismaAggregateTable.bigBlind);
+    const pokerStateJson = JSON.parse(prismaAggregateTable.pokerState);
+    poker.restoreState(pokerStateJson);
     const table = new Table(
       new Ulid(prismaAggregateTable.id),
       UserTransformer.toModel(prismaAggregateTable.user),
@@ -28,8 +32,8 @@ export class TableTransformer {
       new TableStatus(prismaAggregateTable.status),
       new Date(prismaAggregateTable.createdAt),
       new Date(prismaAggregateTable.updatedAt),
+      poker,
     );
-    table.setPokerState(prismaAggregateTable.pokerState);
     return table;
   }
 

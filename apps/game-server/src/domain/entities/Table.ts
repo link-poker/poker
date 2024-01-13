@@ -11,8 +11,6 @@ import { BuyIn } from '../value-objects/BuyIn';
 import { Currency } from '../value-objects/Currency';
 
 export class Table {
-  private poker: Poker;
-
   constructor(
     public readonly id: Ulid,
     public readonly user: User,
@@ -23,14 +21,8 @@ export class Table {
     public readonly status: TableStatus,
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
-  ) {
-    this.poker = new Poker(buyIn.get(), smallBlind.get(), bigBlind.get());
-  }
-
-  setPokerState(pokerState: string) {
-    const pokerStateJson = JSON.parse(pokerState);
-    this.poker.restoreState(pokerStateJson);
-  }
+    private poker: Poker,
+  ) {}
 
   getPokerState(): string {
     return JSON.stringify(this.poker.extractState());
