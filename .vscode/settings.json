@@ -1,10 +1,16 @@
 {
   // 基本的な設定
   "editor.formatOnSave": true,
-  "prettier.configPath": ".vscode/.prettierrc.js",
+  "prettier.configPath": ".prettierrc.js",
 
   // Prettier をデフォルトのフォーマッターとして設定
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // eslint の設定
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
 
   // cSpell の設定
   "cSpell.words": ["Consts", "datepicker", "fastify", "JPYC", "pokersolver", "sbps", "unredeem"]
