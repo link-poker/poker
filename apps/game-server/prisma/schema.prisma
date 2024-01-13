@@ -3,24 +3,24 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model CommandRecord {
-  id         String   @id
-  userId     String   @map("user_id")
-  tableId    String   @map("table_id")
-  gameId     String   @map("game_id")
-  type       String?
-  gameStatus Int?     @map("game_status")
-  counter    Int?
-  command    String?
-  commonCard String?  @map("common_card")
-  pot        Int
-  createdAt  DateTime @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id          String   @id
+  userId      String   @map("user_id")
+  tableId     String   @map("table_id")
+  gameId      String   @map("game_id")
+  type        String?
+  TableStatus Int?     @map("game_status")
+  counter     Int?
+  command     String?
+  commonCard  String?  @map("common_card")
+  pot         Int
+  createdAt   DateTime @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   user  User  @relation(fields: [userId], references: [id])
   table Table @relation(fields: [tableId], references: [id])
@@ -30,8 +30,7 @@ model CommandRecord {
 model Game {
   id        String   @id
   tableId   String   @map("table_id")
-  status    String
-  time      Int
+  result    String   @db.Text  
   createdAt DateTime @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -46,6 +45,8 @@ model Table {
   smallBlind Int      @map("small_blind")
   bigBlind   Int      @map("big_blind")
   buyIn      Int      @map("buy_in")
+  status     String
+  pokerState String   @db.Text @map("poker_state")
   createdAt  DateTime @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
@@ -55,12 +56,13 @@ model Table {
 }
 
 model User {
-  id        String   @id
-  name      String
-  stack     Int
-  status    String
-  createdAt DateTime @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         String   @id
+  name       String
+  stack      Int
+  seatNumber Int?     @map("seat_number")
+  status     String
+  createdAt  DateTime @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   commandRecords CommandRecord[]
   tables         Table[]

@@ -1,12 +1,13 @@
-// contest.test.ts
 import { FastifyInstance } from 'fastify';
-import { createApp } from '../../src/app';
+import { health } from './http/health';
+import { createTestApp } from './app/testApp';
 
 describe('Health Test', () => {
   let app: FastifyInstance;
 
   beforeEach(async () => {
-    app = await createApp();
+    const testApp = await createTestApp();
+    app = testApp.app;
   });
 
   afterAll(() => {
@@ -14,11 +15,8 @@ describe('Health Test', () => {
   });
 
   it('should respond with pong on /ping', async () => {
-    const response = await app.inject({
-      method: 'GET',
-      url: '/health',
-    });
+    const { response, status } = await health(app);
     expect(response.statusCode).toBe(200);
-    expect(response.body).toBe(JSON.stringify({ status: 'ok' }));
+    expect(status).toBe('ok');
   });
 });

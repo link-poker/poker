@@ -1,20 +1,32 @@
 import { Hand } from 'pokersolver';
-import { TableCore } from './TableCore';
-import { CardCore } from './CardCore';
+import { Poker } from './Poker';
+import { Card } from './Card';
 
-export class PlayerCore {
+export class Player {
   bet: number = 0;
   raise?: number;
-  holeCards?: [CardCore, CardCore];
+  holeCards?: [Card, Card];
   folded: boolean = false;
   showCards: boolean = false;
   left: boolean = false;
 
-  constructor(public id: string, public stackSize: number, public table: TableCore) {}
+  constructor(public id: string, public stackSize: number, public table: Poker) {}
 
   get hand() {
     if (!this.holeCards) return null;
     return Hand.solve(this.holeCards.concat(this.table.communityCards).map(card => `${card.rank}${card.suit}`));
+  }
+
+  get infoForOthers() {
+    return {
+      id: this.id,
+      stackSize: this.stackSize,
+      bet: this.bet,
+      raise: this.raise,
+      folded: this.folded,
+      showCards: this.showCards,
+      left: this.left,
+    };
   }
 
   betAction(amount: number) {
@@ -178,7 +190,7 @@ export class PlayerCore {
     this.bet = state.bet;
     this.raise = state.raise;
     this.holeCards = state.holeCards?.map((card: any) => {
-      const cardCore = new CardCore(card.rank, card.suit);
+      const cardCore = new Card(card.rank, card.suit);
       cardCore.restoreState(card);
       return cardCore;
     });

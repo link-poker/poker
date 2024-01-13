@@ -1,27 +1,106 @@
 import { FastifyRequest } from 'fastify';
 import { SocketStream } from '@fastify/websocket';
-import { UserApplicationService } from '../../services/UserApplicationService';
-import { UserData } from '../../dtos/userData';
+import { wsHandleError } from '../../../error';
+import { TableApplicationService } from '../../services/TableApplicationService';
+import { WebSocketApplicationService } from '../../services/WebSocketApplicationService';
+
+type Params = {
+  tableId: string;
+  userId: string;
+};
 
 export class TableWsController {
-  constructor(private readonly userApplicationService: UserApplicationService) {}
+  constructor(
+    private readonly tableApplicationService: TableApplicationService,
+    private readonly webSocketApplicationService: WebSocketApplicationService,
+  ) {}
 
-  async playGame(connection: SocketStream, request: FastifyRequest) {
-    connection.socket.on('message', async message => {
-      const { name, password } = JSON.parse(message.toString());
-      const user = await this.userApplicationService.createUser(name, password);
-      const userData = new UserData(user);
-      connection.socket.send(JSON.stringify(userData));
+  async handle(connection: SocketStream, request: FastifyRequest) {
+    const params = request.params as { tableId: string; userId: string };
+    connection.socket.on('close', () => {
+      this.webSocketApplicationService.removeConnection(params.tableId, params.userId);
+    });
+    connection.socket.on('message', message => {
+      try {
+        const data = JSON.parse(message.toString());
+        const { type, payload } = data;
+        if (type === 'connect') {
+          const { authToken } = payload;
+          this.webSocketApplicationService.addConnection(params.tableId, params.userId, authToken, connection);
+        } else {
+          this.webSocketApplicationService.isAuthorizedConnection(params.tableId, params.userId);
+        }
+        switch (type) {
+          case 'dealCards':
+            this.dealCards(params, payload);
+            break;
+          case 'standUp':
+            this.standUp(params, payload);
+            break;
+          case 'call':
+            this.call(params, payload);
+            break;
+          case 'check':
+            this.check(params, payload);
+            break;
+          case 'fold':
+            this.fold(params, payload);
+            break;
+          case 'bet':
+            this.bet(params, payload);
+            break;
+          case 'raise':
+            this.raise(params, payload);
+            break;
+          case 'addOn':
+            this.addOn(params, payload);
+            break;
+          case 'delayTime':
+            this.delayTime(params, payload);
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        wsHandleError(error, connection, request);
+      }
     });
   }
 
-  async sitDown(connection: SocketStream, request: FastifyRequest) {}
+  private async dealCards(params: Params, payload: any) {
+    await this.tableApplicationService.dealCards(params.tableId);
+  }
 
-  async standUp(connection: SocketStream, request: FastifyRequest) {}
+  private async standUp(params: Params, payload: any) {
+    await this.tableApplicationService.standUp(params.tableId, params.userId);
+  }
 
-  async action(connection: SocketStream, request: FastifyRequest) {}
+  private async call(params: Params, payload: any) {
+    await this.tableApplicationService.call(params.tableId, params.userId);
+  }
 
-  async buyIn(connection: SocketStream, request: FastifyRequest) {}
+  private async check(params: Params, payload: any) {
+    await this.tableApplicationService.check(params.tableId, params.userId);
+  }
 
-  async delayTime(connection: SocketStream, request: FastifyRequest) {}
+  private async fold(params: Params, payload: any) {
+    await this.tableApplicationService.fold(params.tableId, params.userId);
+  }
+
+  private async bet(params: Params, payload: any) {
+    const { amount } = payload;
+    await this.tableApplicationService.bet(params.tableId, params.userId, amount);
+  }
+
+  private async raise(params: Params, payload: any) {
+    const { amount } = payload;
+    await this.tableApplicationService.raise(params.tableId, params.userId, amount);
+  }
+
+  private async addOn(params: Params, payload: any) {
+    const { amount } = payload;
+    await this.tableApplicationService.addOn(params.tableId, params.userId, amount);
+  }
+
+  private async delayTime(params: Params, payload: any) {}
 }

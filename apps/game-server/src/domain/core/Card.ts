@@ -1,4 +1,4 @@
-export class CardCore {
+export class Card {
   private _rank: CardRank;
   private _suit: CardSuit;
 

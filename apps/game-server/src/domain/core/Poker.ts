@@ -1,24 +1,24 @@
 import { Hand } from 'pokersolver';
-import { CardCore, CardSuit, CardRank } from './CardCore';
-import { PlayerCore } from './PlayerCore';
+import { Card, CardSuit, CardRank } from './Card';
+import { Player } from './Player';
 
-export class TableCore {
+export class Poker {
   public autoMoveDealer: boolean = true;
   public bigBlindPosition?: number;
-  public communityCards: CardCore[] = [];
+  public communityCards: Card[] = [];
   public currentBet?: number;
   public currentPosition?: number;
   public currentRound?: BettingRound;
   public dealerPosition?: number;
   public debug: boolean = false;
-  public deck: CardCore[] = [];
+  public deck: Card[] = [];
   public handNumber: number = 0;
   public lastPosition?: number;
   public lastRaise?: number;
-  public players: (PlayerCore | null)[] = [null, null, null, null, null, null, null, null, null, null];
+  public players: (Player | null)[] = [null, null, null, null, null, null, null, null, null, null];
   public pots: Pot[] = [];
   public smallBlindPosition?: number;
-  public winners?: PlayerCore[];
+  public winners?: Player[];
 
   constructor(public buyIn: number = 1000, public smallBlind: number = 5, public bigBlind: number = 10) {
     if (smallBlind >= bigBlind) {
@@ -26,31 +26,31 @@ export class TableCore {
     }
   }
 
-  get actingPlayers() {
+  get actingPlayers(): Player[] {
     return this.players.filter(
       player =>
         player &&
         !player.folded &&
         player.stackSize > 0 &&
         (!this.currentBet || !player.raise || (this.currentBet && player.bet < this.currentBet)),
-    ) as PlayerCore[];
+    ) as Player[];
   }
 
-  get activePlayers() {
-    return this.players.filter(player => player && !player.folded) as PlayerCore[];
+  get activePlayers(): Player[] {
+    return this.players.filter(player => player && !player.folded) as Player[];
   }
 
-  get bigBlindPlayer() {
-    if (this.bigBlindPosition === undefined) return;
+  get bigBlindPlayer(): Player | null {
+    if (this.bigBlindPosition === undefined) return null;
     return this.players[this.bigBlindPosition];
   }
 
-  get currentActor() {
-    if (this.currentPosition === undefined) return;
+  get currentActor(): Player | null {
+    if (this.currentPosition === undefined) return null;
     return this.players[this.currentPosition];
   }
 
-  get currentPot() {
+  get currentPot(): Pot {
     // If there is no pot, create one.
     if (this.pots.length === 0) {
       const newPot = new Pot();
@@ -60,25 +60,25 @@ export class TableCore {
     return this.pots[this.pots.length - 1];
   }
 
-  get dealer() {
-    if (this.dealerPosition === undefined) return;
+  get dealer(): Player | null {
+    if (this.dealerPosition === undefined) return null;
     return this.players[this.dealerPosition];
   }
 
-  get lastActor() {
-    if (this.lastPosition === undefined) return;
+  get lastActor(): Player | null {
+    if (this.lastPosition === undefined) return null;
     return this.players[this.lastPosition];
   }
 
-  get sidePots() {
+  get sidePots(): Pot[] {
     if (this.pots.length <= 1) {
-      return;
+      return [];
     }
     return this.pots.slice(0, this.pots.length - 1);
   }
 
-  get smallBlindPlayer() {
-    if (this.smallBlindPosition === undefined) return;
+  get smallBlindPlayer(): Player | null {
+    if (this.smallBlindPosition === undefined) return null;
     return this.players[this.smallBlindPosition];
   }
 
@@ -118,7 +118,7 @@ export class TableCore {
     }
   }
 
-  sitDown(id: string, buyIn: number, seatNumber?: number) {
+  sitDown(id: string, buyIn: number, seatNumber?: number): number {
     // If there are no null seats then the table is full.
     if (this.players.filter(player => player === null).length === 0) {
       throw new Error('The table is currently full.');
@@ -133,7 +133,7 @@ export class TableCore {
     if (seatNumber && this.players[seatNumber] !== null) {
       throw new Error('There is already a player in the requested seat.');
     }
-    const newPlayer = new PlayerCore(id, buyIn, this);
+    const newPlayer = new Player(id, buyIn, this);
     if (!seatNumber) {
       seatNumber = 0;
       while (this.players[seatNumber] !== null) {
@@ -153,41 +153,39 @@ export class TableCore {
     return seatNumber;
   }
 
-  standUp(player: PlayerCore | string) {
-    let playersToStandUp: PlayerCore[];
+  standUp(player: Player | string): Player {
+    let playersToStandUp: Player[];
     if (typeof player === 'string') {
-      playersToStandUp = this.players.filter(p => p && p.id === player && !p.left) as PlayerCore[];
-      if (playersToStandUp.length === 0) {
-        throw new Error(`No player found.`);
+      playersToStandUp = this.players.filter(p => p && p.id === player && !p.left) as Player[];
+      if (playersToStandUp.length === 0) throw new Error(`No player found.`);
+    } else {
+      playersToStandUp = this.players.filter(p => p === player && !p.left) as Player[];
+    }
+    if (playersToStandUp.length !== 1) throw new Error('Something went wrong.');
+    const playerToStandUp = playersToStandUp[0];
+    if (this.currentRound) {
+      playerToStandUp.folded = true;
+      playerToStandUp.left = true;
+      if (this.currentActor === playerToStandUp || this.actingPlayers.length <= 1) {
+        this.nextAction();
       }
     } else {
-      playersToStandUp = this.players.filter(p => p === player && !p.left) as PlayerCore[];
-    }
-    for (const player of playersToStandUp) {
-      if (this.currentRound) {
-        player.folded = true;
-        player.left = true;
-        if (this.currentActor === player || this.actingPlayers.length <= 1) {
-          this.nextAction();
-        }
-      } else {
-        const playerIndex = this.players.indexOf(player);
-        this.players[playerIndex] = null;
-        if (playerIndex === this.dealerPosition) {
-          if (this.players.filter(player => player !== null).length === 0) {
-            delete this.dealerPosition;
-            delete this.smallBlindPosition;
-            delete this.bigBlindPosition;
-          } else {
-            this.moveDealer(this.dealerPosition + 1);
-          }
+      const playerIndex = this.players.indexOf(playerToStandUp);
+      this.players[playerIndex] = null;
+      if (playerIndex === this.dealerPosition) {
+        if (this.players.filter(player => !!player).length === 0) {
+          delete this.dealerPosition;
+          delete this.smallBlindPosition;
+          delete this.bigBlindPosition;
+        } else {
+          this.moveDealer(this.dealerPosition + 1);
         }
       }
     }
-    return playersToStandUp;
+    return playerToStandUp;
   }
 
-  cleanUp() {
+  cleanUp(): void {
     // Remove players who left;
     const leavingPlayers = this.players.filter(player => player && player.left);
     leavingPlayers.forEach(player => player && this.standUp(player));
@@ -220,7 +218,20 @@ export class TableCore {
     delete this.currentBet;
   }
 
-  dealCards() {
+  addOn(id: string, amount: number): void {
+    if (this.currentRound) {
+      throw new Error('Cannot add-on during a hand.');
+    }
+
+    const player = this.players.find(player => player && player.id === id);
+    if (!player) {
+      throw new Error('Player not found.');
+    }
+
+    player.stackSize += amount;
+  }
+
+  dealCards(): void {
     // Check for active round and throw if there is one.
     if (this.currentRound) {
       throw new Error('There is already an active hand!');
@@ -284,7 +295,7 @@ export class TableCore {
     });
   }
 
-  nextAction() {
+  nextAction(): void {
     // See if everyone has folded.
     if (this.activePlayers.length === 1) {
       this.showdown();
@@ -313,7 +324,7 @@ export class TableCore {
     }
   }
 
-  gatherBets() {
+  gatherBets(): void {
     // Obtain all players who placed bets.
     const bettingPlayers = this.players.filter(player => player && player.bet > 0);
 
@@ -378,7 +389,7 @@ export class TableCore {
     );
   }
 
-  nextRound() {
+  nextRound(): void {
     const resetPosition = () => {
       // Set action to first player after dealer.
       this.currentPosition = this.dealerPosition! + 1;
@@ -471,7 +482,7 @@ export class TableCore {
 
     // Figure out all winners for display.
 
-    const findWinners = (players: PlayerCore[]) =>
+    const findWinners = (players: Player[]) =>
       Hand.winners(
         players.map(player => {
           const hand = player.hand;
@@ -487,7 +498,7 @@ export class TableCore {
       });
     }
 
-    this.winners = findWinners(this.activePlayers as PlayerCore[]);
+    this.winners = findWinners(this.activePlayers as Player[]);
 
     // Distribute pots and mark winners.
     this.pots.forEach(pot => {
@@ -497,11 +508,11 @@ export class TableCore {
     });
   }
 
-  newDeck(): CardCore[] {
-    const newDeck: CardCore[] = [];
+  newDeck(): Card[] {
+    const newDeck: Card[] = [];
     Object.keys(CardSuit).forEach(suit => {
       Object.keys(CardRank).forEach(rank => {
-        newDeck.push(new CardCore(CardRank[rank as keyof typeof CardRank], CardSuit[suit as keyof typeof CardSuit]));
+        newDeck.push(new Card(CardRank[rank as keyof typeof CardRank], CardSuit[suit as keyof typeof CardSuit]));
       });
     });
     for (let index = newDeck.length - 1; index > 0; index--) {
@@ -511,7 +522,7 @@ export class TableCore {
     return newDeck;
   }
 
-  extractState() {
+  extractState(): object {
     return {
       autoMoveDealer: this.autoMoveDealer,
       bigBlind: this.bigBlind,
@@ -538,12 +549,12 @@ export class TableCore {
     };
   }
 
-  restoreState(state: any) {
+  restoreState(state: any): void {
     this.autoMoveDealer = state.autoMoveDealer;
     this.bigBlind = state.bigBlind;
     this.bigBlindPosition = state.bigBlindPosition;
     this.communityCards = state.communityCards.map((card: any) => {
-      const cardCore = new CardCore(card.rank, card.suit);
+      const cardCore = new Card(card.rank, card.suit);
       cardCore.restoreState(card);
       return cardCore;
     });
@@ -553,7 +564,7 @@ export class TableCore {
     this.dealerPosition = state.dealerPosition;
     this.debug = state.debug;
     this.deck = state.deck.map((card: any) => {
-      const cardCore = new CardCore(card.rank, card.suit);
+      const cardCore = new Card(card.rank, card.suit);
       cardCore.restoreState(card);
       return cardCore;
     });
@@ -562,7 +573,7 @@ export class TableCore {
     this.lastRaise = state.lastRaise;
     this.players = state.players.map((player: any) => {
       if (!player) return null;
-      const playerCore = new PlayerCore(player.id, player.stackSize, this);
+      const playerCore = new Player(player.id, player.stackSize, this);
       playerCore.restoreState(player);
       return playerCore;
     });
@@ -570,12 +581,12 @@ export class TableCore {
       const newPot = new Pot();
       newPot.amount = pot.amount;
       newPot.eligiblePlayers = pot.eligiblePlayers.map((player: any) => {
-        const playerCore = new PlayerCore(player.id, player.stackSize, this);
+        const playerCore = new Player(player.id, player.stackSize, this);
         playerCore.restoreState(player);
         return playerCore;
       });
       newPot.winners = pot.winners?.map((player: any) => {
-        const playerCore = new PlayerCore(player.id, player.stackSize, this);
+        const playerCore = new Player(player.id, player.stackSize, this);
         playerCore.restoreState(player);
         return playerCore;
       });
@@ -584,7 +595,7 @@ export class TableCore {
     this.smallBlind = state.smallBlind;
     this.smallBlindPosition = state.smallBlindPosition;
     this.winners = state.winners?.map((player: any) => {
-      const playerCore = new PlayerCore(player.id, player.stackSize, this);
+      const playerCore = new Player(player.id, player.stackSize, this);
       playerCore.restoreState(player);
       return playerCore;
     });
@@ -593,8 +604,8 @@ export class TableCore {
 
 export class Pot {
   amount: number = 0;
-  eligiblePlayers: PlayerCore[] = new Array();
-  winners?: PlayerCore[];
+  eligiblePlayers: Player[] = new Array();
+  winners?: Player[];
 }
 
 export enum BettingRound {

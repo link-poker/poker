@@ -10,7 +10,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": true,
-    "sourceRoot": "/"
+    "sourceRoot": "/",
+    "paths": {
+      "pokersolver": ["./types/pokersolver.d.ts"]
+    }
   },
   "include": ["src/**/*", "modules/pokersolver.d.ts", "modules/pokersolver.d.ts"],
   "exclude": ["dist", "node_modules"],

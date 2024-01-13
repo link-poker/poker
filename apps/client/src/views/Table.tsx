@@ -95,16 +95,6 @@ export default function Table() {
       status: 'playing',
       isYou: false,
     },
-    {
-      seat: 11,
-      name: 'player9',
-      stack: 1000,
-      bet: 0,
-      hole: ['Blue_Back', 'Blue_Back'],
-      hand: null,
-      status: 'playing',
-      isYou: false,
-    },
   ];
   const seatPlayers: (IPlayer | null)[] = [
     otherUsers.find(player => player.seat === 1) ?? null,

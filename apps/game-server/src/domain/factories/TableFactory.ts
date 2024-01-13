@@ -1,10 +1,12 @@
 import { User } from '../entities/User';
 import { Table } from '../entities/Table';
 import { Ulid } from '../value-objects/Ulid';
+import { TableStatus, TableStatusEnum } from '../value-objects/TableStatus';
 
 export class TableFactory {
-  create(owner: User, currency: string, buyIn: number, smallBlind: number, bigBlind: number): Table {
+  create(owner: User, currency: string, smallBlind: number, bigBlind: number, buyIn: number): Table {
     const id = Ulid.create();
-    return new Table(id, owner, currency, smallBlind, bigBlind, buyIn, new Date(), new Date());
+    const tableStatus = new TableStatus(TableStatusEnum.WAITING);
+    return new Table(id, owner, currency, smallBlind, bigBlind, buyIn, tableStatus, new Date(), new Date());
   }
 }

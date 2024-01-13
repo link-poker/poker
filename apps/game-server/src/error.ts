@@ -1,4 +1,5 @@
-import { FastifyReply } from 'fastify';
+import { SocketStream } from '@fastify/websocket';
+import { FastifyReply, FastifyRequest } from 'fastify';
 
 export class NotFoundError extends Error {
   constructor(message?: string) {
@@ -15,14 +16,7 @@ export class ValidationError extends Error {
 }
 
 export class AuthorizationError extends Error {
-  constructor(
-    message:
-      | 'Token has expired.'
-      | 'Unauthorized.'
-      | 'Only contest owner can nominate.'
-      | 'Not allowed to issue tickets.'
-      | 'You are not authorized to mark this notifications as read.',
-  ) {
+  constructor(message?: string) {
     super(message);
     this.name = 'AuthorizationError';
   }
@@ -43,8 +37,10 @@ export class OnChainError extends Error {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function handleError(error: any, reply: FastifyReply): Promise<void> {
-  console.error(error);
+export function httpHandleError(error: any, request: FastifyRequest, reply: FastifyReply): void {
+  if (error instanceof Error) {
+    request.log.error(error);
+  }
   if (error instanceof NotFoundError) {
     reply.status(404).send({ error: error.message || 'Not Found.' });
   } else if (error instanceof ValidationError) {
@@ -57,5 +53,24 @@ export async function handleError(error: any, reply: FastifyReply): Promise<void
     reply.status(400).send({ error: error.message || 'On Chain Error.' });
   } else {
     reply.status(500).send({ error: error.message || 'Internal Server Error.' });
+  }
+}
+
+export function wsHandleError(error: any, connection: SocketStream, request: FastifyRequest): void {
+  if (error instanceof Error) {
+    request.log.error(error);
+  }
+  if (error instanceof NotFoundError) {
+    connection.socket.send(JSON.stringify({ error: error.message || 'Not Found.' }));
+  } else if (error instanceof ValidationError) {
+    connection.socket.send(JSON.stringify({ error: error.message || 'Bad Request.' }));
+  } else if (error instanceof AuthorizationError) {
+    connection.socket.send(JSON.stringify({ error: error.message || 'Unauthorized.' }));
+  } else if (error instanceof ConflictError) {
+    connection.socket.send(JSON.stringify({ error: error.message || 'Conflict.' }));
+  } else if (error instanceof OnChainError) {
+    connection.socket.send(JSON.stringify({ error: error.message || 'On Chain Error.' }));
+  } else {
+    connection.socket.send(JSON.stringify({ error: error.message || 'Internal Server Error.' }));
   }
 }

@@ -1,30 +1,30 @@
 import { ValidationError } from '../../error';
 
-export enum GameStatusEnum {
+export enum TableStatusEnum {
   WAITING = 'WAITING',
   PLAYING = 'PLAYING',
   FINISHED = 'FINISHED',
 }
 
-export class GameStatus {
-  private readonly value: GameStatusEnum;
+export class TableStatus {
+  private readonly value: TableStatusEnum;
 
   constructor(value: string) {
     if (!this.isValid(value)) {
       throw new ValidationError('Invalid Game status.');
     }
-    this.value = value as GameStatusEnum;
+    this.value = value as TableStatusEnum;
   }
 
   get(): string {
     return this.value;
   }
 
-  equals(other: GameStatus): boolean {
+  equals(other: TableStatus): boolean {
     return this.value === other.value;
   }
 
   private isValid(value: string): boolean {
-    return Object.values(GameStatusEnum).includes(value as GameStatusEnum);
+    return Object.values(TableStatusEnum).includes(value as TableStatusEnum);
   }
 }

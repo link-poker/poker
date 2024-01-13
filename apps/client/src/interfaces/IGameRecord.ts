@@ -10,7 +10,7 @@ export interface ICommandRecord {
   pot: number;
   commonCard: string;
   handCard?: string;
-  gameStatus: number;
+  TableStatus: number;
   command: string;
   counter: number;
 }
