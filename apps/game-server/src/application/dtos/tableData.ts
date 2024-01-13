@@ -13,10 +13,10 @@ export class TableData {
   constructor(table: Table) {
     this.id = table.id.get();
     this.user = new UserData(table.user);
-    this.currency = table.currency;
-    this.smallBlind = table.smallBlind;
-    this.bigBlind = table.bigBlind;
-    this.buyIn = table.buyIn;
+    this.currency = table.currency.get();
+    this.smallBlind = table.smallBlind.get();
+    this.bigBlind = table.bigBlind.get();
+    this.buyIn = table.buyIn.get();
     this.createdAt = table.createdAt;
     this.updatedAt = table.updatedAt;
   }

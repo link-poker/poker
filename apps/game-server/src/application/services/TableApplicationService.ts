@@ -2,6 +2,10 @@ import { Table } from '../../domain/entities/Table';
 import { User } from '../../domain/entities/User';
 import { TableFactory } from '../../domain/factories/TableFactory';
 import { WebSocketService } from '../../domain/services/WebSocketService';
+import { BigBlind } from '../../domain/value-objects/BigBlind';
+import { BuyIn } from '../../domain/value-objects/BuyIn';
+import { Currency } from '../../domain/value-objects/Currency';
+import { SmallBlind } from '../../domain/value-objects/SmallBlind';
 import { ITableRepository } from '../../infrastructure/interfaces/ITableRepository';
 
 export class TableApplicationService {
@@ -11,7 +15,17 @@ export class TableApplicationService {
     private readonly webSocketService: WebSocketService,
   ) {}
 
-  async createTable(user: User, currency: string, smallBlind: number, bigBlind: number, buyIn: number): Promise<Table> {
+  async createTable(
+    user: User,
+    currencyStr: string,
+    smallBlindNum: number,
+    bigBlindNum: number,
+    buyInNum: number,
+  ): Promise<Table> {
+    const currency = new Currency(currencyStr);
+    const smallBlind = new SmallBlind(smallBlindNum);
+    const bigBlind = new BigBlind(bigBlindNum);
+    const buyIn = new BuyIn(buyInNum);
     const table = this.tableFactory.create(user, currency, smallBlind, bigBlind, buyIn);
     await this.tableRepository.create(table);
     return table;

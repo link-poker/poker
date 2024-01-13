@@ -3,6 +3,10 @@ import { Table } from '../../../../domain/entities/Table';
 import { Ulid } from '../../../../domain/value-objects/Ulid';
 import { UserTransformer } from './UserTransformer';
 import { TableStatus } from '../../../../domain/value-objects/TableStatus';
+import { Currency } from '../../../../domain/value-objects/Currency';
+import { SmallBlind } from '../../../../domain/value-objects/SmallBlind';
+import { BigBlind } from '../../../../domain/value-objects/BigBlind';
+import { BuyIn } from '../../../../domain/value-objects/BuyIn';
 
 const prismaAggregateTable = Prisma.validator<Prisma.TableDefaultArgs>()({
   include: {
@@ -17,10 +21,10 @@ export class TableTransformer {
     const table = new Table(
       new Ulid(prismaAggregateTable.id),
       UserTransformer.toModel(prismaAggregateTable.user),
-      prismaAggregateTable.currency,
-      prismaAggregateTable.smallBlind,
-      prismaAggregateTable.bigBlind,
-      prismaAggregateTable.buyIn,
+      new Currency(prismaAggregateTable.currency),
+      new SmallBlind(prismaAggregateTable.smallBlind),
+      new BigBlind(prismaAggregateTable.bigBlind),
+      new BuyIn(prismaAggregateTable.buyIn),
       new TableStatus(prismaAggregateTable.status),
       new Date(prismaAggregateTable.createdAt),
       new Date(prismaAggregateTable.updatedAt),
@@ -40,10 +44,10 @@ export class TableTransformer {
     return {
       id: table.id.get(),
       userId: table.user.id.get(),
-      currency: table.currency,
-      smallBlind: table.smallBlind,
-      bigBlind: table.bigBlind,
-      buyIn: table.buyIn,
+      currency: table.currency.get(),
+      smallBlind: table.smallBlind.get(),
+      bigBlind: table.bigBlind.get(),
+      buyIn: table.buyIn.get(),
       status: table.status.get(),
       pokerState: table.getPokerState(),
       createdAt: table.createdAt,

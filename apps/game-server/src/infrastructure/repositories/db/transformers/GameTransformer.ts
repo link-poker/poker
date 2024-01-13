@@ -1,14 +1,14 @@
 import { Game as PrismaGame } from '@prisma/client';
 import { Game } from '../../../../domain/entities/Game';
 import { Ulid } from '../../../../domain/value-objects/Ulid';
-import { TableStatus } from '../../../../domain/value-objects/TableStatus';
+import { GameResult } from '../../../../domain/value-objects/GameResult';
 
 export class GameTransformer {
   static toModel(PrismaGame: PrismaGame): Game {
     return new Game(
       new Ulid(PrismaGame.id),
       new Ulid(PrismaGame.tableId),
-      PrismaGame.result,
+      new GameResult(PrismaGame.result),
       new Date(PrismaGame.createdAt),
       new Date(PrismaGame.updatedAt),
     );
@@ -18,7 +18,7 @@ export class GameTransformer {
     return {
       id: game.id.get(),
       tableId: game.tableId.get(),
-      result: game.result,
+      result: game.result.get(),
       createdAt: game.createdAt,
       updatedAt: game.updatedAt,
     };

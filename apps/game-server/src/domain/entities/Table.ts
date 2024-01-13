@@ -5,6 +5,10 @@ import { Player } from '../core/Player';
 import { TableStatus } from '../value-objects/TableStatus';
 import { Card } from '../core/Card';
 import { ValidationError } from '../../error';
+import { SmallBlind } from '../value-objects/SmallBlind';
+import { BigBlind } from '../value-objects/BigBlind';
+import { BuyIn } from '../value-objects/BuyIn';
+import { Currency } from '../value-objects/Currency';
 
 export class Table {
   private poker: Poker;
@@ -12,15 +16,15 @@ export class Table {
   constructor(
     public readonly id: Ulid,
     public readonly user: User,
-    public readonly currency: string,
-    public readonly smallBlind: number,
-    public readonly bigBlind: number,
-    public readonly buyIn: number,
+    public readonly currency: Currency,
+    public readonly smallBlind: SmallBlind,
+    public readonly bigBlind: BigBlind,
+    public readonly buyIn: BuyIn,
     public readonly status: TableStatus,
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
   ) {
-    this.poker = new Poker(buyIn, smallBlind, bigBlind);
+    this.poker = new Poker(buyIn.get(), smallBlind.get(), bigBlind.get());
   }
 
   setPokerState(pokerState: string) {
@@ -98,7 +102,7 @@ export class Table {
   }
 
   sitDown(user: User): void {
-    this.poker.sitDown(user.id.get(), user.stack, user.seatNumber?.get());
+    this.poker.sitDown(user.id.get(), user.stack.get(), user.seatNumber?.get());
   }
 
   standUp(userId: string): void {

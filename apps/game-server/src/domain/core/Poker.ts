@@ -20,7 +20,11 @@ export class Poker {
   public smallBlindPosition?: number;
   public winners?: Player[];
 
-  constructor(public buyIn: number = 1000, public smallBlind: number = 5, public bigBlind: number = 10) {
+  constructor(
+    public buyIn: number = 1000,
+    public smallBlind: number = 5,
+    public bigBlind: number = 10,
+  ) {
     if (smallBlind >= bigBlind) {
       throw new Error('The small blind must be less than the big blind.');
     }
@@ -604,7 +608,7 @@ export class Poker {
 
 export class Pot {
   amount: number = 0;
-  eligiblePlayers: Player[] = new Array();
+  eligiblePlayers: Player[] = [];
   winners?: Player[];
 }
 

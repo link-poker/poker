@@ -10,8 +10,8 @@ export class UserData {
 
   constructor(user: User) {
     this.id = user.id.get();
-    this.name = user.name;
-    this.stack = user.stack;
+    this.name = user.name.get();
+    this.stack = user.stack.get();
     this.seatNumber = user.seatNumber?.get();
     this.createdAt = user.createdAt;
     this.updatedAt = user.updatedAt;
