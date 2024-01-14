@@ -5,6 +5,7 @@ type TableSetupFormData = {
   currency: string;
   blind: string;
   buyIn: number;
+  name: string;
 };
 
 export default function TableSetupForm() {
@@ -56,6 +57,17 @@ export default function TableSetupForm() {
           type='number'
           defaultValue='200'
           {...register('buyIn', { required: true, min: 200 })}
+          className='block w-full p-2 mt-2 bg-white rounded-md text-sm text-stone-800'
+        />
+        {errors.buyIn && <p className='text-red-500 text-xs italic'>Input Valid Number</p>}
+      </div>
+
+      {/* 名前の入力 */}
+      <div className='mb-4'>
+        <label className='block'>Name</label>
+        <input
+          type='text'
+          {...register('name', { required: true })}
           className='block w-full p-2 mt-2 bg-white rounded-md text-sm text-stone-800'
         />
         {errors.buyIn && <p className='text-red-500 text-xs italic'>Input Valid Number</p>}
