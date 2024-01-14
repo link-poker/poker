@@ -5,7 +5,9 @@ import { WebSocketService } from '../../domain/services/WebSocketService';
 import { BigBlind } from '../../domain/value-objects/BigBlind';
 import { BuyIn } from '../../domain/value-objects/BuyIn';
 import { Currency } from '../../domain/value-objects/Currency';
+import { SeatNumber } from '../../domain/value-objects/SeatNumber';
 import { SmallBlind } from '../../domain/value-objects/SmallBlind';
+import { Stack } from '../../domain/value-objects/Stack';
 import { ITableRepository } from '../../infrastructure/interfaces/ITableRepository';
 
 export class TableApplicationService {
@@ -42,9 +44,11 @@ export class TableApplicationService {
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
 
-  async sitDown(tableId: string, user: User): Promise<void> {
+  async sitDown(tableId: string, user: User, stackNum: number, seatNumberNum: number): Promise<void> {
     const table = await this.tableRepository.findById(tableId);
-    table.sitDown(user);
+    const stack = new Stack(stackNum);
+    const seatNumber = new SeatNumber(seatNumberNum);
+    table.sitDown(user, stack, seatNumber);
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'sitDown',

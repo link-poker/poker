@@ -9,6 +9,8 @@ import { SmallBlind } from '../value-objects/SmallBlind';
 import { BigBlind } from '../value-objects/BigBlind';
 import { BuyIn } from '../value-objects/BuyIn';
 import { Currency } from '../value-objects/Currency';
+import { SeatNumber } from '../value-objects/SeatNumber';
+import { Stack } from '../value-objects/Stack';
 
 export class Table {
   constructor(
@@ -93,8 +95,8 @@ export class Table {
     this.poker.moveDealer;
   }
 
-  sitDown(user: User): void {
-    this.poker.sitDown(user.id.get(), user.stack.get(), user.seatNumber?.get());
+  sitDown(user: User, stack: Stack, seatNumber: SeatNumber): void {
+    this.poker.sitDown(user.id.get(), stack.get(), seatNumber.get());
   }
 
   standUp(userId: string): void {

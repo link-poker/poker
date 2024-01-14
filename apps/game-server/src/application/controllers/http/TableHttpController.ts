@@ -7,8 +7,6 @@ import { httpHandleError } from '../../../error';
 
 type CreateAsGuestRequest = {
   name: string;
-  stack: number;
-  seatNumber: number;
   currency: string;
   smallBlind: number;
   bigBlind: number;
@@ -23,8 +21,8 @@ export class TableHttpController {
 
   async createAsGuest(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { name, stack, seatNumber, currency, smallBlind, bigBlind, buyIn } = request.body as CreateAsGuestRequest;
-      const user = await this.userApplicationService.createUser(name, stack, seatNumber);
+      const { name, currency, smallBlind, bigBlind, buyIn } = request.body as CreateAsGuestRequest;
+      const user = await this.userApplicationService.createUser(name);
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
       const userData = new UserData(user);
       const tableData = new TableData(table);
@@ -38,8 +36,8 @@ export class TableHttpController {
     try {
       const { tableId } = request.params as { tableId: string };
       const { name, stack, seatNumber } = request.body as { name: string; stack: number; seatNumber: number };
-      const user = await this.userApplicationService.createUser(name, stack, seatNumber);
-      await this.tableApplicationService.sitDown(tableId, user);
+      const user = await this.userApplicationService.createUser(name);
+      await this.tableApplicationService.sitDown(tableId, user, stack, seatNumber);
       const userData = new UserData(user);
       reply.send({ user: userData });
     } catch (error) {
