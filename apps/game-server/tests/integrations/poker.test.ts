@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import WebSocket from 'ws';
 import { createTestApp } from './app/testApp';
-import { createTable, sitDown } from './http/table';
+import { createTableAsGuest, sitDownAsGuest } from './http/table';
 
 const POKER = {
   BUY_IN: 1000,
@@ -24,16 +24,14 @@ describe('Poker Test', () => {
     const testApp = await createTestApp();
     app = testApp.app;
     serverAddress = testApp.serverAddress;
-    const { user: aliceUser, table } = await createTable(app, {
+    const { user: aliceUser, table } = await createTableAsGuest(app, {
       name: PLAYERS.ALICE.NAME,
-      stack: POKER.BUY_IN,
-      seatNumber: PLAYERS.ALICE.SEAT,
       currency: 'USDT',
       smallBlind: POKER.SMALL_BLIND,
       bigBlind: POKER.BIG_BLIND,
       buyIn: POKER.BUY_IN,
     });
-    const { user: bobUser } = await sitDown(app, table.id, {
+    const { user: bobUser } = await sitDownAsGuest(app, table.id, {
       name: PLAYERS.BOB.NAME,
       stack: POKER.BUY_IN,
       seatNumber: PLAYERS.BOB.SEAT,

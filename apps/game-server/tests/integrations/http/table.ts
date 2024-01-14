@@ -1,12 +1,51 @@
 // contest.test.ts
 import { FastifyInstance } from 'fastify';
 
-export const createTable = async (
+export const createTableAsUser = async (
   app: FastifyInstance,
+  body: {
+    name: string;
+    currency: string;
+    smallBlind: number;
+    bigBlind: number;
+    buyIn: number;
+  },
+  headers: { authorization: string },
+) => {
+  const response = await app.inject({
+    method: 'POST',
+    url: '/tables',
+    body,
+    headers,
+  });
+  const data = JSON.parse(response.body);
+  return { response: response, table: data.table };
+};
+
+export const sitDownAsUser = async (
+  app: FastifyInstance,
+  tableId: string,
   body: {
     name: string;
     stack: number;
     seatNumber: number;
+  },
+  headers: { authorization: string },
+) => {
+  const response = await app.inject({
+    method: 'POST',
+    url: `/tables/${tableId}/sit-down`,
+    body,
+    headers,
+  });
+  const data = JSON.parse(response.body);
+  return { response: response, table: data.table };
+};
+
+export const createTableAsGuest = async (
+  app: FastifyInstance,
+  body: {
+    name: string;
     currency: string;
     smallBlind: number;
     bigBlind: number;
@@ -15,14 +54,14 @@ export const createTable = async (
 ) => {
   const response = await app.inject({
     method: 'POST',
-    url: '/tables',
+    url: '/tables/guest',
     body,
   });
   const data = JSON.parse(response.body);
   return { response: response, user: data.user, table: data.table };
 };
 
-export const sitDown = async (
+export const sitDownAsGuest = async (
   app: FastifyInstance,
   tableId: string,
   body: {
@@ -33,9 +72,9 @@ export const sitDown = async (
 ) => {
   const response = await app.inject({
     method: 'POST',
-    url: `/tables/${tableId}/sit-down`,
+    url: `/tables/${tableId}/sit-down/guest`,
     body,
   });
   const data = JSON.parse(response.body);
-  return { response: response, user: data.user };
+  return { response: response, user: data.user, table: data.table };
 };

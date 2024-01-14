@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { createTable, sitDown } from './http/table';
+import { createTableAsGuest, sitDownAsGuest } from './http/table';
 import { createTestApp } from './app/testApp';
 
 describe('Table Test', () => {
@@ -14,11 +14,9 @@ describe('Table Test', () => {
     app.close();
   });
 
-  it('should able to create a table', async () => {
-    const { response, user, table } = await createTable(app, {
+  it('should able to create a table as guest', async () => {
+    const { response, user, table } = await createTableAsGuest(app, {
       name: 'test',
-      stack: 1000,
-      seatNumber: 9,
       currency: 'USDT',
       smallBlind: 5,
       bigBlind: 10,
@@ -26,32 +24,26 @@ describe('Table Test', () => {
     });
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe('test');
-    expect(user.stack).toBe(1000);
-    expect(user.seatNumber).toBe(9);
     expect(table.currency).toBe('USDT');
     expect(table.smallBlind).toBe(5);
     expect(table.bigBlind).toBe(10);
     expect(table.buyIn).toBe(1000);
   });
 
-  it('should able to sit down', async () => {
-    const { table } = await createTable(app, {
+  it('should able to sit down as guest', async () => {
+    const { table } = await createTableAsGuest(app, {
       name: 'test',
-      stack: 1000,
-      seatNumber: 9,
       currency: 'USDT',
       smallBlind: 5,
       bigBlind: 10,
       buyIn: 1000,
     });
-    const { response, user } = await sitDown(app, table.id, {
+    const { response, user } = await sitDownAsGuest(app, table.id, {
       name: 'test',
       stack: 1000,
       seatNumber: 9,
     });
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe('test');
-    expect(user.stack).toBe(1000);
-    expect(user.seatNumber).toBe(9);
   });
 });

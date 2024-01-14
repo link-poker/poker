@@ -1,18 +1,35 @@
 import jwt from 'jsonwebtoken';
+import { AUTH_TOKEN_CONFIG } from '../../config/authToken';
+import { User } from '../entities/User';
+import { AuthorizationError } from '../../error';
+import { AuthToken } from './AuthToken';
+import { Ulid } from './Ulid';
+import { UserName } from './UserName';
+import { UserStatus } from './UserStatus';
 
 export class TokenValidator {
-  private secretKey: string;
+  private readonly secretKeyBase64: string;
 
-  constructor(secretKey: string) {
-    this.secretKey = secretKey;
+  constructor(secretKeyBase64: string) {
+    this.secretKeyBase64 = secretKeyBase64;
   }
 
-  validate(token: string): boolean {
+  validate(token: AuthToken): User {
+    let validatedUser: any;
     try {
-      jwt.verify(token, this.secretKey);
-      return true;
+      const secretKey = Buffer.from(this.secretKeyBase64, 'base64').toString();
+      const payload = jwt.verify(token.get(), secretKey, { algorithms: AUTH_TOKEN_CONFIG.VALIDATE_ALGORITHMS });
+      validatedUser = (payload as any).user;
+      console.log(validatedUser);
     } catch (error) {
-      return false;
+      throw new AuthorizationError('Invalid token');
     }
+    return new User(
+      new Ulid(validatedUser.id.value),
+      new UserName(validatedUser.name.value),
+      new UserStatus(validatedUser.status.value),
+      new Date(validatedUser.createdAt),
+      new Date(validatedUser.updatedAt),
+    );
   }
 }

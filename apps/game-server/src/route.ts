@@ -7,8 +7,10 @@ const registerHttpRoutes = (app: FastifyInstance, tableHttpController: TableHttp
   app.get('/health', async (request, reply) => {
     reply.send({ status: 'ok' });
   });
-  app.post('/tables', tableHttpController.createAsGuest.bind(tableHttpController));
-  app.post('/tables/:tableId/sit-down', tableHttpController.sitDownAsGuest.bind(tableHttpController));
+  app.post('/tables', tableHttpController.createAsUser.bind(tableHttpController));
+  app.post('/tables/guest', tableHttpController.createAsGuest.bind(tableHttpController));
+  app.post('/tables/:tableId/sit-down', tableHttpController.sitDownAsUser.bind(tableHttpController));
+  app.post('/tables/:tableId/sit-down/guest', tableHttpController.sitDownAsGuest.bind(tableHttpController));
 };
 
 const registerWsRoutes = (app: FastifyInstance, tableWsController: TableWsController) => {

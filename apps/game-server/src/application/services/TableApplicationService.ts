@@ -44,7 +44,7 @@ export class TableApplicationService {
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
 
-  async sitDown(tableId: string, user: User, stackNum: number, seatNumberNum: number): Promise<void> {
+  async sitDown(tableId: string, user: User, stackNum: number, seatNumberNum: number): Promise<Table> {
     const table = await this.tableRepository.findById(tableId);
     const stack = new Stack(stackNum);
     const seatNumber = new SeatNumber(seatNumberNum);
@@ -55,6 +55,7 @@ export class TableApplicationService {
       payload: { tableInfo: table.getTableInfoForPlayers() },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    return table;
   }
 
   async standUp(tableId: string, userId: string): Promise<void> {

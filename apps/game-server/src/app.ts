@@ -15,6 +15,7 @@ import { TableApplicationService } from './application/services/TableApplication
 import { WebSocketApplicationService } from './application/services/WebSocketApplicationService';
 import { registerRoutes } from './route';
 import { WebSocketService } from './domain/services/WebSocketService';
+import { AuthenticateApplicationService } from './application/services/AuthenticateApplicationService';
 
 export const createApp = async () => {
   const prisma = new PrismaClient();
@@ -25,10 +26,15 @@ export const createApp = async () => {
   const gameFactory = new GameFactory();
   const tableFactory = new TableFactory();
   const webSocketService = new WebSocketService();
+  const authenticateApplicationService = new AuthenticateApplicationService(userRepository);
   const userApplicationService = new UserApplicationService(userFactory, userRepository);
   const tableApplicationService = new TableApplicationService(tableFactory, tableRepository, webSocketService);
   const webSocketApplicationService = new WebSocketApplicationService(webSocketService);
-  const tableHttpController = new TableHttpController(tableApplicationService, userApplicationService);
+  const tableHttpController = new TableHttpController(
+    authenticateApplicationService,
+    tableApplicationService,
+    userApplicationService,
+  );
   const tableWsController = new TableWsController(tableApplicationService, webSocketApplicationService);
 
   const app: FastifyInstance = fastify({ logger: true });
@@ -40,20 +46,9 @@ export const createApp = async () => {
 
   registerRoutes(app, tableHttpController, tableWsController);
 
-  // close prisma
   app.addHook('onClose', async () => {
     await prisma.$disconnect();
   });
-  // const fastify = require('fastify')();
-  // fastify.register(require('@fastify/websocket'));
-  // fastify.register(async function (fastify: FastifyInstance) {
-  //   fastify.get('/ping', { websocket: true }, (connection /* SocketStream */, req /* FastifyRequest */) => {
-  //     connection.socket.on('message', (message: string) => {
-  //       // message.toString() === 'hi from client'
-  //       connection.socket.send('pong');
-  //     });
-  //   });
-  // });
 
   return app;
 };

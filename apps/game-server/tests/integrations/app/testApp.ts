@@ -7,7 +7,7 @@ export const createTestApp = async (): Promise<{
   serverAddress: string;
 }> => {
   const app = await createApp();
-  await app.listen({ port: APP_CONFIG.port, host: APP_CONFIG.host });
+  await app.listen({ port: APP_CONFIG.PORT, host: APP_CONFIG.HOST });
   const address = app.server.address();
   if (!address || typeof address === 'string') {
     throw new Error('Server did not start correctly');
