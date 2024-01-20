@@ -1,10 +1,11 @@
 import { User } from '../../domain/entities/User';
+import { IUserData } from '../interfaces/IUserData';
 
-export class UserData {
-  private id: string;
-  private name: string;
-  private createdAt: Date;
-  private updatedAt: Date;
+export class UserData implements IUserData {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
 
   constructor(user: User) {
     this.id = user.id.get();

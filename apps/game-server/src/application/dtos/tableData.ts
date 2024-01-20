@@ -1,15 +1,18 @@
 import { Table } from '../../domain/entities/Table';
+import { ITableData } from '../interfaces/ITableData';
+import { IUserData } from '../interfaces/IUserData';
 import { UserData } from './userData';
 
-export class TableData {
-  private id: string;
-  private user: UserData;
-  private currency: string;
-  private smallBlind: number;
-  private bigBlind: number;
-  private buyIn: number;
-  private createdAt: Date;
-  private updatedAt: Date;
+export class TableData implements ITableData {
+  id: string;
+  user: IUserData;
+  currency: string;
+  smallBlind: number;
+  bigBlind: number;
+  buyIn: number;
+  createdAt: Date;
+  updatedAt: Date;
+
   constructor(table: Table) {
     this.id = table.id.get();
     this.user = new UserData(table.user);
