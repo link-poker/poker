@@ -10,7 +10,7 @@ import {
   ISitDownAsUserRequest,
   ICreateTableAsGuestRequest,
   ISitDownAsGuestRequest,
-} from '../../interfaces/request/ITableHttpRequest';
+} from '../../../interfaces/request/ITableHttpRequest';
 
 export class TableHttpController {
   constructor(

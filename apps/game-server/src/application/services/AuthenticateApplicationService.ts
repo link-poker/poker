@@ -3,7 +3,7 @@ import { User } from '../../domain/entities/User';
 import { AuthToken } from '../../domain/value-objects/AuthToken';
 import { TokenGenerator } from '../../domain/value-objects/TokenGenerator';
 import { TokenValidator } from '../../domain/value-objects/TokenValidator';
-import { IUserRepository } from '../../infrastructure/interfaces/IUserRepository';
+import { IUserRepository } from '../../interfaces/repository/IUserRepository';
 
 export class AuthenticateApplicationService {
   constructor(private readonly userRepository: IUserRepository) {}

@@ -1,6 +1,6 @@
 import { Table } from '../../domain/entities/Table';
-import { ITableResponse } from '../interfaces/response/ITableResponse';
-import { IUserResponse } from '../interfaces/response/IUserResponse';
+import { ITableResponse } from '../../interfaces/response/ITableResponse';
+import { IUserResponse } from '../../interfaces/response/IUserResponse';
 import { UserData } from './userData';
 
 export class TableData implements ITableResponse {

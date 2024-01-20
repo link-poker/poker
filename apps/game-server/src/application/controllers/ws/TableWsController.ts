@@ -3,7 +3,12 @@ import { SocketStream } from '@fastify/websocket';
 import { wsHandleError } from '../../../error';
 import { TableApplicationService } from '../../services/TableApplicationService';
 import { WebSocketApplicationService } from '../../services/WebSocketApplicationService';
-import { IAddOnRequest, IBetRequest, IConnectRequest, IRaiseRequest } from '../../interfaces/request/ITableWsRequest';
+import {
+  IAddOnRequest,
+  IBetRequest,
+  IConnectRequest,
+  IRaiseRequest,
+} from '../../../interfaces/request/ITableWsRequest';
 
 type Params = {
   tableId: string;

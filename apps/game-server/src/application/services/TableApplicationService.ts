@@ -8,7 +8,7 @@ import { Currency } from '../../domain/value-objects/Currency';
 import { SeatNumber } from '../../domain/value-objects/SeatNumber';
 import { SmallBlind } from '../../domain/value-objects/SmallBlind';
 import { Stack } from '../../domain/value-objects/Stack';
-import { ITableRepository } from '../../infrastructure/interfaces/ITableRepository';
+import { ITableRepository } from '../../interfaces/repository/ITableRepository';
 
 export class TableApplicationService {
   constructor(

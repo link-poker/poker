@@ -1,7 +1,7 @@
 import { User } from '../../domain/entities/User';
 import { UserFactory } from '../../domain/factories/UserFactory';
 import { UserName } from '../../domain/value-objects/UserName';
-import { IUserRepository } from '../../infrastructure/interfaces/IUserRepository';
+import { IUserRepository } from '../../interfaces/repository/IUserRepository';
 
 export class UserApplicationService {
   constructor(

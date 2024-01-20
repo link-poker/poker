@@ -1,5 +1,5 @@
 import { User } from '../../domain/entities/User';
-import { IUserResponse } from '../interfaces/response/IUserResponse';
+import { IUserResponse } from '../../interfaces/response/IUserResponse';
 
 export class UserData implements IUserResponse {
   id: string;

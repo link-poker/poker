@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { ITableRepository } from '../../interfaces/ITableRepository';
+import { ITableRepository } from '../../../interfaces/repository/ITableRepository';
 import { TableTransformer } from './transformers/TableTransformer';
 import { Table } from '../../../domain/entities/Table';
 
