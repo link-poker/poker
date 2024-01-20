@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { ValidationError } from '../../error';
 
 export class BuyIn {
@@ -19,6 +20,6 @@ export class BuyIn {
   }
 
   private isValid(value: number): boolean {
-    return value > 0;
+    return z.number().min(0).safeParse(value).success;
   }
 }

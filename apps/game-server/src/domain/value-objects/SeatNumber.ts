@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { ValidationError } from '../../error';
 
 export class SeatNumber {
@@ -20,6 +21,6 @@ export class SeatNumber {
   }
 
   private isValid(value: number): boolean {
-    return 1 <= value && value <= SeatNumber.maxSeat;
+    return z.number().int().min(1).max(SeatNumber.maxSeat).safeParse(value).success;
   }
 }
