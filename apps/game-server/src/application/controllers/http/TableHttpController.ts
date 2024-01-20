@@ -6,9 +6,9 @@ import { UserData } from '../../dtos/userData';
 import { TableData } from '../../dtos/tableData';
 import { httpHandleError } from '../../../error';
 import {
-  ICreateAsUserRequest,
+  ICreateTableAsUserRequest,
   ISitDownAsUserRequest,
-  ICreateAsGuestRequest,
+  ICreateTableAsGuestRequest,
   ISitDownAsGuestRequest,
 } from '../../interfaces/request/ITableHttpRequest';
 
@@ -21,7 +21,7 @@ export class TableHttpController {
 
   async createAsUser(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { currency, smallBlind, bigBlind, buyIn } = request.body as ICreateAsUserRequest['body'];
+      const { currency, smallBlind, bigBlind, buyIn } = request.body as ICreateTableAsUserRequest['body'];
       const authToken = request.headers.authorization;
       const user = this.authenticateApplicationService.authenticate(authToken);
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
@@ -48,7 +48,7 @@ export class TableHttpController {
 
   async createAsGuest(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { name, currency, smallBlind, bigBlind, buyIn } = request.body as ICreateAsGuestRequest['body'];
+      const { name, currency, smallBlind, bigBlind, buyIn } = request.body as ICreateTableAsGuestRequest['body'];
       const user = await this.userApplicationService.createUser(name);
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
       const userData = new UserData(user);

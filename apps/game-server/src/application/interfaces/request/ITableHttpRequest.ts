@@ -1,4 +1,4 @@
-export interface ICreateAsUserRequest {
+export interface ICreateTableAsUserRequest {
   body: {
     currency: string;
     smallBlind: number;
@@ -17,7 +17,7 @@ export interface ISitDownAsUserRequest {
   };
 }
 
-export interface ICreateAsGuestRequest {
+export interface ICreateTableAsGuestRequest {
   body: {
     name: string;
     currency: string;
