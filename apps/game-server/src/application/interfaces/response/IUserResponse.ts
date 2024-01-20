@@ -1,4 +1,4 @@
-export interface IUserData {
+export interface IUserResponse {
   id: string;
   name: string;
   createdAt: Date;

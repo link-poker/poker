@@ -1,11 +1,11 @@
 import { Table } from '../../domain/entities/Table';
-import { ITableData } from '../interfaces/ITableData';
-import { IUserData } from '../interfaces/IUserData';
+import { ITableResponse } from '../interfaces/response/ITableResponse';
+import { IUserResponse } from '../interfaces/response/IUserResponse';
 import { UserData } from './userData';
 
-export class TableData implements ITableData {
+export class TableData implements ITableResponse {
   id: string;
-  user: IUserData;
+  user: IUserResponse;
   currency: string;
   smallBlind: number;
   bigBlind: number;

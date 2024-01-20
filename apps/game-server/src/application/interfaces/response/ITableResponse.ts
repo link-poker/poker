@@ -1,8 +1,8 @@
-import { IUserData } from './IUserData';
+import { IUserResponse } from './IUserResponse';
 
-export interface ITableData {
+export interface ITableResponse {
   id: string;
-  user: IUserData;
+  user: IUserResponse;
   currency: string;
   smallBlind: number;
   bigBlind: number;

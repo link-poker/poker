@@ -1,7 +1,7 @@
 import { User } from '../../domain/entities/User';
-import { IUserData } from '../interfaces/IUserData';
+import { IUserResponse } from '../interfaces/response/IUserResponse';
 
-export class UserData implements IUserData {
+export class UserData implements IUserResponse {
   id: string;
   name: string;
   createdAt: Date;

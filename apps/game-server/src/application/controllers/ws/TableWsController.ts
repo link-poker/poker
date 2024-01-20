@@ -3,6 +3,7 @@ import { SocketStream } from '@fastify/websocket';
 import { wsHandleError } from '../../../error';
 import { TableApplicationService } from '../../services/TableApplicationService';
 import { WebSocketApplicationService } from '../../services/WebSocketApplicationService';
+import { IAddOnRequest, IBetRequest, IConnectRequest, IRaiseRequest } from '../../interfaces/request/ITableWsRequest';
 
 type Params = {
   tableId: string;
@@ -25,7 +26,7 @@ export class TableWsController {
         const data = JSON.parse(message.toString());
         const { type, payload } = data;
         if (type === 'connect') {
-          const { authToken } = payload;
+          const { authToken } = payload as IConnectRequest;
           this.webSocketApplicationService.addConnection(params.tableId, params.userId, authToken, connection);
         } else {
           this.webSocketApplicationService.isAuthorizedConnection(params.tableId, params.userId);
@@ -88,17 +89,17 @@ export class TableWsController {
   }
 
   private async bet(params: Params, payload: any) {
-    const { amount } = payload;
+    const { amount } = payload as IBetRequest;
     await this.tableApplicationService.bet(params.tableId, params.userId, amount);
   }
 
   private async raise(params: Params, payload: any) {
-    const { amount } = payload;
+    const { amount } = payload as IRaiseRequest;
     await this.tableApplicationService.raise(params.tableId, params.userId, amount);
   }
 
   private async addOn(params: Params, payload: any) {
-    const { amount } = payload;
+    const { amount } = payload as IAddOnRequest;
     await this.tableApplicationService.addOn(params.tableId, params.userId, amount);
   }
 
