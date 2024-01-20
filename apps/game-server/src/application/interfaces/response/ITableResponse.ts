@@ -7,6 +7,6 @@ export interface ITableResponse {
   smallBlind: number;
   bigBlind: number;
   buyIn: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }

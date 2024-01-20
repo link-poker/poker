@@ -4,13 +4,13 @@ import { IUserResponse } from '../interfaces/response/IUserResponse';
 export class UserData implements IUserResponse {
   id: string;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 
   constructor(user: User) {
     this.id = user.id.get();
     this.name = user.name.get();
-    this.createdAt = user.createdAt;
-    this.updatedAt = user.updatedAt;
+    this.createdAt = user.createdAt.toISOString();
+    this.updatedAt = user.updatedAt.toISOString();
   }
 }

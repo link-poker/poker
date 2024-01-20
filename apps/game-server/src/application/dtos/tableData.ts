@@ -10,8 +10,8 @@ export class TableData implements ITableResponse {
   smallBlind: number;
   bigBlind: number;
   buyIn: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 
   constructor(table: Table) {
     this.id = table.id.get();
@@ -20,7 +20,7 @@ export class TableData implements ITableResponse {
     this.smallBlind = table.smallBlind.get();
     this.bigBlind = table.bigBlind.get();
     this.buyIn = table.buyIn.get();
-    this.createdAt = table.createdAt;
-    this.updatedAt = table.updatedAt;
+    this.createdAt = table.createdAt.toISOString();
+    this.updatedAt = table.updatedAt.toISOString();
   }
 }
