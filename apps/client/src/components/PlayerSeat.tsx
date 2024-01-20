@@ -37,24 +37,24 @@ export default function PlayerSeat(props: Props) {
   };
 
   return (
-    <div className={getActionBgClassName('rounded-lg h-[9vh] w-64')}>
+    <div className={getActionBgClassName('rounded-lg h-[9vh] w-[24vw] xl:w-72')}>
       {player.status === 'action' && (
         <div>
           <div className='absolute mt-[7vh]'>
-            <div className='bg-yellow-300 rounded h-4 w-64'></div>
+            <div className='bg-yellow-300 rounded h-4 w-[24vw] xl:w-72'></div>
           </div>
           <div className='absolute mt-[7vh]'>
             <div className='bg-red-500 h-4 w-40'></div>
           </div>
         </div>
       )}
-      <div className='absolute -mt-2 ml-48 transform -translate-x-1/2'>
+      <div className='absolute -mt-2 ml-[18vw] xl:ml-48 transform -translate-x-1/2'>
         <div className='flex justify-center items-center gap-1 bg-green-600 rounded-2xl h-[2vh] w-12'>
           <FaTrophy size={10} />
           <div className='text-xs'>19</div>
         </div>
       </div>
-      <div className='absolute -mt-2 ml-48 transform translate-x-1/2'>
+      <div className='absolute -mt-2 ml-[18vw] xl:ml-48 transform translate-x-1/2'>
         <div className='flex justify-center items-center gap-1 bg-red-400 rounded-2xl h-[2vh] w-12'>
           <ImLoop size={10} />
           <div className='text-xs'>2</div>
@@ -79,10 +79,10 @@ export default function PlayerSeat(props: Props) {
       </div>
       {player.isYou && (
         <div>
-          <div className='absolute mt-[1.5vh] ml-52 transform translate-x-3/4'>
+          <div className='absolute mt-[1.5vh] ml-[18vw] xl:ml-52 transform translate-x-3/4'>
             <div className='text-3xl'>😜</div>
           </div>
-          <div className='absolute mt-[1.5vh] ml-52 transform translate-y-1/4'>
+          <div className='absolute mt-[1.5vh] ml-[18vw] xl:ml-52 transform translate-y-1/4'>
             <div className='text-4xl'>😃</div>
           </div>
         </div>
