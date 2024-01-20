@@ -11,7 +11,7 @@ import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
 import Pot from 'components/Pot';
 import TotalPot from 'components/TotalPot';
-import { IPlayer } from 'interfaces/IPlayer';
+import { IPlayer } from 'interfaces/core/IPlayer';
 
 export default function Table() {
   const you: IPlayer = {

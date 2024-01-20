@@ -1,4 +1,4 @@
-import { IPlayer } from 'interfaces/IPlayer';
+import { IPlayer } from 'interfaces/core/IPlayer';
 import Image from 'next/image';
 import { FaTrophy } from 'react-icons/fa';
 import { ImLoop } from 'react-icons/im';
@@ -62,13 +62,13 @@ export default function PlayerSeat(props: Props) {
       </div>
       <div className='flex flex-row'>
         <div key={'hole1'} className='absolute -mt-2 -ml-4 -rotate-12'>
-          <Image alt='card' src={`cards/${player.hole[0]}.svg`} width={80} height={120} />
+          <Image alt='card' src={`/cards/${player.hole[0]}.svg`} width={80} height={120} />
         </div>
         <div key={'hole2'} className='absolute -mt-2 ml-8 rotate-12'>
-          <Image alt='card' src={`cards/${player.hole[1]}.svg`} width={80} height={120} />
+          <Image alt='card' src={`/cards/${player.hole[1]}.svg`} width={80} height={120} />
         </div>
         {player.hand && (
-          <div key={'hole2'} className='absolute mt-20 ml-11 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
+          <div className='absolute mt-20 ml-11 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
             <div className='text-ms'>{player.hand}</div>
           </div>
         )}

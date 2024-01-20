@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { useTable } from 'hooks/useTable';
+import { createTableAsGuest } from 'store/slices/createTableAsGuest';
 
 type TableSetupFormData = {
   currency: string;
@@ -15,11 +17,23 @@ export default function TableSetupForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<TableSetupFormData>();
+  const { createTableAsGuestAndUpdateState } = useTable();
 
-  const onSubmit = (data: TableSetupFormData) => {
-    console.log(data);
-    // ここで設定を保存し、新しい部屋に移動するロジックを実装
-    router.push('/table'); // 部屋のページのパスに変更してください
+  const onSubmit = async (data: TableSetupFormData) => {
+    console.log('form data', data);
+    const response = await createTableAsGuestAndUpdateState({
+      body: {
+        currency: data.currency,
+        smallBlind: Number(data.blind.split('/')[0]),
+        bigBlind: Number(data.blind.split('/')[1]),
+        buyIn: Number(data.buyIn),
+        name: data.name,
+      },
+    });
+    if (createTableAsGuest.fulfilled.match(response)) {
+      const tableId = response.payload.table.id;
+      router.push('/table/' + tableId);
+    }
   };
 
   return (

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { MdKeyboardDoubleArrowLeft } from 'react-icons/md';
-import { IPlayer } from 'interfaces/IPlayer';
+import { IPlayer } from 'interfaces/core/IPlayer';
 import OptionsSelectButton from 'components/OptionsSelectButton.tsx';
 import PlayersSetting from 'components/PlayersSettings';
 import GameSetting from 'components/GameSetting';
@@ -28,7 +28,7 @@ export default function Options(props: Props) {
         <div className='flex flex-row justify-start items-center text-3xl'>
           <button className='flex flex-row justify-center items-center h-32 w-72' onClick={backTable}>
             <MdKeyboardDoubleArrowLeft size={50} />
-            BACK　
+            BACK
           </button>
           <OptionsSelectButton
             display='PLAYERS'
