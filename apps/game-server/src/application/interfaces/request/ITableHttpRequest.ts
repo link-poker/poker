@@ -8,7 +8,7 @@ export interface ICreateAsUserRequest {
 }
 
 export interface ISitDownAsUserRequest {
-  path: {
+  params: {
     tableId: string;
   };
   body: {
@@ -28,7 +28,7 @@ export interface ICreateAsGuestRequest {
 }
 
 export interface ISitDownAsGuestRequest {
-  path: {
+  params: {
     tableId: string;
   };
   body: {

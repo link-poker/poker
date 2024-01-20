@@ -34,7 +34,7 @@ export class TableHttpController {
 
   async sitDownAsUser(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { tableId } = request.params as ISitDownAsUserRequest['path'];
+      const { tableId } = request.params as ISitDownAsUserRequest['params'];
       const { stack, seatNumber } = request.body as ISitDownAsUserRequest['body'];
       const authToken = request.headers.authorization;
       const user = this.authenticateApplicationService.authenticate(authToken);
@@ -61,7 +61,7 @@ export class TableHttpController {
 
   async sitDownAsGuest(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { tableId } = request.params as ISitDownAsGuestRequest['path'];
+      const { tableId } = request.params as ISitDownAsGuestRequest['params'];
       const { name, stack, seatNumber } = request.body as ISitDownAsGuestRequest['body'];
       const user = await this.userApplicationService.createUser(name);
       const table = await this.tableApplicationService.sitDown(tableId, user, stack, seatNumber);
