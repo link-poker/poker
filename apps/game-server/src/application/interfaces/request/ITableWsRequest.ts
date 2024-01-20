@@ -1,15 +1,15 @@
-export type IConnectRequest = {
+export interface IConnectRequest {
   authToken: string;
-};
+}
 
-export type IBetRequest = {
+export interface IBetRequest {
   amount: number;
-};
+}
 
-export type IRaiseRequest = {
+export interface IRaiseRequest {
   amount: number;
-};
+}
 
-export type IAddOnRequest = {
+export interface IAddOnRequest {
   amount: number;
-};
+}

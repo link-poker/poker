@@ -1,13 +1,13 @@
-export type CreateAsUserRequest = {
+export interface CreateAsUserRequest {
   body: {
     currency: string;
     smallBlind: number;
     bigBlind: number;
     buyIn: number;
   };
-};
+}
 
-export type SitDownAsUserRequest = {
+export interface SitDownAsUserRequest {
   path: {
     tableId: string;
   };
@@ -15,9 +15,9 @@ export type SitDownAsUserRequest = {
     stack: number;
     seatNumber: number;
   };
-};
+}
 
-export type CreateAsGuestRequest = {
+export interface CreateAsGuestRequest {
   body: {
     name: string;
     currency: string;
@@ -25,9 +25,9 @@ export type CreateAsGuestRequest = {
     bigBlind: number;
     buyIn: number;
   };
-};
+}
 
-export type SitDownAsGuestRequest = {
+export interface SitDownAsGuestRequest {
   path: {
     tableId: string;
   };
@@ -36,4 +36,4 @@ export type SitDownAsGuestRequest = {
     stack: number;
     seatNumber: number;
   };
-};
+}
