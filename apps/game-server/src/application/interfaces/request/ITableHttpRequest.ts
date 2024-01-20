@@ -1,4 +1,4 @@
-export interface CreateAsUserRequest {
+export interface ICreateAsUserRequest {
   body: {
     currency: string;
     smallBlind: number;
@@ -7,7 +7,7 @@ export interface CreateAsUserRequest {
   };
 }
 
-export interface SitDownAsUserRequest {
+export interface ISitDownAsUserRequest {
   path: {
     tableId: string;
   };
@@ -17,7 +17,7 @@ export interface SitDownAsUserRequest {
   };
 }
 
-export interface CreateAsGuestRequest {
+export interface ICreateAsGuestRequest {
   body: {
     name: string;
     currency: string;
@@ -27,7 +27,7 @@ export interface CreateAsGuestRequest {
   };
 }
 
-export interface SitDownAsGuestRequest {
+export interface ISitDownAsGuestRequest {
   path: {
     tableId: string;
   };

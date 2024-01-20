@@ -6,9 +6,10 @@ import { UserData } from '../../dtos/userData';
 import { TableData } from '../../dtos/tableData';
 import { httpHandleError } from '../../../error';
 import {
-  CreateAsUserRequest,
-  SitDownAsGuestRequest,
-  CreateAsGuestRequest,
+  ICreateAsUserRequest,
+  ISitDownAsUserRequest,
+  ICreateAsGuestRequest,
+  ISitDownAsGuestRequest,
 } from '../../interfaces/request/ITableHttpRequest';
 
 export class TableHttpController {
@@ -20,7 +21,7 @@ export class TableHttpController {
 
   async createAsUser(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { currency, smallBlind, bigBlind, buyIn } = request.body as CreateAsUserRequest['body'];
+      const { currency, smallBlind, bigBlind, buyIn } = request.body as ICreateAsUserRequest['body'];
       const authToken = request.headers.authorization;
       const user = this.authenticateApplicationService.authenticate(authToken);
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
@@ -33,8 +34,8 @@ export class TableHttpController {
 
   async sitDownAsUser(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { tableId } = request.params as SitDownAsGuestRequest['path'];
-      const { stack, seatNumber } = request.body as SitDownAsGuestRequest['body'];
+      const { tableId } = request.params as ISitDownAsUserRequest['path'];
+      const { stack, seatNumber } = request.body as ISitDownAsUserRequest['body'];
       const authToken = request.headers.authorization;
       const user = this.authenticateApplicationService.authenticate(authToken);
       const table = await this.tableApplicationService.sitDown(tableId, user, stack, seatNumber);
@@ -47,7 +48,7 @@ export class TableHttpController {
 
   async createAsGuest(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { name, currency, smallBlind, bigBlind, buyIn } = request.body as CreateAsGuestRequest['body'];
+      const { name, currency, smallBlind, bigBlind, buyIn } = request.body as ICreateAsGuestRequest['body'];
       const user = await this.userApplicationService.createUser(name);
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
       const userData = new UserData(user);
@@ -60,8 +61,8 @@ export class TableHttpController {
 
   async sitDownAsGuest(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { tableId } = request.params as SitDownAsGuestRequest['path'];
-      const { name, stack, seatNumber } = request.body as SitDownAsGuestRequest['body'];
+      const { tableId } = request.params as ISitDownAsGuestRequest['path'];
+      const { name, stack, seatNumber } = request.body as ISitDownAsGuestRequest['body'];
       const user = await this.userApplicationService.createUser(name);
       const table = await this.tableApplicationService.sitDown(tableId, user, stack, seatNumber);
       const userData = new UserData(user);
