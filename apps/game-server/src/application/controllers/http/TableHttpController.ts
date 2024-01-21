@@ -26,8 +26,7 @@ export class TableHttpController {
       const user = this.authenticateApplicationService.authenticate(authToken);
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
       const tableData = new TableData(table);
-      const playerPrivateInfoData = table.getPlayerPrivateInfo(user.id);
-      reply.send({ table: tableData, playerPrivateInfo: playerPrivateInfoData });
+      reply.send({ table: tableData });
     } catch (error) {
       httpHandleError(error, request, reply);
     }
@@ -55,8 +54,7 @@ export class TableHttpController {
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
       const userData = new UserData(user);
       const tableData = new TableData(table);
-      const playerPrivateInfoData = table.getPlayerPrivateInfo(user.id);
-      reply.send({ user: userData, table: tableData, playerPrivateInfo: playerPrivateInfoData });
+      reply.send({ user: userData, table: tableData });
     } catch (error) {
       httpHandleError(error, request, reply);
     }
