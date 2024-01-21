@@ -5,6 +5,7 @@ export interface ITableResponse {
   id: string;
   owner: IUserResponse;
   currency: string;
+  status: string;
   createdAt: string;
   updatedAt: string;
   poker: {
