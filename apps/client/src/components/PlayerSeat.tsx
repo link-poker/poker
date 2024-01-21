@@ -37,24 +37,24 @@ export default function PlayerSeat(props: Props) {
   };
 
   return (
-    <div className={getActionBgClassName('rounded-lg h-[9vh] w-[24vw] xl:w-72')}>
+    <div className={getActionBgClassName('rounded-lg h-[9vh] w-[22vw] xl:w-72')}>
       {player.status === 'action' && (
         <div>
           <div className='absolute mt-[7vh]'>
-            <div className='bg-yellow-300 rounded h-4 w-[24vw] xl:w-72'></div>
+            <div className='bg-yellow-300 rounded h-4 w-[22vw] xl:w-72'></div>
           </div>
           <div className='absolute mt-[7vh]'>
             <div className='bg-red-500 h-4 w-40'></div>
           </div>
         </div>
       )}
-      <div className='absolute -mt-2 ml-[18vw] xl:ml-48 transform -translate-x-1/2'>
+      <div className='absolute -mt-2 ml-[16vw] xl:ml-52 transform -translate-x-1/2'>
         <div className='flex justify-center items-center gap-1 bg-green-600 rounded-2xl h-[2vh] w-12'>
           <FaTrophy size={10} />
           <div className='text-xs'>19</div>
         </div>
       </div>
-      <div className='absolute -mt-2 ml-[18vw] xl:ml-48 transform translate-x-1/2'>
+      <div className='absolute -mt-2 ml-[16vw] xl:ml-52 transform translate-x-1/2'>
         <div className='flex justify-center items-center gap-1 bg-red-400 rounded-2xl h-[2vh] w-12'>
           <ImLoop size={10} />
           <div className='text-xs'>2</div>
@@ -68,7 +68,7 @@ export default function PlayerSeat(props: Props) {
           <Image alt='card' src={`/cards/${player.hole[1]}.svg`} width={80} height={120} />
         </div>
         {player.hand && (
-          <div className='absolute mt-20 ml-11 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
+          <div className='absolute mt-20 bg-red-400 px-2 rounded-md transform -translate-x-1/4'>
             <div className='text-ms'>{player.hand}</div>
           </div>
         )}
