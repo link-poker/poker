@@ -1,3 +1,8 @@
+export type CardInfo = {
+  rank: string;
+  suit: string;
+};
+
 export class Card {
   private _rank: CardRank;
   private _suit: CardSuit;
@@ -5,6 +10,13 @@ export class Card {
   constructor(rank: CardRank, suit: CardSuit) {
     this._rank = rank;
     this._suit = suit;
+  }
+
+  getCardInfo(): CardInfo {
+    return {
+      rank: this._rank,
+      suit: this._suit,
+    };
   }
 
   get rank() {

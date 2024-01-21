@@ -30,7 +30,7 @@ model CommandRecord {
 model Game {
   id        String   @id
   tableId   String   @map("table_id")
-  result    String   @db.Text  
+  result    String   @db.Text
   createdAt DateTime @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -40,27 +40,24 @@ model Game {
 
 model Table {
   id         String   @id
-  userId     String   @map("user_id")
+  ownerId    String   @map("owner_id")
   currency   String
-  smallBlind Int      @map("small_blind")
-  bigBlind   Int      @map("big_blind")
-  buyIn      Int      @map("buy_in")
   status     String
-  pokerState String   @db.Text @map("poker_state")
+  pokerState String   @map("poker_state") @db.Text
   createdAt  DateTime @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  user          User            @relation(fields: [userId], references: [id])
+  user          User            @relation(fields: [ownerId], references: [id])
   games         Game[]
   CommandRecord CommandRecord[]
 }
 
 model User {
-  id         String   @id
-  name       String
-  status     String
-  createdAt  DateTime @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id        String   @id
+  name      String
+  status    String
+  createdAt DateTime @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   commandRecords CommandRecord[]
   tables         Table[]

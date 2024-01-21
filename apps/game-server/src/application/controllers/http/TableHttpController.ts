@@ -2,8 +2,8 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthenticateApplicationService } from '../../services/AuthenticateApplicationService';
 import { TableApplicationService } from '../../services/TableApplicationService';
 import { UserApplicationService } from '../../services/UserApplicationService';
-import { UserData } from '../../dtos/userData';
-import { TableData } from '../../dtos/tableData';
+import { UserData } from '../../dtos/UserData';
+import { TableData } from '../../dtos/TableData';
 import { httpHandleError } from '../../../error';
 import {
   ICreateTableAsUserRequest,

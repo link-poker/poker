@@ -1,6 +1,17 @@
 import { Hand } from 'pokersolver';
 import { Poker } from './Poker';
-import { Card } from './Card';
+import { Card, CardInfo } from './Card';
+
+export type PlayerInfoForOthers = {
+  id: string;
+  stackSize: number;
+  bet: number;
+  raise: number | null;
+  holeCards: CardInfo[];
+  folded: boolean;
+  showCards: boolean;
+  left: boolean;
+};
 
 export class Player {
   bet: number = 0;
@@ -10,23 +21,28 @@ export class Player {
   showCards: boolean = false;
   left: boolean = false;
 
-  constructor(public id: string, public stackSize: number, public table: Poker) {}
+  constructor(
+    public id: string,
+    public stackSize: number,
+    public table: Poker,
+  ) {}
 
-  get hand() {
-    if (!this.holeCards) return null;
-    return Hand.solve(this.holeCards.concat(this.table.communityCards).map(card => `${card.rank}${card.suit}`));
-  }
-
-  get infoForOthers() {
+  get infoForOthers(): PlayerInfoForOthers {
     return {
       id: this.id,
       stackSize: this.stackSize,
       bet: this.bet,
-      raise: this.raise,
+      raise: this.raise ?? null,
+      holeCards: this.showCards ? this.holeCards?.map(card => card.getCardInfo()) ?? [] : [],
       folded: this.folded,
       showCards: this.showCards,
       left: this.left,
     };
+  }
+
+  get hand() {
+    if (!this.holeCards) return null;
+    return Hand.solve(this.holeCards.concat(this.table.communityCards).map(card => `${card.rank}${card.suit}`));
   }
 
   betAction(amount: number) {

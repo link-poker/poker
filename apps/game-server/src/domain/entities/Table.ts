@@ -1,25 +1,42 @@
 import { Ulid } from '../value-objects/Ulid';
 import { User } from './User';
 import { Poker, Pot } from '../core/Poker';
-import { Player } from '../core/Player';
+import { Player, PlayerInfoForOthers } from '../core/Player';
 import { TableStatus } from '../value-objects/TableStatus';
 import { Card } from '../core/Card';
 import { ValidationError } from '../../error';
-import { SmallBlind } from '../value-objects/SmallBlind';
-import { BigBlind } from '../value-objects/BigBlind';
-import { BuyIn } from '../value-objects/BuyIn';
 import { Currency } from '../value-objects/Currency';
 import { SeatNumber } from '../value-objects/SeatNumber';
 import { Stack } from '../value-objects/Stack';
 
+export type TableInfoForPlayers = {
+  id: string;
+  owner: User;
+  currency: Currency;
+  status: TableStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  poker: {
+    bigBlind: number;
+    smallBlind: number;
+    buyIn: number;
+    actingPlayers: PlayerInfoForOthers[];
+    activePlayers: PlayerInfoForOthers[];
+    bigBlindPlayer: PlayerInfoForOthers | null;
+    currentActor: PlayerInfoForOthers | null;
+    currentPot: Pot | null;
+    dealer: PlayerInfoForOthers | null;
+    lastActor: PlayerInfoForOthers | null;
+    sidePots: Pot[];
+    smallBlindPlayer: PlayerInfoForOthers | null;
+  };
+};
+
 export class Table {
   constructor(
     public readonly id: Ulid,
-    public readonly user: User,
+    public readonly owner: User,
     public readonly currency: Currency,
-    public readonly smallBlind: SmallBlind,
-    public readonly bigBlind: BigBlind,
-    public readonly buyIn: BuyIn,
     public readonly status: TableStatus,
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
@@ -30,29 +47,41 @@ export class Table {
     return JSON.stringify(this.poker.extractState());
   }
 
-  getTableInfoForPlayers(): any {
+  getTableInfoForPlayers(): TableInfoForPlayers {
     return {
       id: this.id.get(),
-      user: this.user,
+      owner: this.owner,
       currency: this.currency,
-      smallBlind: this.smallBlind,
-      bigBlind: this.bigBlind,
-      buyIn: this.buyIn,
       status: this.status,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       poker: {
+        bigBlind: this.getBigBlind(),
+        smallBlind: this.getSmallBlind(),
+        buyIn: this.getBuyIn(),
         actingPlayers: this.getActingPlayers().map(player => player.infoForOthers),
         activePlayers: this.getActivePlayers().map(player => player.infoForOthers),
-        bigBlindPlayer: this.bigBlindPlayer()?.infoForOthers,
-        currentActor: this.currentActor()?.infoForOthers,
-        currentPot: this.currentPot(),
-        dealer: this.dealer()?.infoForOthers,
-        lastActor: this.lastActor()?.infoForOthers,
+        bigBlindPlayer: this.bigBlindPlayer()?.infoForOthers || null,
+        currentActor: this.currentActor()?.infoForOthers || null,
+        currentPot: this.currentPot() || null,
+        dealer: this.dealer()?.infoForOthers || null,
+        lastActor: this.lastActor()?.infoForOthers || null,
         sidePots: this.sidePots(),
-        smallBlindPlayer: this.smallBlindPlayer()?.infoForOthers,
+        smallBlindPlayer: this.smallBlindPlayer()?.infoForOthers || null,
       },
     };
+  }
+
+  getBigBlind(): number {
+    return this.poker.bigBlind;
+  }
+
+  getSmallBlind(): number {
+    return this.poker.smallBlind;
+  }
+
+  getBuyIn(): number {
+    return this.poker.buyIn;
   }
 
   getActingPlayers(): Player[] {

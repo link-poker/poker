@@ -13,6 +13,6 @@ export class TableFactory {
     const id = Ulid.create();
     const tableStatus = new TableStatus(TableStatusEnum.WAITING);
     const poker = new Poker(buyIn.get(), smallBlind.get(), bigBlind.get());
-    return new Table(id, owner, currency, smallBlind, bigBlind, buyIn, tableStatus, new Date(), new Date(), poker);
+    return new Table(id, owner, currency, tableStatus, new Date(), new Date(), poker);
   }
 }

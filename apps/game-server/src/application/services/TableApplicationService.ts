@@ -9,6 +9,7 @@ import { SeatNumber } from '../../domain/value-objects/SeatNumber';
 import { SmallBlind } from '../../domain/value-objects/SmallBlind';
 import { Stack } from '../../domain/value-objects/Stack';
 import { ITableRepository } from '../../interfaces/repository/ITableRepository';
+import { TableData } from '../dtos/TableData';
 
 export class TableApplicationService {
   constructor(
@@ -39,7 +40,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'dealCards',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -52,7 +53,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'sitDown',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     return table;
@@ -64,7 +65,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'standUp',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -75,7 +76,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'call',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -86,7 +87,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'check',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -97,7 +98,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'fold',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -108,7 +109,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'bet',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -119,7 +120,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'raise',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -130,7 +131,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'addOn',
-      payload: { tableInfo: table.getTableInfoForPlayers() },
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
