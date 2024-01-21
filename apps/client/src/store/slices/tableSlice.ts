@@ -3,18 +3,29 @@ import { ITableResponse } from 'interfaces/response/ITableResponse';
 
 const initialState: ITableResponse = {
   id: '',
-  user: {
+  owner: {
     id: '',
     name: '',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   currency: '',
-  smallBlind: 0,
-  bigBlind: 0,
-  buyIn: 0,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
+  poker: {
+    bigBlind: 0,
+    smallBlind: 0,
+    buyIn: 0,
+    activePlayers: [],
+    actingPlayers: [],
+    bigBlindPlayer: null,
+    currentActor: null,
+    currentPot: 0,
+    dealer: null,
+    lastActor: null,
+    sidePots: [],
+    smallBlindPlayer: null,
+  },
 };
 
 const tableSlice = createSlice({
