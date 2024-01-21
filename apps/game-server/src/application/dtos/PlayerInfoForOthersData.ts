@@ -4,6 +4,7 @@ import { IPlayerInfoForOthersResponse } from '../../interfaces/response/IPlayerI
 export class PlayerInfoForOthersData implements IPlayerInfoForOthersResponse {
   id: string;
   name: string;
+  stack: number;
   bet: number;
   raise: number | null;
   holeCards: { rank: string; suit: string }[];
@@ -15,6 +16,7 @@ export class PlayerInfoForOthersData implements IPlayerInfoForOthersResponse {
   constructor(player: PlayerInfoForOthers) {
     this.id = player.id;
     this.name = player.name;
+    this.stack = player.stackSize;
     this.bet = player.bet;
     this.raise = player.raise;
     this.holeCards = player.holeCards;
