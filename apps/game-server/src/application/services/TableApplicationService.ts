@@ -47,7 +47,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'dealCards',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -62,7 +62,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'sitDown',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     return table;
@@ -77,7 +77,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'standUp',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -91,7 +91,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'call',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -105,7 +105,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'check',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -119,7 +119,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'fold',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -133,7 +133,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'bet',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -147,7 +147,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'raise',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
@@ -161,7 +161,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'addOn',
-      payload: { table: new TableData(table), private: new PlayerPrivateInfoData(playerPrivateInfo) },
+      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
   }
