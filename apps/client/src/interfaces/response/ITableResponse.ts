@@ -11,6 +11,7 @@ export interface ITableResponse {
     bigBlind: number;
     smallBlind: number;
     buyIn: number;
+    players: (IPlayerInfoForOthersResponse | null)[]; // array of 10
     activePlayers: IPlayerInfoForOthersResponse[];
     actingPlayers: IPlayerInfoForOthersResponse[];
     bigBlindPlayer: IPlayerInfoForOthersResponse | null;

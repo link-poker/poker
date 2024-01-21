@@ -16,15 +16,16 @@ const initialState: ITableResponse = {
     bigBlind: 0,
     smallBlind: 0,
     buyIn: 0,
+    players: [],
     activePlayers: [],
     actingPlayers: [],
-    bigBlindPlayer: null,
     currentActor: null,
     currentPot: 0,
     dealer: null,
     lastActor: null,
     sidePots: [],
     smallBlindPlayer: null,
+    bigBlindPlayer: null,
   },
 };
 
