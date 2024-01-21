@@ -3,11 +3,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './slices/userSlice';
 import tableReducer from './slices/tableSlice';
 import createTableAsUserReducer from './slices/createTableAsUserSlice';
-import createTableAsGuestReducer from './slices/createTableAsGuest';
+import createTableAsGuestReducer from './slices/createTableAsGuestSlice';
+import playerPrivateInfoReducer from './slices/playerPrivateInfoSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
   table: tableReducer,
+  playerPrivateInfo: playerPrivateInfoReducer,
   createTableAsUser: createTableAsUserReducer,
   createTableAsGuest: createTableAsGuestReducer,
 });

@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useTable } from 'hooks/useTable';
-import { createTableAsGuest } from 'store/slices/createTableAsGuest';
+import { createTableAsGuest } from 'store/slices/createTableAsGuestSlice';
 
 type TableSetupFormData = {
   currency: string;

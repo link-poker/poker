@@ -140,35 +140,35 @@ export default function Table() {
         <div className='absolute mt-[9vh] ml-[99vw] transform -translate-x-full'>
           <TopRightButtons />
         </div>
-        <div key={'seat1'} className='absolute mt-[2vh] ml-[37.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers[0]} game={game} />
+        <div key={'seat0'} className='absolute mt-[2vh] ml-[37.5vw] transform -translate-x-1/2'>
+          <PlayerSeat seatNumber={0} />
         </div>
-        <div key={'seat2'} className='absolute mt-[2vh] ml-[62.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers[1]} game={game} />
+        <div key={'seat1'} className='absolute mt-[2vh] ml-[62.5vw] transform -translate-x-1/2'>
+          <PlayerSeat seatNumber={1} />
         </div>
-        <div key={'seat3'} className='absolute mt-[15vh] ml-[82.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers[2]} game={game} />
+        <div key={'seat2'} className='absolute mt-[15vh] ml-[82.5vw] transform -translate-x-1/2'>
+          <PlayerSeat seatNumber={2} />
         </div>
-        <div key={'seat4'} className='absolute mt-[35vh] ml-[99vw] transform -translate-x-full'>
-          <PlayerSeat player={seatPlayers[3]} game={game} />
+        <div key={'seat3'} className='absolute mt-[35vh] ml-[99vw] transform -translate-x-full'>
+          <PlayerSeat seatNumber={3} />
         </div>
-        <div key={'seat5'} className='absolute mt-[55vh] ml-[82.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers[4]} game={game} />
+        <div key={'seat4'} className='absolute mt-[55vh] ml-[82.5vw] transform -translate-x-1/2'>
+          <PlayerSeat seatNumber={4} />
         </div>
-        <div key={'seat6'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2 z-10'>
-          <PlayerSeat player={seatPlayers[5]} game={game} />
+        <div key={'seat5'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2 z-10'>
+          <PlayerSeat seatNumber={5} />
         </div>
-        <div key={'seat7'} className='absolute mt-[68vh] ml-[37.5vw] transform -translate-x-1/2'>
-          <PlayerSeat player={seatPlayers[6]} game={game} />
+        <div key={'seat6'} className='absolute mt-[68vh] ml-[37.5vw] transform -translate-x-1/2'>
+          <PlayerSeat seatNumber={6} />
         </div>
-        <div key={'seat8'} className='absolute mt-[55vh] ml-[13vw]'>
-          <PlayerSeat player={seatPlayers[7]} game={game} />
+        <div key={'seat7'} className='absolute mt-[55vh] ml-[13vw]'>
+          <PlayerSeat seatNumber={7} />
         </div>
-        <div key={'seat9'} className='absolute mt-[35vh] ml-[3vw]'>
-          <PlayerSeat player={seatPlayers[8]} game={game} />
+        <div key={'seat8'} className='absolute mt-[35vh] ml-[3vw]'>
+          <PlayerSeat seatNumber={8} />
         </div>
-        <div key={'seat10'} className='absolute mt-[15vh] ml-[13vw]'>
-          <PlayerSeat player={seatPlayers[9]} game={game} />
+        <div key={'seat9'} className='absolute mt-[15vh] ml-[13vw]'>
+          <PlayerSeat seatNumber={9} />
         </div>
         <div className='absolute mt-[19vh] ml-[54vw] transform -translate-x-1/2 -translate-y-1/2'>
           <TotalPot />

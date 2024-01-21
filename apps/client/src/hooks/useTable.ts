@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { ICreateTableAsGuestRequest } from 'interfaces/request/ITableHttpRequest';
 import { AppState } from 'store';
-import { createTableAsGuest } from 'store/slices/createTableAsGuest';
+import { createTableAsGuest } from 'store/slices/createTableAsGuestSlice';
 import { tableActions } from 'store/slices/tableSlice';
 import { userActions } from 'store/slices/userSlice';
 import { useAppDispatch } from './useAppDispatch';
