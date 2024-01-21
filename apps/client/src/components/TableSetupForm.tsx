@@ -31,6 +31,7 @@ export default function TableSetupForm() {
       },
     });
     if (createTableAsGuest.fulfilled.match(response)) {
+      console.log('createTable response', response.payload);
       const tableId = response.payload.table.id;
       router.push('/table/' + tableId);
     }
