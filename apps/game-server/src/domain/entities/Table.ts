@@ -1,13 +1,19 @@
 import { Ulid } from '../value-objects/Ulid';
 import { User } from './User';
 import { Poker, Pot } from '../core/Poker';
-import { Player, PlayerInfoForOthers } from '../core/Player';
+import { Player, PlayerInfoForOthers, PlayerPrivateInfo } from '../core/Player';
 import { TableStatus } from '../value-objects/TableStatus';
 import { Card } from '../core/Card';
 import { ValidationError } from '../../error';
 import { Currency } from '../value-objects/Currency';
 import { SeatNumber } from '../value-objects/SeatNumber';
 import { Stack } from '../value-objects/Stack';
+import { BetAmount } from '../value-objects/BetAmount';
+import { RaiseAmount } from '../value-objects/RaiseAmount';
+import { AddOnAmount } from '../value-objects/AddOnAmount';
+import { BigBlind } from '../value-objects/BigBlind';
+import { SmallBlind } from '../value-objects/SmallBlind';
+import { BuyIn } from '../value-objects/BuyIn';
 
 export type TableInfoForPlayers = {
   id: string;
@@ -17,18 +23,19 @@ export type TableInfoForPlayers = {
   createdAt: Date;
   updatedAt: Date;
   poker: {
-    bigBlind: number;
-    smallBlind: number;
-    buyIn: number;
+    bigBlind: BigBlind;
+    smallBlind: SmallBlind;
+    buyIn: BuyIn;
+    players: (PlayerInfoForOthers | null)[]; // array of 10
     actingPlayers: PlayerInfoForOthers[];
     activePlayers: PlayerInfoForOthers[];
-    bigBlindPlayer: PlayerInfoForOthers | null;
     currentActor: PlayerInfoForOthers | null;
     currentPot: Pot | null;
     dealer: PlayerInfoForOthers | null;
     lastActor: PlayerInfoForOthers | null;
     sidePots: Pot[];
     smallBlindPlayer: PlayerInfoForOthers | null;
+    bigBlindPlayer: PlayerInfoForOthers | null;
   };
 };
 
@@ -47,6 +54,12 @@ export class Table {
     return JSON.stringify(this.poker.extractState());
   }
 
+  getPlayerPrivateInfo(userId: Ulid): PlayerPrivateInfo {
+    const player = this.poker.players.find(player => player?.id === userId.get());
+    if (!player) throw new ValidationError('Player not found');
+    return player.privateInfo;
+  }
+
   getTableInfoForPlayers(): TableInfoForPlayers {
     return {
       id: this.id.get(),
@@ -59,29 +72,30 @@ export class Table {
         bigBlind: this.getBigBlind(),
         smallBlind: this.getSmallBlind(),
         buyIn: this.getBuyIn(),
+        players: this.poker.players.map(player => player?.infoForOthers || null),
         actingPlayers: this.getActingPlayers().map(player => player.infoForOthers),
         activePlayers: this.getActivePlayers().map(player => player.infoForOthers),
-        bigBlindPlayer: this.bigBlindPlayer()?.infoForOthers || null,
         currentActor: this.currentActor()?.infoForOthers || null,
         currentPot: this.currentPot() || null,
         dealer: this.dealer()?.infoForOthers || null,
         lastActor: this.lastActor()?.infoForOthers || null,
         sidePots: this.sidePots(),
         smallBlindPlayer: this.smallBlindPlayer()?.infoForOthers || null,
+        bigBlindPlayer: this.bigBlindPlayer()?.infoForOthers || null,
       },
     };
   }
 
-  getBigBlind(): number {
-    return this.poker.bigBlind;
+  getBigBlind(): BigBlind {
+    return new BigBlind(this.poker.bigBlind);
   }
 
-  getSmallBlind(): number {
-    return this.poker.smallBlind;
+  getSmallBlind(): SmallBlind {
+    return new SmallBlind(this.poker.smallBlind);
   }
 
-  getBuyIn(): number {
-    return this.poker.buyIn;
+  getBuyIn(): BuyIn {
+    return new BuyIn(this.poker.buyIn);
   }
 
   getActingPlayers(): Player[] {
@@ -90,10 +104,6 @@ export class Table {
 
   getActivePlayers(): Player[] {
     return this.poker.activePlayers;
-  }
-
-  bigBlindPlayer(): Player | null {
-    return this.poker.bigBlindPlayer;
   }
 
   currentActor(): Player | null {
@@ -120,16 +130,20 @@ export class Table {
     return this.poker.smallBlindPlayer;
   }
 
+  bigBlindPlayer(): Player | null {
+    return this.poker.bigBlindPlayer;
+  }
+
   moveDealer(): void {
     this.poker.moveDealer;
   }
 
   sitDown(user: User, stack: Stack, seatNumber: SeatNumber): void {
-    this.poker.sitDown(user.id.get(), stack.get(), seatNumber.get());
+    this.poker.sitDown(user.id.get(), user.name.get(), stack.get(), seatNumber.get());
   }
 
-  standUp(userId: string): void {
-    this.poker.standUp(userId);
+  standUp(userId: Ulid): void {
+    this.poker.standUp(userId.get());
   }
 
   cleanUp(): void {
@@ -160,36 +174,37 @@ export class Table {
     return this.poker.newDeck();
   }
 
-  addOn(userId: string, amount: number): void {
-    this.poker.addOn(userId, amount);
+  addOn(userId: Ulid, amount: AddOnAmount): void {
+    this.poker.addOn(userId.get(), amount.get());
   }
 
-  call(userId: string): void {
-    if (this.poker.currentActor?.id !== userId) throw new ValidationError('Not your turn');
-    this.poker.currentActor.callAction();
+  call(userId: Ulid): void {
+    this.ensureYourTurn(userId);
+    this.poker.currentActor!.callAction();
   }
 
-  check(userId: string): void {
+  check(userId: Ulid): void {
     this.ensureYourTurn(userId);
     this.poker.currentActor!.checkAction();
   }
 
-  fold(userId: string): void {
+  fold(userId: Ulid): void {
     this.ensureYourTurn(userId);
     this.poker.currentActor!.foldAction();
   }
 
-  bet(userId: string, amount: number): void {
+  bet(userId: Ulid, amount: BetAmount): void {
     this.ensureYourTurn(userId);
-    this.poker.currentActor!.betAction(amount);
+    this.poker.currentActor!.betAction(amount.get());
   }
 
-  raise(userId: string, amount: number): void {
+  raise(userId: Ulid, amount: RaiseAmount): void {
     this.ensureYourTurn(userId);
-    this.poker.currentActor!.raiseAction(amount);
+    this.poker.currentActor!.raiseAction(amount.get());
   }
 
-  private ensureYourTurn(userId: string): void {
-    if (this.poker.currentActor?.id === userId) throw new ValidationError('Not your turn');
+  private ensureYourTurn(userId: Ulid): void {
+    if (!this.poker.currentActor) throw new ValidationError('No current actor');
+    if (this.poker.currentActor?.id === userId.get()) throw new ValidationError('Not your turn');
   }
 }

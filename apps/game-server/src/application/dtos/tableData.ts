@@ -16,15 +16,16 @@ export class TableData implements ITableResponse {
     bigBlind: number;
     smallBlind: number;
     buyIn: number;
+    players: (IPlayerInfoForOthersResponse | null)[]; // array of 10
     actingPlayers: IPlayerInfoForOthersResponse[];
     activePlayers: IPlayerInfoForOthersResponse[];
-    bigBlindPlayer: IPlayerInfoForOthersResponse | null;
     currentActor: IPlayerInfoForOthersResponse | null;
     currentPot: number;
     dealer: IPlayerInfoForOthersResponse | null;
     lastActor: IPlayerInfoForOthersResponse | null;
     sidePots: number[];
     smallBlindPlayer: IPlayerInfoForOthersResponse | null;
+    bigBlindPlayer: IPlayerInfoForOthersResponse | null;
   };
 
   constructor(table: Table) {
@@ -36,19 +37,20 @@ export class TableData implements ITableResponse {
     this.createdAt = tableInfo.createdAt.toISOString();
     this.updatedAt = tableInfo.updatedAt.toISOString();
     this.poker = {
-      bigBlind: tableInfo.poker.bigBlind,
-      smallBlind: tableInfo.poker.smallBlind,
-      buyIn: tableInfo.poker.buyIn,
+      bigBlind: tableInfo.poker.bigBlind.get(),
+      smallBlind: tableInfo.poker.smallBlind.get(),
+      buyIn: tableInfo.poker.buyIn.get(),
+      players: tableInfo.poker.players.map(player => (player ? new PlayerInfoForOthersData(player) : null)),
       actingPlayers: tableInfo.poker.actingPlayers.map(player => new PlayerInfoForOthersData(player)),
       activePlayers: tableInfo.poker.activePlayers.map(player => new PlayerInfoForOthersData(player)),
-      bigBlindPlayer: tableInfo.poker.bigBlindPlayer
-        ? new PlayerInfoForOthersData(tableInfo.poker.bigBlindPlayer)
-        : null,
       currentActor: tableInfo.poker.currentActor ? new PlayerInfoForOthersData(tableInfo.poker.currentActor) : null,
       currentPot: tableInfo.poker.currentPot?.amount || 0,
       dealer: tableInfo.poker.dealer ? new PlayerInfoForOthersData(tableInfo.poker.dealer) : null,
       lastActor: tableInfo.poker.lastActor ? new PlayerInfoForOthersData(tableInfo.poker.lastActor) : null,
       sidePots: tableInfo.poker.sidePots?.map(sidePot => sidePot.amount) || [],
+      bigBlindPlayer: tableInfo.poker.bigBlindPlayer
+        ? new PlayerInfoForOthersData(tableInfo.poker.bigBlindPlayer)
+        : null,
       smallBlindPlayer: tableInfo.poker.smallBlindPlayer
         ? new PlayerInfoForOthersData(tableInfo.poker.smallBlindPlayer)
         : null,

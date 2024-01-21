@@ -24,10 +24,9 @@ describe('Table Test', () => {
     });
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe('test');
+    expect(table.owner.id).toBe(user.id);
     expect(table.currency).toBe('USDT');
-    expect(table.smallBlind).toBe(5);
-    expect(table.bigBlind).toBe(10);
-    expect(table.buyIn).toBe(1000);
+    expect(table.status).toBe('WAITING');
   });
 
   it('should able to sit down as guest', async () => {

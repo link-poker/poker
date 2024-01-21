@@ -122,7 +122,7 @@ export class Poker {
     }
   }
 
-  sitDown(id: string, buyIn: number, seatNumber?: number): number {
+  sitDown(id: string, name: string, buyIn: number, seatNumber?: number): number {
     // If there are no null seats then the table is full.
     if (this.players.filter(player => player === null).length === 0) {
       throw new Error('The table is currently full.');
@@ -137,7 +137,7 @@ export class Poker {
     if (seatNumber && this.players[seatNumber] !== null) {
       throw new Error('There is already a player in the requested seat.');
     }
-    const newPlayer = new Player(id, buyIn, this);
+    const newPlayer = new Player(id, name, buyIn, this);
     if (!seatNumber) {
       seatNumber = 0;
       while (this.players[seatNumber] !== null) {
@@ -577,7 +577,7 @@ export class Poker {
     this.lastRaise = state.lastRaise;
     this.players = state.players.map((player: any) => {
       if (!player) return null;
-      const playerCore = new Player(player.id, player.stackSize, this);
+      const playerCore = new Player(player.id, player.name, player.stackSize, this);
       playerCore.restoreState(player);
       return playerCore;
     });
@@ -585,12 +585,12 @@ export class Poker {
       const newPot = new Pot();
       newPot.amount = pot.amount;
       newPot.eligiblePlayers = pot.eligiblePlayers.map((player: any) => {
-        const playerCore = new Player(player.id, player.stackSize, this);
+        const playerCore = new Player(player.id, player.name, player.stackSize, this);
         playerCore.restoreState(player);
         return playerCore;
       });
       newPot.winners = pot.winners?.map((player: any) => {
-        const playerCore = new Player(player.id, player.stackSize, this);
+        const playerCore = new Player(player.id, player.name, player.stackSize, this);
         playerCore.restoreState(player);
         return playerCore;
       });
@@ -599,7 +599,7 @@ export class Poker {
     this.smallBlind = state.smallBlind;
     this.smallBlindPosition = state.smallBlindPosition;
     this.winners = state.winners?.map((player: any) => {
-      const playerCore = new Player(player.id, player.stackSize, this);
+      const playerCore = new Player(player.id, player.name, player.stackSize, this);
       playerCore.restoreState(player);
       return playerCore;
     });

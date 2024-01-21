@@ -3,11 +3,13 @@ import { User } from '../../domain/entities/User';
 import { AuthToken } from '../../domain/value-objects/AuthToken';
 import { TokenGenerator } from '../../domain/value-objects/TokenGenerator';
 import { TokenValidator } from '../../domain/value-objects/TokenValidator';
+import { Ulid } from '../../domain/value-objects/Ulid';
 import { IUserRepository } from '../../interfaces/repository/IUserRepository';
 
 export class AuthenticateApplicationService {
   constructor(private readonly userRepository: IUserRepository) {}
-  async login(userId: string, password: string): Promise<AuthToken> {
+  async login(userIdStr: string, password: string): Promise<AuthToken> {
+    const userId = new Ulid(userIdStr);
     const user = await this.userRepository.findById(userId);
     // TODO: login logic with password
     const tokenGenerator = new TokenGenerator(ENV_CONFIG.AUTH_TOKEN_SECRET_KEY_BASE64);

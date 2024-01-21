@@ -74,7 +74,7 @@ export class TableWsController {
   }
 
   private async dealCards(params: Params, payload: any) {
-    await this.tableApplicationService.dealCards(params.tableId);
+    await this.tableApplicationService.dealCards(params.tableId, params.userId);
   }
 
   private async standUp(params: Params, payload: any) {

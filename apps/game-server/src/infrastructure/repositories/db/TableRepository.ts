@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { ITableRepository } from '../../../interfaces/repository/ITableRepository';
 import { TableTransformer } from './transformers/TableTransformer';
 import { Table } from '../../../domain/entities/Table';
+import { Ulid } from '../../../domain/value-objects/Ulid';
 
 export class TableRepository implements ITableRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -12,10 +13,10 @@ export class TableRepository implements ITableRepository {
     return Table;
   }
 
-  async findById(id: string) {
+  async findById(id: Ulid) {
     const table = await this.prisma.table.findUnique({
       where: {
-        id,
+        id: id.get(),
       },
       include: {
         user: true,

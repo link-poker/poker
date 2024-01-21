@@ -8,9 +8,9 @@ const POKER = {
 };
 
 const PLAYERS = {
-  ALICE: { ID: '01HKM34S0N9DYJDYZZ1MK6KAEV', STACK: 1000, SEAT: 1 },
-  BOB: { ID: '01HKM38HX0WT7P8KXWN1CKVAEE', STACK: 1000, SEAT: 2 },
-  CHARLIE: { ID: '01HKM3T3XYV8KXDFAPZ7RHD3VN', STACK: 1000, SEAT: 3 },
+  ALICE: { ID: '01HKM34S0N9DYJDYZZ1MK6KAEV', NAME: 'alice', STACK: 1000, SEAT: 1 },
+  BOB: { ID: '01HKM38HX0WT7P8KXWN1CKVAEE', NAME: 'bob', STACK: 1000, SEAT: 2 },
+  CHARLIE: { ID: '01HKM3T3XYV8KXDFAPZ7RHD3VN', NAME: 'charlie', STACK: 1000, SEAT: 3 },
 };
 
 describe('Poker', () => {
@@ -21,9 +21,14 @@ describe('Poker', () => {
 
   it('should be able to sit down and stand up', () => {
     const poker = new Poker(POKER.BUY_IN, POKER.SMALL_BLIND, POKER.BIG_BLIND);
-    const player1SEAT = poker.sitDown(PLAYERS.ALICE.ID, PLAYERS.ALICE.STACK, PLAYERS.ALICE.SEAT);
-    const player2SEAT = poker.sitDown(PLAYERS.BOB.ID, PLAYERS.BOB.STACK, PLAYERS.BOB.SEAT);
-    const player3SEAT = poker.sitDown(PLAYERS.CHARLIE.ID, PLAYERS.CHARLIE.STACK, PLAYERS.CHARLIE.SEAT);
+    const player1SEAT = poker.sitDown(PLAYERS.ALICE.ID, PLAYERS.ALICE.NAME, PLAYERS.ALICE.STACK, PLAYERS.ALICE.SEAT);
+    const player2SEAT = poker.sitDown(PLAYERS.BOB.ID, PLAYERS.BOB.NAME, PLAYERS.BOB.STACK, PLAYERS.BOB.SEAT);
+    const player3SEAT = poker.sitDown(
+      PLAYERS.CHARLIE.ID,
+      PLAYERS.CHARLIE.NAME,
+      PLAYERS.CHARLIE.STACK,
+      PLAYERS.CHARLIE.SEAT,
+    );
     expect(player1SEAT).toEqual(PLAYERS.ALICE.SEAT);
     expect(player2SEAT).toEqual(PLAYERS.BOB.SEAT);
     expect(player3SEAT).toEqual(PLAYERS.CHARLIE.SEAT);
@@ -39,9 +44,9 @@ describe('Poker', () => {
     let poker: Poker;
     beforeEach(() => {
       poker = new Poker(POKER.BUY_IN, POKER.SMALL_BLIND, POKER.BIG_BLIND);
-      poker.sitDown(PLAYERS.ALICE.ID, PLAYERS.ALICE.STACK, PLAYERS.ALICE.SEAT);
-      poker.sitDown(PLAYERS.BOB.ID, PLAYERS.BOB.STACK, PLAYERS.BOB.SEAT);
-      poker.sitDown(PLAYERS.CHARLIE.ID, PLAYERS.CHARLIE.STACK, PLAYERS.CHARLIE.SEAT);
+      poker.sitDown(PLAYERS.ALICE.ID, PLAYERS.ALICE.NAME, PLAYERS.ALICE.STACK, PLAYERS.ALICE.SEAT);
+      poker.sitDown(PLAYERS.BOB.ID, PLAYERS.BOB.NAME, PLAYERS.BOB.STACK, PLAYERS.BOB.SEAT);
+      poker.sitDown(PLAYERS.CHARLIE.ID, PLAYERS.CHARLIE.NAME, PLAYERS.CHARLIE.STACK, PLAYERS.CHARLIE.SEAT);
     });
 
     it('should be able to deal cards', () => {

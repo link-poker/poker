@@ -1,38 +1,42 @@
 import { SocketStream } from '@fastify/websocket';
 import { WebSocketService } from '../../domain/services/WebSocketService';
-
-type Connections = {
-  [tableId: string]: {
-    [userId: string]: SocketStream;
-  };
-};
+import { Ulid } from '../../domain/value-objects/Ulid';
 
 export class WebSocketApplicationService {
   constructor(private readonly webSocketService: WebSocketService) {}
 
-  isAuthorizedConnection(tableId: string, userId: string) {
+  isAuthorizedConnection(tableIdStr: string, userIdStr: string) {
+    const tableId = new Ulid(tableIdStr);
+    const userId = new Ulid(userIdStr);
     this.webSocketService.isAuthorizedConnection(tableId, userId);
   }
 
-  addConnection(tableId: string, userId: string, authToken: string, connection: SocketStream) {
+  addConnection(tableIdStr: string, userIdStr: string, authToken: string, connection: SocketStream) {
     // TODO: authenticate user with authToken
     console.warn('TODO: authenticate user with authToken');
     // const tokenValidator = new TokenValidator(process.env.JWT_SECRET_KEY || '');
     // const isValid = tokenValidator.validate(authToken);
     // if (!isValid) throw new AuthorizationError('Unauthorized');
+    const tableId = new Ulid(tableIdStr);
+    const userId = new Ulid(userIdStr);
     this.webSocketService.addConnection(tableId, userId, connection);
     this.webSocketService.broadcastMessage(tableId, JSON.stringify({ type: 'connect', payload: { userId } }));
   }
 
-  removeConnection(tableId: string, userId: string) {
+  removeConnection(tableIdStr: string, userIdStr: string) {
+    const tableId = new Ulid(tableIdStr);
+    const userId = new Ulid(userIdStr);
     this.webSocketService.removeConnection(tableId, userId);
   }
 
-  sendMessage(tableId: string, userId: string, message: string) {
+  sendMessage(tableIdStr: string, userIdStr: string, message: string) {
+    const tableId = new Ulid(tableIdStr);
+    const userId = new Ulid(userIdStr);
     this.webSocketService.sendMessage(tableId, userId, message);
   }
 
-  broadcastMessage(tableId: string, message: string) {
+  broadcastMessage(tableIdStr: string, message: string) {
+    const tableId = new Ulid(tableIdStr);
     this.webSocketService.broadcastMessage(tableId, message);
   }
 }
