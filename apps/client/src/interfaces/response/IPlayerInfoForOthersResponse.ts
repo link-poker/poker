@@ -4,7 +4,7 @@ export interface IPlayerInfoForOthersResponse {
   stack: number;
   bet: number;
   raise: number | null;
-  holeCards: { rank: string; suit: string }[] | null;
+  holeCards: string[] | null;
   folded: boolean;
   showCards: boolean;
   left: boolean;

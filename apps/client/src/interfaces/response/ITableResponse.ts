@@ -22,5 +22,6 @@ export interface ITableResponse {
     lastActor: IPlayerInfoForOthersResponse | null;
     sidePots: number[];
     smallBlindPlayer: IPlayerInfoForOthersResponse | null;
+    commonCards: string[];
   };
 }

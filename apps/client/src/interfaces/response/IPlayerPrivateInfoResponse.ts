@@ -1,4 +1,4 @@
 export interface IPlayerPrivateInfoResponse {
-  holeCards: { rank: string; suit: string }[] | null;
+  holeCards: string[] | null;
   hand: string | null;
 }
