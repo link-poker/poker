@@ -5,6 +5,7 @@ import tableReducer from './slices/tableSlice';
 import createTableAsUserReducer from './slices/createTableAsUserSlice';
 import createTableAsGuestReducer from './slices/createTableAsGuestSlice';
 import playerPrivateInfoReducer from './slices/playerPrivateInfoSlice';
+import sitDownAsUserReducer from './slices/sitDownAsUserSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   playerPrivateInfo: playerPrivateInfoReducer,
   createTableAsUser: createTableAsUserReducer,
   createTableAsGuest: createTableAsGuestReducer,
+  sitDownAsUser: sitDownAsUserReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
