@@ -2,7 +2,7 @@ import { PlayerPrivateInfo } from '../../domain/core/Player';
 import { IPlayerPrivateInfoResponse } from '../../interfaces/response/IPlayerPrivateInfoResponse';
 
 export class PlayerPrivateInfoData implements IPlayerPrivateInfoResponse {
-  holeCards: { rank: string; suit: string }[];
+  holeCards: string[];
   hand: string | null;
 
   constructor(playerPrivateInfo: PlayerPrivateInfo) {

@@ -36,6 +36,7 @@ export type TableInfoForPlayers = {
     sidePots: Pot[];
     smallBlindPlayer: PlayerInfoForOthers | null;
     bigBlindPlayer: PlayerInfoForOthers | null;
+    commonCards: string[];
   };
 };
 
@@ -82,6 +83,7 @@ export class Table {
         sidePots: this.sidePots(),
         smallBlindPlayer: this.smallBlindPlayer()?.infoForOthers || null,
         bigBlindPlayer: this.bigBlindPlayer()?.infoForOthers || null,
+        commonCards: this.commonCards().map(card => card.toString()),
       },
     };
   }
@@ -132,6 +134,10 @@ export class Table {
 
   bigBlindPlayer(): Player | null {
     return this.poker.bigBlindPlayer;
+  }
+
+  commonCards(): Card[] {
+    return this.poker.communityCards;
   }
 
   moveDealer(): void {

@@ -1,9 +1,9 @@
 import { Hand } from 'pokersolver';
 import { Poker } from './Poker';
-import { Card, CardInfo } from './Card';
+import { Card } from './Card';
 
 export type PlayerPrivateInfo = {
-  holeCards: CardInfo[];
+  holeCards: string[];
   hand: string | null;
 };
 
@@ -13,7 +13,7 @@ export type PlayerInfoForOthers = {
   stackSize: number;
   bet: number;
   raise: number | null;
-  holeCards: CardInfo[];
+  holeCards: string[];
   folded: boolean;
   showCards: boolean;
   left: boolean;
@@ -37,7 +37,7 @@ export class Player {
 
   get privateInfo(): PlayerPrivateInfo {
     return {
-      holeCards: this.showCards ? this.holeCards?.map(card => card.getCardInfo()) ?? [] : [],
+      holeCards: this.showCards ? this.holeCards?.map(card => card.toString()) ?? [] : [],
       hand: this.hand?.descr ?? null,
     };
   }
@@ -49,7 +49,7 @@ export class Player {
       stackSize: this.stackSize,
       bet: this.bet,
       raise: this.raise ?? null,
-      holeCards: this.showCards ? this.holeCards?.map(card => card.getCardInfo()) ?? [] : [],
+      holeCards: this.showCards ? this.holeCards?.map(card => card.toString()) ?? [] : [],
       folded: this.folded,
       showCards: this.showCards,
       left: this.left,

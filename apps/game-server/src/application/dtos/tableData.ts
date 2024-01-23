@@ -26,6 +26,7 @@ export class TableData implements ITableResponse {
     sidePots: number[];
     smallBlindPlayer: IPlayerInfoForOthersResponse | null;
     bigBlindPlayer: IPlayerInfoForOthersResponse | null;
+    commonCards: string[];
   };
 
   constructor(table: Table) {
@@ -54,6 +55,7 @@ export class TableData implements ITableResponse {
       smallBlindPlayer: tableInfo.poker.smallBlindPlayer
         ? new PlayerInfoForOthersData(tableInfo.poker.smallBlindPlayer)
         : null,
+      commonCards: tableInfo.poker.commonCards.map(card => card.toString()),
     };
   }
 }

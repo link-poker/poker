@@ -12,11 +12,8 @@ export class Card {
     this._suit = suit;
   }
 
-  getCardInfo(): CardInfo {
-    return {
-      rank: this._rank,
-      suit: this._suit,
-    };
+  toString(): string {
+    return this._rank + this._suit;
   }
 
   get rank() {

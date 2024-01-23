@@ -7,7 +7,7 @@ export class PlayerInfoForOthersData implements IPlayerInfoForOthersResponse {
   stack: number;
   bet: number;
   raise: number | null;
-  holeCards: { rank: string; suit: string }[];
+  holeCards: string[];
   folded: boolean;
   showCards: boolean;
   left: boolean;
