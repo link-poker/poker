@@ -1,3 +1,4 @@
+import { TABLE_STATUS } from 'constants/table';
 import { usePlayerPrivateInfo } from 'hooks/usePlayerPrivateInfo';
 import { useTable } from 'hooks/useTable';
 import { useUser } from 'hooks/useUser';
@@ -18,15 +19,23 @@ export default function PlayerSeat(props: Props) {
   const isAct = player && table.poker.actingPlayers.includes(player);
   const isYou = player ? player.id === user.id : false;
   const holeCardsNullable = isYou ? playerPrivateInfo.holeCards : player ? player.holeCards : null;
-  const holeCards = holeCardsNullable
-    ? holeCardsNullable.map(card => card.rank + card.suit)
-    : ['Blue_Back', 'Blue_Back'];
+  const holeCards = holeCardsNullable ? holeCardsNullable : ['Blue_Back', 'Blue_Back'];
+
+  if (!player && table.status === TABLE_STATUS.WAITING) {
+    return (
+      <div className='rounded-lg h-[9vh] w-[22vw] xl:w-72 border-dashed border-2 border-stone-600'>
+        <div className='w-full h-full flex flex-col justify-center items-center'>
+          <button className='text-xl text-stone-600'>SIT</button>
+        </div>
+      </div>
+    );
+  }
 
   if (!player) {
     return <div></div>;
   }
 
-  if (table.status === 'WAITING') {
+  if (table.status === TABLE_STATUS.WAITING) {
     return (
       <div className='rounded-lg h-[9vh] w-[22vw] xl:w-72 bg-stone-700'>
         <div className='absolute mt-3 ml-32 flex flex-col justify-center items-start'>

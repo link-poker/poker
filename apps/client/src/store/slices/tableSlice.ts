@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { TABLE_STATUS } from 'constants/table';
 import { ITableResponse } from 'interfaces/response/ITableResponse';
 
 const initialState: ITableResponse = {
@@ -10,6 +11,7 @@ const initialState: ITableResponse = {
     updatedAt: new Date().toISOString(),
   },
   currency: '',
+  status: TABLE_STATUS.WAITING,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   poker: {
@@ -26,6 +28,7 @@ const initialState: ITableResponse = {
     sidePots: [],
     smallBlindPlayer: null,
     bigBlindPlayer: null,
+    commonCards: [],
   },
 };
 
