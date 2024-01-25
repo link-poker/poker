@@ -5,6 +5,7 @@ import { useUser } from 'hooks/useUser';
 import Image from 'next/image';
 import { FaTrophy } from 'react-icons/fa';
 import { ImLoop } from 'react-icons/im';
+import SitDownButton from './SitDownButton';
 
 type Props = {
   seatNumber: number;
@@ -22,13 +23,7 @@ export default function PlayerSeat(props: Props) {
   const holeCards = holeCardsNullable ? holeCardsNullable : ['Blue_Back', 'Blue_Back'];
 
   if (!player && table.status === TABLE_STATUS.WAITING) {
-    return (
-      <div className='rounded-lg h-[9vh] w-[22vw] xl:w-72 border-dashed border-2 border-stone-600'>
-        <div className='w-full h-full flex flex-col justify-center items-center'>
-          <button className='text-xl text-stone-600'>SIT</button>
-        </div>
-      </div>
-    );
+    return <SitDownButton seatNumber={seatNumber} />;
   }
 
   if (!player) {
