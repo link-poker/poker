@@ -17,7 +17,7 @@ export default function TopLeftButtons(props: Props) {
   const router = useRouter();
 
   return (
-    <div className='h-[27vh] w-[9vh] flex flex-col justify-center items-center text-xs border rounded'>
+    <div className='h-[27vh] w-[9vh] flex flex-col justify-center items-center text-[10px] border rounded'>
       <div className='h-[9vh] w-[9vh] flex flex-col justify-center items-center'>
         <button onClick={showOptionsView}>
           <IoMdMenu size={50} />

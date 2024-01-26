@@ -17,9 +17,9 @@ const POSITION: { [seatNumber: number]: { FORM: string; ARROW: string } } = {
   4: { FORM: '-ml-72 -mt-36', ARROW: 'ml-56 -mt-16' },
   5: { FORM: '-mt-64', ARROW: 'ml-6 -mt-6' },
   6: { FORM: '-mt-64', ARROW: 'ml-6 -mt-6' },
-  7: { FORM: 'ml-72 -mt-36', ARROW: '-ml-2 -mt-16' },
-  8: { FORM: 'ml-72', ARROW: '-ml-2 -mt-48' },
-  9: { FORM: 'ml-72', ARROW: '-ml-2 -mt-48' },
+  7: { FORM: 'ml-10 -mt-36', ARROW: '-ml-2 -mt-16' },
+  8: { FORM: 'ml-10', ARROW: '-ml-2 -mt-48' },
+  9: { FORM: 'ml-10', ARROW: '-ml-2 -mt-48' },
 };
 
 export default function SitDownForm(props: Props) {

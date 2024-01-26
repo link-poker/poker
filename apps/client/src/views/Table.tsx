@@ -155,13 +155,13 @@ export default function Table() {
         <div key={'seat1'} className='absolute mt-[2vh] ml-[62.5vw] transform -translate-x-1/2 z-20'>
           <PlayerSeat seatNumber={1} />
         </div>
-        <div key={'seat2'} className='absolute mt-[15vh] ml-[82.5vw] transform -translate-x-1/2'>
+        <div key={'seat2'} className='absolute mt-[15vh] ml-[80.5vw] transform -translate-x-1/2'>
           <PlayerSeat seatNumber={2} />
         </div>
         <div key={'seat3'} className='absolute mt-[35vh] ml-[99vw] transform -translate-x-full z-10'>
           <PlayerSeat seatNumber={3} />
         </div>
-        <div key={'seat4'} className='absolute mt-[55vh] ml-[82.5vw] transform -translate-x-1/2'>
+        <div key={'seat4'} className='absolute mt-[55vh] ml-[80.5vw] transform -translate-x-1/2'>
           <PlayerSeat seatNumber={4} />
         </div>
         <div key={'seat5'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2 z-10'>
@@ -170,16 +170,16 @@ export default function Table() {
         <div key={'seat6'} className='absolute mt-[68vh] ml-[37.5vw] transform -translate-x-1/2 z-10'>
           <PlayerSeat seatNumber={6} />
         </div>
-        <div key={'seat7'} className='absolute mt-[55vh] ml-[13vw]'>
+        <div key={'seat7'} className='absolute mt-[55vh] ml-[20vw] transform -translate-x-1/2'>
           <PlayerSeat seatNumber={7} />
         </div>
-        <div key={'seat8'} className='absolute mt-[35vh] ml-[3vw]'>
+        <div key={'seat8'} className='absolute mt-[35vh] -ml-[20vw] transform translate-x-full'>
           <PlayerSeat seatNumber={8} />
         </div>
-        <div key={'seat9'} className='absolute mt-[15vh] ml-[13vw]'>
+        <div key={'seat9'} className='absolute mt-[15vh] ml-[20vw] transform -translate-x-1/2'>
           <PlayerSeat seatNumber={9} />
         </div>
-        <div className='absolute mt-[77.5vh] ml-[1vw]'>
+        <div className='absolute mt-[79vh] ml-[1vw]'>
           <LogCard />
         </div>
         <div className='absolute mt-[99vh] ml-[60vw] transform -translate-y-full'>
