@@ -1,12 +1,8 @@
 import { SocketStream } from '@fastify/websocket';
 import { FastifyRequest } from 'fastify';
+import { User } from '../../../domain/entities/User';
 import { wsHandleError } from '../../../error';
-import {
-  IAddOnRequest,
-  IBetRequest,
-  IConnectRequest,
-  IRaiseRequest,
-} from '../../../interfaces/request/ITableWsRequest';
+import { IAddOnRequest, IBetRequest, IRaiseRequest } from '../../../interfaces/request/ITableWsRequest';
 import { TableApplicationService } from '../../services/TableApplicationService';
 import { WebSocketApplicationService } from '../../services/WebSocketApplicationService';
 
@@ -23,6 +19,7 @@ export class TableWsController {
 
   async handle(connection: SocketStream, request: FastifyRequest) {
     const params = request.params as { tableId: string; userId: string };
+    const authToken = (request.query as { authToken: string }).authToken;
     connection.socket.on('close', () => {
       this.webSocketApplicationService.removeConnection(params.tableId, params.userId);
     });
@@ -30,13 +27,17 @@ export class TableWsController {
       try {
         const data = JSON.parse(message.toString());
         const { type, payload } = data;
-        if (type === 'connect') {
-          const { authToken } = payload as IConnectRequest;
-          this.webSocketApplicationService.addConnection(params.tableId, params.userId, authToken, connection);
-        } else {
-          this.webSocketApplicationService.isAuthorizedConnection(params.tableId, params.userId);
-        }
+        const user = this.webSocketApplicationService.isAuthorizedConnection(
+          params.tableId,
+          params.userId,
+          authToken,
+          connection,
+        );
+
         switch (type) {
+          case 'enter':
+            this.enter(params, payload, user);
+            break;
           case 'dealCards':
             this.dealCards(params, payload);
             break;
@@ -71,6 +72,10 @@ export class TableWsController {
         wsHandleError(error, connection, request);
       }
     });
+  }
+
+  private async enter(params: Params, payload: any, user: User) {
+    await this.tableApplicationService.enter(params.tableId, user);
   }
 
   private async dealCards(params: Params, payload: any) {

@@ -58,7 +58,7 @@ export const createTableAsGuest = async (
     body,
   });
   const data = JSON.parse(response.body);
-  return { response: response, user: data.user, table: data.table };
+  return { response: response, user: data.user, authToken: data.authToken, table: data.table };
 };
 
 export const sitDownAsGuest = async (
@@ -76,5 +76,5 @@ export const sitDownAsGuest = async (
     body,
   });
   const data = JSON.parse(response.body);
-  return { response: response, user: data.user, table: data.table };
+  return { response: response, user: data.user, authToken: data.authToken, table: data.table };
 };

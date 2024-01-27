@@ -1,26 +1,26 @@
 import { SocketStream } from '@fastify/websocket';
+import { ENV_CONFIG } from '../../config/env';
+import { User } from '../../domain/entities/User';
 import { WebSocketService } from '../../domain/services/WebSocketService';
+import { AuthToken } from '../../domain/value-objects/AuthToken';
+import { AuthTokenValidator } from '../../domain/value-objects/AuthTokenValidator';
 import { Ulid } from '../../domain/value-objects/Ulid';
+import { AuthorizationError } from '../../error';
 
 export class WebSocketApplicationService {
   constructor(private readonly webSocketService: WebSocketService) {}
 
-  isAuthorizedConnection(tableIdStr: string, userIdStr: string) {
-    const tableId = new Ulid(tableIdStr);
+  isAuthorizedConnection(tableIdStr: string, userIdStr: string, authTokenStr: string, connection: SocketStream): User {
+    const authTokenValidator = new AuthTokenValidator(ENV_CONFIG.AUTH_TOKEN_SECRET_KEY_BASE64);
+    const authToken = AuthToken.init(authTokenStr);
+    const user = authTokenValidator.validate(authToken);
     const userId = new Ulid(userIdStr);
-    this.webSocketService.isAuthorizedConnection(tableId, userId);
-  }
-
-  addConnection(tableIdStr: string, userIdStr: string, authToken: string, connection: SocketStream) {
-    // TODO: authenticate user with authToken
-    console.warn('TODO: authenticate user with authToken');
-    // const tokenValidator = new TokenValidator(process.env.JWT_SECRET_KEY || '');
-    // const isValid = tokenValidator.validate(authToken);
-    // if (!isValid) throw new AuthorizationError('Unauthorized');
+    if (user.id.get() !== userId.get()) {
+      throw new AuthorizationError('Unauthorized connection');
+    }
     const tableId = new Ulid(tableIdStr);
-    const userId = new Ulid(userIdStr);
     this.webSocketService.addConnection(tableId, userId, connection);
-    this.webSocketService.broadcastMessage(tableId, JSON.stringify({ type: 'connect', payload: { userId } }));
+    return user;
   }
 
   removeConnection(tableIdStr: string, userIdStr: string) {

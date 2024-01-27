@@ -39,6 +39,15 @@ export class TableApplicationService {
     return table;
   }
 
+  async enter(tableIdStr: string, user: User): Promise<void> {
+    const tableId = new Ulid(tableIdStr);
+    const broadcastMessage = JSON.stringify({
+      type: 'enter',
+      payload: { user: user },
+    });
+    this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+  }
+
   async dealCards(tableIdStr: string, userIdStr: string): Promise<void> {
     const tableId = new Ulid(tableIdStr);
     const table = await this.tableRepository.findById(tableId);

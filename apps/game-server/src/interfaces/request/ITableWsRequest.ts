@@ -1,7 +1,3 @@
-export interface IConnectRequest {
-  authToken: string;
-}
-
 export interface IBetRequest {
   amount: number;
 }

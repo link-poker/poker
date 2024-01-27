@@ -66,6 +66,7 @@ export function wsHandleError(error: any, connection: SocketStream, request: Fas
     connection.socket.send(JSON.stringify({ error: error.message || 'Bad Request.' }));
   } else if (error instanceof AuthorizationError) {
     connection.socket.send(JSON.stringify({ error: error.message || 'Unauthorized.' }));
+    connection.socket.close();
   } else if (error instanceof ConflictError) {
     connection.socket.send(JSON.stringify({ error: error.message || 'Conflict.' }));
   } else if (error instanceof OnChainError) {
