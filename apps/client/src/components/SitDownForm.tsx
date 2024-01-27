@@ -39,7 +39,7 @@ export default function SitDownForm(props: Props) {
         tableId: table.id,
       },
       body: {
-        stack: data.stack,
+        stack: Number(data.stack),
         seatNumber: seatNumber,
       },
     });

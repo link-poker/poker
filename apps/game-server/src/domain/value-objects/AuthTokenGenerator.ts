@@ -3,7 +3,7 @@ import { AUTH_TOKEN_CONFIG } from '../../config/authToken';
 import { User } from '../entities/User';
 import { AuthToken } from './AuthToken';
 
-export class TokenGenerator {
+export class AuthTokenGenerator {
   private readonly secretKeyBase64: string;
 
   // how to generate a secret key by openssl:
@@ -14,10 +14,10 @@ export class TokenGenerator {
 
   generate(user: User): AuthToken {
     const secretKey = Buffer.from(this.secretKeyBase64, 'base64').toString();
-    const token = jwt.sign({ user }, secretKey, {
+    const authToken = jwt.sign({ user }, secretKey, {
       expiresIn: AUTH_TOKEN_CONFIG.EXPIRATION,
       algorithm: AUTH_TOKEN_CONFIG.ALGORITHM,
     });
-    return new AuthToken(token);
+    return new AuthToken(authToken);
   }
 }

@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { getSitDownAsUserPath } from 'utils/path';
 import { ITableResponse } from 'interfaces/response/ITableResponse';
 import { IPlayerPrivateInfoResponse } from 'interfaces/response/IPlayerPrivateInfoResponse';
 import { ISitDownAsUserRequest } from 'interfaces/request/ITableHttpRequest';
+import { HttpService } from 'services/HttpService';
+
+const httpService = new HttpService();
 
 const initialState: ResponseState<{ table: ITableResponse; playerPrivateInfo: IPlayerPrivateInfoResponse }> = {
   status: 'idle',
@@ -12,7 +14,7 @@ const initialState: ResponseState<{ table: ITableResponse; playerPrivateInfo: IP
 };
 
 export const sitDownAsUser = createAsyncThunk('sitDownAsUser', async (request: ISitDownAsUserRequest) => {
-  const response = await axios.post(getSitDownAsUserPath(request.params.tableId), request.body);
+  const response = await httpService.post(getSitDownAsUserPath(request.params.tableId), request.body);
   return response.data;
 });
 

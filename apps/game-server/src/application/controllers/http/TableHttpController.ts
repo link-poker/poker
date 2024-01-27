@@ -11,6 +11,7 @@ import {
   ICreateTableAsGuestRequest,
   ISitDownAsGuestRequest,
 } from '../../../interfaces/request/ITableHttpRequest';
+import { AuthTokenData } from '../../dtos/AuthTokenData';
 
 export class TableHttpController {
   constructor(
@@ -50,11 +51,12 @@ export class TableHttpController {
   async createAsGuest(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { name, currency, smallBlind, bigBlind, buyIn } = request.body as ICreateTableAsGuestRequest['body'];
-      const user = await this.userApplicationService.createUser(name);
+      const { user, authToken } = await this.userApplicationService.createUser(name);
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
       const userData = new UserData(user);
+      const authTokenData = new AuthTokenData(authToken);
       const tableData = new TableData(table);
-      reply.send({ user: userData, table: tableData });
+      reply.send({ user: userData, authToken: authTokenData, table: tableData });
     } catch (error) {
       httpHandleError(error, request, reply);
     }
@@ -64,12 +66,18 @@ export class TableHttpController {
     try {
       const { tableId } = request.params as ISitDownAsGuestRequest['params'];
       const { name, stack, seatNumber } = request.body as ISitDownAsGuestRequest['body'];
-      const user = await this.userApplicationService.createUser(name);
+      const { user, authToken } = await this.userApplicationService.createUser(name);
       const table = await this.tableApplicationService.sitDown(tableId, user, stack, seatNumber);
       const userData = new UserData(user);
+      const authTokenData = new AuthTokenData(authToken);
       const tableData = new TableData(table);
       const playerPrivateInfoData = table.getPlayerPrivateInfo(user.id);
-      reply.send({ user: userData, table: tableData, playerPrivateInfo: playerPrivateInfoData });
+      reply.send({
+        user: userData,
+        authToken: authTokenData,
+        table: tableData,
+        playerPrivateInfo: playerPrivateInfoData,
+      });
     } catch (error) {
       httpHandleError(error, request, reply);
     }

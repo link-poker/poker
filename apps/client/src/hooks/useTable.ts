@@ -6,6 +6,7 @@ import { tableActions } from 'store/slices/tableSlice';
 import { userActions } from 'store/slices/userSlice';
 import { useAppDispatch } from './useAppDispatch';
 import { sitDownAsUser } from 'store/slices/sitDownAsUserSlice';
+import { setAuthToken } from 'utils/authToken';
 
 export const useTable = () => {
   const table = useSelector((state: AppState) => state.table);
@@ -18,6 +19,7 @@ export const useTable = () => {
     if (createTableAsGuest.fulfilled.match(response)) {
       dispatch(tableActions.update(response.payload.table));
       dispatch(userActions.update(response.payload.user));
+      setAuthToken(response.payload.authToken.authToken);
     }
     return response;
   };

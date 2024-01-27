@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { getCreateTableAsUserPath } from 'utils/path';
 import { ITableResponse } from 'interfaces/response/ITableResponse';
 import { ICreateTableAsUserRequest } from 'interfaces/request/ITableHttpRequest';
+import { HttpService } from 'services/HttpService';
+
+const httpService = new HttpService();
 
 const initialState: ResponseState<{ table: ITableResponse }> = {
   status: 'idle',
@@ -11,7 +13,7 @@ const initialState: ResponseState<{ table: ITableResponse }> = {
 };
 
 export const createTableAsUser = createAsyncThunk('createTableAsUser', async (request: ICreateTableAsUserRequest) => {
-  const response = await axios.post(getCreateTableAsUserPath(), request.body);
+  const response = await httpService.post(getCreateTableAsUserPath(), request.body);
   return response.data;
 });
 

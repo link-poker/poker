@@ -4,5 +4,6 @@ const ensureNotUndefined = (value: string | undefined): string => {
 };
 
 export const ENV_CONFIG = {
-  GAME_SERVER_BASE_URL: ensureNotUndefined(process.env.NEXT_PUBLIC_GAME_SERVER_BASE_URL),
+  GAME_SERVER_HTTP_URL: ensureNotUndefined(process.env.NEXT_PUBLIC_GAME_SERVER_HTTP_URL),
+  GAME_SERVER_WS_URL: ensureNotUndefined(process.env.NEXT_PUBLIC_GAME_SERVER_WS_URL),
 };
