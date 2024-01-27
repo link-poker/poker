@@ -528,6 +528,7 @@ export class Poker {
 
   extractState(): object {
     return {
+      buyIn: this.buyIn,
       autoMoveDealer: this.autoMoveDealer,
       bigBlind: this.bigBlind,
       bigBlindPosition: this.bigBlindPosition,
@@ -554,6 +555,7 @@ export class Poker {
   }
 
   restoreState(state: any): void {
+    this.buyIn = state.buyIn;
     this.autoMoveDealer = state.autoMoveDealer;
     this.bigBlind = state.bigBlind;
     this.bigBlindPosition = state.bigBlindPosition;

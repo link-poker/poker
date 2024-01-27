@@ -42,7 +42,7 @@ export default function SitDownButton(props: Props) {
 
   return (
     <div ref={formRef} className='relative flex flex-row'>
-      {showForm && POSITION[seatNumber] && <SitDownForm seatNumber={seatNumber} />}
+      {showForm && POSITION[seatNumber] && <SitDownForm seatNumber={seatNumber} setShowForm={setShowForm} />}
       <div className='rounded-lg h-[9vh] w-[22vw] xl:w-72 border-dashed border-2 border-stone-600'>
         <div className='w-full h-full flex flex-col justify-center items-center'>
           <button className='text-xl text-stone-600' onClick={onClick}>
@@ -50,7 +50,9 @@ export default function SitDownButton(props: Props) {
           </button>
         </div>
       </div>
-      <div className='relative'>{showForm && !POSITION[seatNumber] && <SitDownForm seatNumber={seatNumber} />}</div>
+      <div className='relative'>
+        {showForm && !POSITION[seatNumber] && <SitDownForm seatNumber={seatNumber} setShowForm={setShowForm} />}
+      </div>
     </div>
   );
 }

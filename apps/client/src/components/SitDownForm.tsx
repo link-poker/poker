@@ -1,8 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { useTable } from 'hooks/useTable';
+import { sitDownAsUser } from 'store/slices/sitDownAsUserSlice';
 
 type Props = {
   seatNumber: number;
+  setShowForm: (showForm: boolean) => void;
 };
 
 type SitDownFormData = {
@@ -23,7 +25,7 @@ const POSITION: { [seatNumber: number]: { FORM: string; ARROW: string } } = {
 };
 
 export default function SitDownForm(props: Props) {
-  const { seatNumber } = props;
+  const { seatNumber, setShowForm } = props;
   const { table, sitDownAsUserAndUpdateState } = useTable();
 
   const {
@@ -34,7 +36,7 @@ export default function SitDownForm(props: Props) {
 
   const onSubmit = async (data: SitDownFormData) => {
     console.log('form data', data);
-    await sitDownAsUserAndUpdateState({
+    const response = await sitDownAsUserAndUpdateState({
       params: {
         tableId: table.id,
       },
@@ -43,6 +45,10 @@ export default function SitDownForm(props: Props) {
         seatNumber: seatNumber,
       },
     });
+    if (sitDownAsUser.fulfilled.match(response)) {
+      console.log('sitDown response', response.payload);
+      setShowForm(false);
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { FaTrophy } from 'react-icons/fa';
 import { ImLoop } from 'react-icons/im';
+import { LuClock9 } from 'react-icons/lu';
 import { TABLE_STATUS } from 'constants/table';
 import { usePlayerPrivateInfo } from 'hooks/usePlayerPrivateInfo';
 import { useTable } from 'hooks/useTable';
@@ -16,13 +17,18 @@ export default function PlayerSeat(props: Props) {
   const { table } = useTable();
   const { user } = useUser();
   const { playerPrivateInfo } = usePlayerPrivateInfo();
-  const player = table.poker.players[seatNumber];
+  const playerSeatNumber = table.poker.players.findIndex(player => player && player.id === user.id);
+  const player =
+    playerSeatNumber === -1
+      ? table.poker.players[seatNumber]
+      : table.poker.players[(seatNumber + playerSeatNumber - 5) % 10];
   const isAct = player && table.poker.actingPlayers.includes(player);
-  const isYou = player ? player.id === user.id : false;
+  const isYou = player && player.id === user.id;
+  const isAlreadySitDown = table.poker.players.some(player => player && player.id === user.id);
   const holeCardsNullable = isYou ? playerPrivateInfo.holeCards : player ? player.holeCards : null;
   const holeCards = holeCardsNullable ? holeCardsNullable : ['Blue_Back', 'Blue_Back'];
 
-  if (!player && table.status === TABLE_STATUS.WAITING) {
+  if (!player && table.status === TABLE_STATUS.WAITING && !isAlreadySitDown) {
     return <SitDownButton seatNumber={seatNumber} />;
   }
 
@@ -33,10 +39,24 @@ export default function PlayerSeat(props: Props) {
   if (table.status === TABLE_STATUS.WAITING) {
     return (
       <div className='rounded-lg h-[9vh] w-[22vw] xl:w-72 bg-stone-700'>
-        <div className='absolute mt-3 ml-32 flex flex-col justify-center items-start'>
-          <div className='text-sm text-stone-700'>{player.name}</div>
-          <div className='text-base text-stone-700'>{player.stack}</div>
+        <div className='absolute h-[9vh] w-[10vw] flex flex-col justify-center items-center text-stone-300 text-xs gap-2'>
+          <LuClock9 size={40} />
+          WAITING
         </div>
+        <div className='absolute mt-3 ml-32 flex flex-col justify-center items-start'>
+          <div className='text-sm text-stone-300'>{player.name}</div>
+          <div className='text-base text-white'>{player.stack}</div>
+        </div>
+        {isYou && (
+          <div>
+            <div className='absolute mt-[1.5vh] ml-[18vw] xl:ml-52 transform translate-x-3/4'>
+              <div className='text-3xl'>😜</div>
+            </div>
+            <div className='absolute mt-[1.5vh] ml-[18vw] xl:ml-52 transform translate-y-1/4'>
+              <div className='text-4xl'>😃</div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import { getTableWsPath } from 'utils/path';
+import { getTableWsUrl } from 'utils/url';
 import { getAuthToken } from '../utils/authToken';
 
 class WebSocketService {
@@ -6,7 +6,7 @@ class WebSocketService {
   socket: WebSocket | null;
 
   constructor(tableId: string, userId: string) {
-    this.url = getTableWsPath(tableId, userId);
+    this.url = getTableWsUrl(tableId, userId);
     this.socket = null;
   }
 

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ActionContainer from 'components/ActionContainer';
 import CommonCards from 'components/CommonCards';
 import ExternalInfoContainer from 'components/ExternalInfoContainer';
@@ -10,109 +10,46 @@ import Pot from 'components/Pot';
 import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
 import TotalPot from 'components/TotalPot';
-import { IPlayer } from 'interfaces/core/IPlayer';
+import { you, otherUsers } from 'constants/mock';
+import { useUser } from 'hooks/useUser';
+import { useWebSocket } from 'hooks/useWebSocket';
+import { getTableWsUrl, getWatchTableWsUrl } from 'utils/url';
 import OptionsView from 'views/Options';
 
-export default function Table() {
-  const you: IPlayer = {
-    seat: 6,
-    name: 'me',
-    stack: 1000,
-    bet: 0,
-    hole: ['AS', 'AD'],
-    hand: 'THREE OF A KIND',
-    status: 'action',
-    isYou: true,
-  };
-  const otherUsers: IPlayer[] = [
-    {
-      seat: 2,
-      name: 'player2',
-      stack: 1000,
-      bet: 0,
-      hole: ['Blue_Back', 'Blue_Back'],
-      hand: null,
-      status: 'playing',
-      isYou: false,
-    },
-    {
-      seat: 3,
-      name: 'player3',
-      stack: 1000,
-      bet: 0,
-      hole: ['Blue_Back', 'Blue_Back'],
-      hand: null,
-      status: 'AWAY',
-      isYou: false,
-    },
-    {
-      seat: 4,
-      name: 'player4',
-      stack: 1000,
-      bet: 0,
-      hole: ['Blue_Back', 'Blue_Back'],
-      hand: null,
-      status: 'WAITING',
-      isYou: false,
-    },
-    {
-      seat: 7,
-      name: 'player5',
-      stack: 1000,
-      bet: 0,
-      hole: ['Blue_Back', 'Blue_Back'],
-      hand: null,
-      status: 'playing',
-      isYou: false,
-    },
-    {
-      seat: 8,
-      name: 'player6',
-      stack: 1000,
-      bet: 0,
-      hole: ['Blue_Back', 'Blue_Back'],
-      hand: null,
-      status: 'playing',
-      isYou: false,
-    },
-    {
-      seat: 9,
-      name: 'player7',
-      stack: 1000,
-      bet: 0,
-      hole: ['Blue_Back', 'Blue_Back'],
-      hand: null,
-      status: 'playing',
-      isYou: false,
-    },
-    {
-      seat: 10,
-      name: 'player8',
-      stack: 1000,
-      bet: 0,
-      hole: ['Blue_Back', 'Blue_Back'],
-      hand: null,
-      status: 'playing',
-      isYou: false,
-    },
-  ];
-  const seatPlayers: (IPlayer | null)[] = [
-    otherUsers.find(player => player.seat === 1) ?? null,
-    otherUsers.find(player => player.seat === 2) ?? null,
-    otherUsers.find(player => player.seat === 3) ?? null,
-    otherUsers.find(player => player.seat === 4) ?? null,
-    otherUsers.find(player => player.seat === 5) ?? null,
-    you,
-    otherUsers.find(player => player.seat === 7) ?? null,
-    otherUsers.find(player => player.seat === 8) ?? null,
-    otherUsers.find(player => player.seat === 9) ?? null,
-    otherUsers.find(player => player.seat === 10) ?? null,
-  ];
-  const game = {
-    status: 'playing',
-  };
+type Props = {
+  tableId: string;
+};
 
+export default function Table(props: Props) {
+  const { tableId } = props;
+  const { user } = useUser();
+  const { updateState } = useWebSocket();
+  const webSocketRef = useRef<WebSocket | null>(null);
   const [showOptionsView, setShowOptionsView] = useState(false);
+
+  useEffect(() => {
+    if (!tableId) return;
+    const wsUrl = user.id ? getTableWsUrl(tableId, user.id) : getWatchTableWsUrl(tableId);
+    webSocketRef.current = new WebSocket(wsUrl);
+    webSocketRef.current.onmessage = message => {
+      console.log('websocket message');
+      console.log(message);
+      updateState(message.toString());
+    };
+    webSocketRef.current.onopen = () => {
+      console.log('websocket open');
+    };
+    webSocketRef.current.onclose = () => {
+      console.log('websocket close');
+    };
+
+    return () => {
+      if (webSocketRef.current) {
+        webSocketRef.current.close();
+      }
+    };
+  }, [user.id, tableId, updateState]);
+
   if (showOptionsView) {
     return <OptionsView backTable={() => setShowOptionsView(false)} players={[you, ...otherUsers]} />;
   }

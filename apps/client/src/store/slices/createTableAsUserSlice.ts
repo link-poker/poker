@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { ICreateTableAsUserRequest } from 'interfaces/request/ITableHttpRequest';
 import { ITableResponse } from 'interfaces/response/ITableResponse';
 import { HttpService } from 'services/HttpService';
-import { getCreateTableAsUserPath } from 'utils/path';
+import { getCreateTableAsUserUrl } from 'utils/url';
 
 const httpService = new HttpService();
 
@@ -13,7 +13,7 @@ const initialState: ResponseState<{ table: ITableResponse }> = {
 };
 
 export const createTableAsUser = createAsyncThunk('createTableAsUser', async (request: ICreateTableAsUserRequest) => {
-  const response = await httpService.post(getCreateTableAsUserPath(), request.body);
+  const response = await httpService.post(getCreateTableAsUserUrl(), request.body);
   return response.data;
 });
 

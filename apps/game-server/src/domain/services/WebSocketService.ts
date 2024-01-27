@@ -37,10 +37,12 @@ export class WebSocketService {
   }
 
   removeConnection(tableId: Ulid, userId: Ulid) {
+    if (!this.exist(tableId, userId)) return;
     delete this.connections[tableId.get()][userId.get()];
   }
 
   removeWatcherConnection(tableId: Ulid, connection: SocketStream) {
+    if (!this.existWatchers(tableId)) return;
     this.watcherConnections[tableId.get()] = this.watcherConnections[tableId.get()].filter(
       conn => conn.socket !== connection.socket,
     );

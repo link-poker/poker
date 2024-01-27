@@ -26,7 +26,7 @@ export const useTable = () => {
 
   const sitDownAsUserAndUpdateState = async (request: ISitDownAsUserRequest) => {
     const response = await dispatch(sitDownAsUser(request));
-    if (createTableAsGuest.fulfilled.match(response)) {
+    if (sitDownAsUser.fulfilled.match(response)) {
       dispatch(tableActions.update(response.payload.table));
       dispatch(userActions.update(response.payload.user));
     }

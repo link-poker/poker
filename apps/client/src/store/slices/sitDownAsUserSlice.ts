@@ -3,7 +3,7 @@ import { ISitDownAsUserRequest } from 'interfaces/request/ITableHttpRequest';
 import { IPlayerPrivateInfoResponse } from 'interfaces/response/IPlayerPrivateInfoResponse';
 import { ITableResponse } from 'interfaces/response/ITableResponse';
 import { HttpService } from 'services/HttpService';
-import { getSitDownAsUserPath } from 'utils/path';
+import { getSitDownAsUserUrl } from 'utils/url';
 
 const httpService = new HttpService();
 
@@ -14,7 +14,7 @@ const initialState: ResponseState<{ table: ITableResponse; playerPrivateInfo: IP
 };
 
 export const sitDownAsUser = createAsyncThunk('sitDownAsUser', async (request: ISitDownAsUserRequest) => {
-  const response = await httpService.post(getSitDownAsUserPath(request.params.tableId), request.body);
+  const response = await httpService.post(getSitDownAsUserUrl(request.params.tableId), request.body);
   return response.data;
 });
 
