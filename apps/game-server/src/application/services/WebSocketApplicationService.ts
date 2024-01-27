@@ -23,10 +23,20 @@ export class WebSocketApplicationService {
     return user;
   }
 
+  addWatcherConnection(tableIdStr: string, connection: SocketStream) {
+    const tableId = new Ulid(tableIdStr);
+    this.webSocketService.addWatcherConnection(tableId, connection);
+  }
+
   removeConnection(tableIdStr: string, userIdStr: string) {
     const tableId = new Ulid(tableIdStr);
     const userId = new Ulid(userIdStr);
     this.webSocketService.removeConnection(tableId, userId);
+  }
+
+  removeWatcherConnection(tableIdStr: string, connection: SocketStream) {
+    const tableId = new Ulid(tableIdStr);
+    this.webSocketService.removeWatcherConnection(tableId, connection);
   }
 
   sendMessage(tableIdStr: string, userIdStr: string, message: string) {

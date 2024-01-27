@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import fastify, { FastifyInstance } from 'fastify';
 import { TableHttpController } from './application/controllers/http/TableHttpController';
 import { TableWsController } from './application/controllers/ws/TableWsController';
+import { WatchTableWsController } from './application/controllers/ws/WatchTableWsController';
 import { AuthenticateApplicationService } from './application/services/AuthenticateApplicationService';
 import { TableApplicationService } from './application/services/TableApplicationService';
 import { UserApplicationService } from './application/services/UserApplicationService';
@@ -36,6 +37,7 @@ export const createApp = async () => {
     userApplicationService,
   );
   const tableWsController = new TableWsController(tableApplicationService, webSocketApplicationService);
+  const watchTableWsController = new WatchTableWsController(webSocketApplicationService);
 
   const app: FastifyInstance = fastify({ logger: true });
 
@@ -44,7 +46,7 @@ export const createApp = async () => {
   });
   app.register(websocket);
 
-  registerRoutes(app, tableHttpController, tableWsController);
+  registerRoutes(app, tableHttpController, tableWsController, watchTableWsController);
 
   app.addHook('onClose', async () => {
     await prisma.$disconnect();
