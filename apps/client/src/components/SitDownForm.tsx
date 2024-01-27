@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { useTable } from 'hooks/useTable';
 import { sitDownAsUser } from 'store/slices/sitDownAsUserSlice';
 
@@ -48,6 +49,8 @@ export default function SitDownForm(props: Props) {
     if (sitDownAsUser.fulfilled.match(response)) {
       console.log('sitDown response', response.payload);
       setShowForm(false);
+    } else {
+      toast.error('Failed to sit down');
     }
   };
 

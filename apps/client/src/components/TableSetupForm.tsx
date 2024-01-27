@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { useTable } from 'hooks/useTable';
 import { createTableAsGuest } from 'store/slices/createTableAsGuestSlice';
 
@@ -34,6 +35,8 @@ export default function TableSetupForm() {
       console.log('createTable response', response.payload);
       const tableId = response.payload.table.id;
       router.push('/table/' + tableId);
+    } else {
+      toast.error('Failed to create table');
     }
   };
 
