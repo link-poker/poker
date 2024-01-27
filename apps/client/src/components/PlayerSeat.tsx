@@ -1,10 +1,10 @@
+import Image from 'next/image';
+import { FaTrophy } from 'react-icons/fa';
+import { ImLoop } from 'react-icons/im';
 import { TABLE_STATUS } from 'constants/table';
 import { usePlayerPrivateInfo } from 'hooks/usePlayerPrivateInfo';
 import { useTable } from 'hooks/useTable';
 import { useUser } from 'hooks/useUser';
-import Image from 'next/image';
-import { FaTrophy } from 'react-icons/fa';
-import { ImLoop } from 'react-icons/im';
 import SitDownButton from './SitDownButton';
 
 type Props = {

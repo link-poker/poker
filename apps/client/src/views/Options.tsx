@@ -1,11 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { MdKeyboardDoubleArrowLeft } from 'react-icons/md';
-import { IPlayer } from 'interfaces/core/IPlayer';
+import GameSetting from 'components/GameSetting';
 import OptionsSelectButton from 'components/OptionsSelectButton.tsx';
 import PlayersSetting from 'components/PlayersSettings';
-import GameSetting from 'components/GameSetting';
 import PreferenceSetting from 'components/PreferencesSetting';
+import { IPlayer } from 'interfaces/core/IPlayer';
 
 enum Select {
   PLAYERS,

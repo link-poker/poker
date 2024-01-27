@@ -1,6 +1,6 @@
 import { Hand } from 'pokersolver';
-import { Poker } from './Poker';
 import { Card } from './Card';
+import { Poker } from './Poker';
 
 export type PlayerPrivateInfo = {
   holeCards: string[];

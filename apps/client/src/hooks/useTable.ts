@@ -2,11 +2,11 @@ import { useSelector } from 'react-redux';
 import { ICreateTableAsGuestRequest, ISitDownAsUserRequest } from 'interfaces/request/ITableHttpRequest';
 import { AppState } from 'store';
 import { createTableAsGuest } from 'store/slices/createTableAsGuestSlice';
+import { sitDownAsUser } from 'store/slices/sitDownAsUserSlice';
 import { tableActions } from 'store/slices/tableSlice';
 import { userActions } from 'store/slices/userSlice';
-import { useAppDispatch } from './useAppDispatch';
-import { sitDownAsUser } from 'store/slices/sitDownAsUserSlice';
 import { setAuthToken } from 'utils/authToken';
+import { useAppDispatch } from './useAppDispatch';
 
 export const useTable = () => {
   const table = useSelector((state: AppState) => state.table);

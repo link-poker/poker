@@ -1,10 +1,10 @@
 import { Prisma, Table as PrismaTable } from '@prisma/client';
+import { Poker } from '../../../../domain/core/Poker';
 import { Table } from '../../../../domain/entities/Table';
+import { Currency } from '../../../../domain/value-objects/Currency';
+import { TableStatus } from '../../../../domain/value-objects/TableStatus';
 import { Ulid } from '../../../../domain/value-objects/Ulid';
 import { UserTransformer } from './UserTransformer';
-import { TableStatus } from '../../../../domain/value-objects/TableStatus';
-import { Currency } from '../../../../domain/value-objects/Currency';
-import { Poker } from '../../../../domain/core/Poker';
 
 const prismaAggregateTable = Prisma.validator<Prisma.TableDefaultArgs>()({
   include: {

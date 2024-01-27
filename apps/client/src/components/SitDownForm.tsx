@@ -1,5 +1,5 @@
-import { useTable } from 'hooks/useTable';
 import { useForm } from 'react-hook-form';
+import { useTable } from 'hooks/useTable';
 
 type Props = {
   seatNumber: number;

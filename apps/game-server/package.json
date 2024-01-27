@@ -9,7 +9,8 @@
     "dev": "nodemon src/main.ts",
     "dev:studio": "prisma studio",
     "test": "jest tests/.*/.*.test.ts$ --testPathIgnorePatterns=tests/integrations",
-    "test:integrations": "jest tests/integrations/.*.test.ts$ --runInBand"
+    "test:integrations": "jest tests/integrations/.*.test.ts$ --runInBand",
+    "lint": "eslint ./src --ext .ts"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "@fastify/sensible": "^5.0.0",
     "@fastify/websocket": "^8.3.0",
     "@prisma/client": "5.7.1",
+    "eslint-plugin-import": "^2.29.1",
     "fastify": "^4.0.0",
     "jsonwebtoken": "^9.0.2",
     "pokersolver": "^2.1.4",

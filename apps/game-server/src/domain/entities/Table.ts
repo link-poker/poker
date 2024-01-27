@@ -1,19 +1,19 @@
+import { ValidationError } from '../../error';
+import { Card } from '../core/Card';
+import { Player, PlayerInfoForOthers, PlayerPrivateInfo } from '../core/Player';
+import { Poker, Pot } from '../core/Poker';
+import { AddOnAmount } from '../value-objects/AddOnAmount';
+import { BetAmount } from '../value-objects/BetAmount';
+import { BigBlind } from '../value-objects/BigBlind';
+import { BuyIn } from '../value-objects/BuyIn';
+import { Currency } from '../value-objects/Currency';
+import { RaiseAmount } from '../value-objects/RaiseAmount';
+import { SeatNumber } from '../value-objects/SeatNumber';
+import { SmallBlind } from '../value-objects/SmallBlind';
+import { Stack } from '../value-objects/Stack';
+import { TableStatus } from '../value-objects/TableStatus';
 import { Ulid } from '../value-objects/Ulid';
 import { User } from './User';
-import { Poker, Pot } from '../core/Poker';
-import { Player, PlayerInfoForOthers, PlayerPrivateInfo } from '../core/Player';
-import { TableStatus } from '../value-objects/TableStatus';
-import { Card } from '../core/Card';
-import { ValidationError } from '../../error';
-import { Currency } from '../value-objects/Currency';
-import { SeatNumber } from '../value-objects/SeatNumber';
-import { Stack } from '../value-objects/Stack';
-import { BetAmount } from '../value-objects/BetAmount';
-import { RaiseAmount } from '../value-objects/RaiseAmount';
-import { AddOnAmount } from '../value-objects/AddOnAmount';
-import { BigBlind } from '../value-objects/BigBlind';
-import { SmallBlind } from '../value-objects/SmallBlind';
-import { BuyIn } from '../value-objects/BuyIn';
 
 export type TableInfoForPlayers = {
   id: string;

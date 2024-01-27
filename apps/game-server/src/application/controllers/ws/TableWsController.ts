@@ -1,14 +1,14 @@
-import { FastifyRequest } from 'fastify';
 import { SocketStream } from '@fastify/websocket';
+import { FastifyRequest } from 'fastify';
 import { wsHandleError } from '../../../error';
-import { TableApplicationService } from '../../services/TableApplicationService';
-import { WebSocketApplicationService } from '../../services/WebSocketApplicationService';
 import {
   IAddOnRequest,
   IBetRequest,
   IConnectRequest,
   IRaiseRequest,
 } from '../../../interfaces/request/ITableWsRequest';
+import { TableApplicationService } from '../../services/TableApplicationService';
+import { WebSocketApplicationService } from '../../services/WebSocketApplicationService';
 
 type Params = {
   tableId: string;

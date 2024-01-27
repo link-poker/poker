@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { AUTH_TOKEN_CONFIG } from '../../config/authToken';
-import { User } from '../entities/User';
 import { AuthorizationError } from '../../error';
+import { User } from '../entities/User';
 import { AuthToken } from './AuthToken';
 import { Ulid } from './Ulid';
 import { UserName } from './UserName';

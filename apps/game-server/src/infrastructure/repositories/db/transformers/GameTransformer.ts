@@ -1,7 +1,7 @@
 import { Game as PrismaGame } from '@prisma/client';
 import { Game } from '../../../../domain/entities/Game';
-import { Ulid } from '../../../../domain/value-objects/Ulid';
 import { GameResult } from '../../../../domain/value-objects/GameResult';
+import { Ulid } from '../../../../domain/value-objects/Ulid';
 
 export class GameTransformer {
   static toModel(PrismaGame: PrismaGame): Game {

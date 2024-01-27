@@ -1,8 +1,8 @@
 import { User as PrismaUser } from '@prisma/client';
 import { User } from '../../../../domain/entities/User';
 import { Ulid } from '../../../../domain/value-objects/Ulid';
-import { UserStatus } from '../../../../domain/value-objects/UserStatus';
 import { UserName } from '../../../../domain/value-objects/UserName';
+import { UserStatus } from '../../../../domain/value-objects/UserStatus';
 
 export class UserTransformer {
   static toModel(PrismaUser: PrismaUser): User {

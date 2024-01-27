@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { GameTransformer } from './transformers/GameTransformer';
 import { Game } from '../../../domain/entities/Game';
 import { IGameRepository } from '../../../interfaces/repository/IGameRepository';
+import { GameTransformer } from './transformers/GameTransformer';
 
 export class GameRepository implements IGameRepository {
   constructor(private readonly prisma: PrismaClient) {}

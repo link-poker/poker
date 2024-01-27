@@ -1,7 +1,7 @@
-import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SocketStream } from '@fastify/websocket';
-import { TableWsController } from './application/controllers/ws/TableWsController';
+import { FastifyInstance, FastifyRequest } from 'fastify';
 import { TableHttpController } from './application/controllers/http/TableHttpController';
+import { TableWsController } from './application/controllers/ws/TableWsController';
 
 const registerHttpRoutes = (app: FastifyInstance, tableHttpController: TableHttpController) => {
   app.get('/health', async (request, reply) => {

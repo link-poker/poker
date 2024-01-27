@@ -1,7 +1,7 @@
 import { Table } from '../../domain/entities/Table';
+import { IPlayerInfoForOthersResponse } from '../../interfaces/response/IPlayerInfoForOthersResponse';
 import { ITableResponse } from '../../interfaces/response/ITableResponse';
 import { IUserResponse } from '../../interfaces/response/IUserResponse';
-import { IPlayerInfoForOthersResponse } from '../../interfaces/response/IPlayerInfoForOthersResponse';
 import { PlayerInfoForOthersData } from './PlayerInfoForOthersData';
 import { UserData } from './UserData';
 

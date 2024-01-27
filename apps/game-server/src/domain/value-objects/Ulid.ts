@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { ulid } from 'ulid';
+import { z } from 'zod';
 import { ValidationError } from '../../error';
 
 export class Ulid {

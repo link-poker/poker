@@ -1,5 +1,5 @@
-import { useTable } from 'hooks/useTable';
 import Image from 'next/image';
+import { useTable } from 'hooks/useTable';
 
 export default function CommonCards() {
   const { table } = useTable();

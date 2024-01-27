@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { ITableRepository } from '../../../interfaces/repository/ITableRepository';
-import { TableTransformer } from './transformers/TableTransformer';
 import { Table } from '../../../domain/entities/Table';
 import { Ulid } from '../../../domain/value-objects/Ulid';
+import { ITableRepository } from '../../../interfaces/repository/ITableRepository';
+import { TableTransformer } from './transformers/TableTransformer';
 
 export class TableRepository implements ITableRepository {
   constructor(private readonly prisma: PrismaClient) {}

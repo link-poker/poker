@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import { UserTransformer } from './transformers/UserTransformer';
 import { User } from '../../../domain/entities/User';
-import { IUserRepository } from '../../../interfaces/repository/IUserRepository';
-import { NotFoundError } from '../../../error';
 import { Ulid } from '../../../domain/value-objects/Ulid';
+import { NotFoundError } from '../../../error';
+import { IUserRepository } from '../../../interfaces/repository/IUserRepository';
+import { UserTransformer } from './transformers/UserTransformer';
 
 export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaClient) {}

@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './slices/userSlice';
-import tableReducer from './slices/tableSlice';
-import createTableAsUserReducer from './slices/createTableAsUserSlice';
+import { combineReducers } from 'redux';
 import createTableAsGuestReducer from './slices/createTableAsGuestSlice';
+import createTableAsUserReducer from './slices/createTableAsUserSlice';
 import playerPrivateInfoReducer from './slices/playerPrivateInfoSlice';
 import sitDownAsUserReducer from './slices/sitDownAsUserSlice';
+import tableReducer from './slices/tableSlice';
+import userReducer from './slices/userSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,

@@ -1,10 +1,8 @@
-import { IoMdMenu } from 'react-icons/io';
-import { GrLogout } from 'react-icons/gr';
-import { IoIosMan } from 'react-icons/io';
-import { PiArmchairFill } from 'react-icons/pi';
-
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { GrLogout } from 'react-icons/gr';
+import { IoMdMenu , IoIosMan } from 'react-icons/io';
+import { PiArmchairFill } from 'react-icons/pi';
 
 type Props = {
   showOptionsView: () => void;

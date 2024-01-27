@@ -1,9 +1,4 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { AuthenticateApplicationService } from '../../services/AuthenticateApplicationService';
-import { TableApplicationService } from '../../services/TableApplicationService';
-import { UserApplicationService } from '../../services/UserApplicationService';
-import { UserData } from '../../dtos/UserData';
-import { TableData } from '../../dtos/TableData';
 import { httpHandleError } from '../../../error';
 import {
   ICreateTableAsUserRequest,
@@ -12,6 +7,11 @@ import {
   ISitDownAsGuestRequest,
 } from '../../../interfaces/request/ITableHttpRequest';
 import { AuthTokenData } from '../../dtos/AuthTokenData';
+import { TableData } from '../../dtos/TableData';
+import { UserData } from '../../dtos/UserData';
+import { AuthenticateApplicationService } from '../../services/AuthenticateApplicationService';
+import { TableApplicationService } from '../../services/TableApplicationService';
+import { UserApplicationService } from '../../services/UserApplicationService';
 
 export class TableHttpController {
   constructor(

@@ -1,17 +1,17 @@
 'use client';
 import { useState } from 'react';
-import OptionsView from 'views/Options';
-import CommonCards from 'components/CommonCards';
-import PlayerSeat from 'components/PlayerSeat';
-import LogCard from 'components/LogCard';
 import ActionContainer from 'components/ActionContainer';
+import CommonCards from 'components/CommonCards';
 import ExternalInfoContainer from 'components/ExternalInfoContainer';
 import GameInfoContainer from 'components/GameInfoContainer';
+import LogCard from 'components/LogCard';
+import PlayerSeat from 'components/PlayerSeat';
+import Pot from 'components/Pot';
 import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
-import Pot from 'components/Pot';
 import TotalPot from 'components/TotalPot';
 import { IPlayer } from 'interfaces/core/IPlayer';
+import OptionsView from 'views/Options';
 
 export default function Table() {
   const you: IPlayer = {

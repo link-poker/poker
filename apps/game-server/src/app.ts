@@ -1,21 +1,21 @@
-import fastify, { FastifyInstance } from 'fastify';
+import cors from '@fastify/cors';
 import websocket from '@fastify/websocket';
 import { PrismaClient } from '@prisma/client';
-import cors from '@fastify/cors';
-import { UserRepository } from './infrastructure/repositories/db/UserRepository';
-import { GameRepository } from './infrastructure/repositories/db/GameRepository';
-import { TableRepository } from './infrastructure/repositories/db/TableRepository';
-import { UserFactory } from './domain/factories/UserFactory';
-import { GameFactory } from './domain/factories/GameFactory';
-import { TableFactory } from './domain/factories/TableFactory';
-import { UserApplicationService } from './application/services/UserApplicationService';
+import fastify, { FastifyInstance } from 'fastify';
 import { TableHttpController } from './application/controllers/http/TableHttpController';
 import { TableWsController } from './application/controllers/ws/TableWsController';
-import { TableApplicationService } from './application/services/TableApplicationService';
-import { WebSocketApplicationService } from './application/services/WebSocketApplicationService';
-import { registerRoutes } from './route';
-import { WebSocketService } from './domain/services/WebSocketService';
 import { AuthenticateApplicationService } from './application/services/AuthenticateApplicationService';
+import { TableApplicationService } from './application/services/TableApplicationService';
+import { UserApplicationService } from './application/services/UserApplicationService';
+import { WebSocketApplicationService } from './application/services/WebSocketApplicationService';
+import { GameFactory } from './domain/factories/GameFactory';
+import { TableFactory } from './domain/factories/TableFactory';
+import { UserFactory } from './domain/factories/UserFactory';
+import { WebSocketService } from './domain/services/WebSocketService';
+import { GameRepository } from './infrastructure/repositories/db/GameRepository';
+import { TableRepository } from './infrastructure/repositories/db/TableRepository';
+import { UserRepository } from './infrastructure/repositories/db/UserRepository';
+import { registerRoutes } from './route';
 
 export const createApp = async () => {
   const prisma = new PrismaClient();

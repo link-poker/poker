@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getSitDownAsUserPath } from 'utils/path';
-import { ITableResponse } from 'interfaces/response/ITableResponse';
-import { IPlayerPrivateInfoResponse } from 'interfaces/response/IPlayerPrivateInfoResponse';
 import { ISitDownAsUserRequest } from 'interfaces/request/ITableHttpRequest';
+import { IPlayerPrivateInfoResponse } from 'interfaces/response/IPlayerPrivateInfoResponse';
+import { ITableResponse } from 'interfaces/response/ITableResponse';
 import { HttpService } from 'services/HttpService';
+import { getSitDownAsUserPath } from 'utils/path';
 
 const httpService = new HttpService();
 

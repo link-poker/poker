@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCreateTableAsGuestPath } from 'utils/path';
+import { ICreateTableAsGuestRequest } from 'interfaces/request/ITableHttpRequest';
 import { ITableResponse } from 'interfaces/response/ITableResponse';
 import { IUserResponse } from 'interfaces/response/IUserResponse';
-import { ICreateTableAsGuestRequest } from 'interfaces/request/ITableHttpRequest';
 import { HttpService } from 'services/HttpService';
+import { getCreateTableAsGuestPath } from 'utils/path';
 
 const httpService = new HttpService();
 
