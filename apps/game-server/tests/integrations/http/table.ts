@@ -1,4 +1,3 @@
-// contest.test.ts
 import { FastifyInstance } from 'fastify';
 
 export const createTableAsUser = async (
@@ -77,4 +76,13 @@ export const sitDownAsGuest = async (
   });
   const data = JSON.parse(response.body);
   return { response: response, user: data.user, authToken: data.authToken, table: data.table };
+};
+
+export const getTable = async (app: FastifyInstance, tableId: string) => {
+  const response = await app.inject({
+    method: 'GET',
+    url: `/tables/${tableId}`,
+  });
+  const data = JSON.parse(response.body);
+  return { response: response, table: data.table };
 };

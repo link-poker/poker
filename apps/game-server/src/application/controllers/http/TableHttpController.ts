@@ -82,4 +82,15 @@ export class TableHttpController {
       httpHandleError(error, request, reply);
     }
   }
+
+  async getTable(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { tableId } = request.params as ISitDownAsGuestRequest['params'];
+      const table = await this.tableApplicationService.getTable(tableId);
+      const tableData = new TableData(table);
+      reply.send({ table: tableData });
+    } catch (error) {
+      httpHandleError(error, request, reply);
+    }
+  }
 }

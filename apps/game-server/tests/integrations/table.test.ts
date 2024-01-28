@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { createTableAsGuest, sitDownAsGuest } from './http/table';
+import { createTableAsGuest, getTable, sitDownAsGuest } from './http/table';
 import { createTestApp } from './app/testApp';
 
 describe('Table Test', () => {
@@ -44,5 +44,24 @@ describe('Table Test', () => {
     });
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe('test');
+  });
+
+  it('should able to get table', async () => {
+    const { table } = await createTableAsGuest(app, {
+      name: 'test',
+      currency: 'USDT',
+      smallBlind: 5,
+      bigBlind: 10,
+      buyIn: 1000,
+    });
+    const { response, table: gotTable } = await getTable(app, table.id);
+    expect(response.statusCode).toBe(200);
+    expect(gotTable.id).toBe(table.id);
+    expect(gotTable.owner.id).toBe(table.owner.id);
+    expect(gotTable.currency).toBe(table.currency);
+    expect(gotTable.status).toBe(table.status);
+    expect(gotTable.poker.bigBlind).toBe(table.poker.bigBlind);
+    expect(gotTable.poker.smallBlind).toBe(table.poker.smallBlind);
+    expect(gotTable.poker.buyIn).toBe(table.poker.buyIn);
   });
 });

@@ -1,10 +1,15 @@
 import { SocketStream } from '@fastify/websocket';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { TableHttpController } from './application/controllers/http/TableHttpController';
+import { UserHttpController } from './application/controllers/http/UserHttpController';
 import { TableWsController } from './application/controllers/ws/TableWsController';
 import { WatchTableWsController } from './application/controllers/ws/WatchTableWsController';
 
-const registerHttpRoutes = (app: FastifyInstance, tableHttpController: TableHttpController) => {
+const registerHttpRoutes = (
+  app: FastifyInstance,
+  tableHttpController: TableHttpController,
+  userHttpController: UserHttpController,
+) => {
   app.get('/health', async (request, reply) => {
     reply.send({ status: 'ok' });
   });
@@ -12,6 +17,8 @@ const registerHttpRoutes = (app: FastifyInstance, tableHttpController: TableHttp
   app.post('/tables/guest', tableHttpController.createAsGuest.bind(tableHttpController));
   app.post('/tables/:tableId/sit-down', tableHttpController.sitDownAsUser.bind(tableHttpController));
   app.post('/tables/:tableId/sit-down/guest', tableHttpController.sitDownAsGuest.bind(tableHttpController));
+  app.get('/tables/:tableId', tableHttpController.getTable.bind(tableHttpController));
+  app.get('/users/:userId', userHttpController.getUser.bind(tableHttpController));
 };
 
 const registerWsRoutes = (
@@ -37,9 +44,10 @@ const registerWsRoutes = (
 export const registerRoutes = (
   app: FastifyInstance,
   tableHttpController: TableHttpController,
+  userHttpController: UserHttpController,
   tableWsController: TableWsController,
   watchTableWsController: WatchTableWsController,
 ) => {
-  registerHttpRoutes(app, tableHttpController);
+  registerHttpRoutes(app, tableHttpController, userHttpController);
   registerWsRoutes(app, tableWsController, watchTableWsController);
 };

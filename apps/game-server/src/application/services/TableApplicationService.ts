@@ -39,6 +39,11 @@ export class TableApplicationService {
     return table;
   }
 
+  getTable(tableIdStr: string): Promise<Table> {
+    const tableId = new Ulid(tableIdStr);
+    return this.tableRepository.findById(tableId);
+  }
+
   async enter(tableIdStr: string, user: User): Promise<void> {
     const tableId = new Ulid(tableIdStr);
     const broadcastMessage = JSON.stringify({
