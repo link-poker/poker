@@ -3,3 +3,8 @@ type ResponseState<T> = {
   error: string | null;
   response: T | null;
 };
+
+type AuthInfo = {
+  userId: string;
+  authToken: string;
+};

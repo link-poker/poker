@@ -11,6 +11,7 @@ import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
 import TotalPot from 'components/TotalPot';
 import { you, otherUsers } from 'constants/mock';
+import { useTable } from 'hooks/useTable';
 import { useUser } from 'hooks/useUser';
 import { useWebSocket } from 'hooks/useWebSocket';
 import { getTableWsUrl, getWatchTableWsUrl } from 'utils/url';
@@ -24,8 +25,14 @@ export default function Table(props: Props) {
   const { tableId } = props;
   const { user } = useUser();
   const { updateState } = useWebSocket();
+  const { loadTable } = useTable();
   const webSocketRef = useRef<WebSocket | null>(null);
   const [showOptionsView, setShowOptionsView] = useState(false);
+
+  useEffect(() => {
+    loadTable(tableId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tableId]);
 
   useEffect(() => {
     if (!tableId) return;

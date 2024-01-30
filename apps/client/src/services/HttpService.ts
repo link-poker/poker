@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import { getAuthToken } from 'utils/authToken';
+import { getAuthInfo } from 'utils/authInfo';
 
 export class HttpService {
   instance: AxiosInstance;
@@ -12,9 +12,9 @@ export class HttpService {
   }
 
   handleRequest = (config: InternalAxiosRequestConfig) => {
-    const authToken = getAuthToken();
-    if (authToken) {
-      config.headers.authorization = `Bearer ${authToken}`;
+    const authInfo = getAuthInfo();
+    if (authInfo?.authToken) {
+      config.headers.authorization = `Bearer ${authInfo.authToken}`;
     }
     return config;
   };

@@ -2,10 +2,11 @@ import { useSelector } from 'react-redux';
 import { ICreateTableAsGuestRequest, ISitDownAsUserRequest } from 'interfaces/request/ITableHttpRequest';
 import { AppState } from 'store';
 import { createTableAsGuest } from 'store/slices/createTableAsGuestSlice';
+import { getTable } from 'store/slices/getTableSlice';
 import { sitDownAsUser } from 'store/slices/sitDownAsUserSlice';
 import { tableActions } from 'store/slices/tableSlice';
 import { userActions } from 'store/slices/userSlice';
-import { setAuthToken } from 'utils/authToken';
+import { setAuthInfo } from 'utils/authInfo';
 import { useAppDispatch } from './useAppDispatch';
 
 export const useTable = () => {
@@ -19,7 +20,10 @@ export const useTable = () => {
     if (createTableAsGuest.fulfilled.match(response)) {
       dispatch(tableActions.update(response.payload.table));
       dispatch(userActions.update(response.payload.user));
-      setAuthToken(response.payload.authToken.authToken);
+      setAuthInfo({
+        userId: response.payload.user.id,
+        authToken: response.payload.authToken.authToken,
+      });
     }
     return response;
   };
@@ -33,11 +37,20 @@ export const useTable = () => {
     return response;
   };
 
+  const loadTable = async (tableId: string) => {
+    const response = await dispatch(getTable(tableId));
+    if (getTable.fulfilled.match(response)) {
+      dispatch(tableActions.update(response.payload.table));
+    }
+    return response;
+  };
+
   return {
     table,
     createTableAsGuestState,
     sitDownAsUserState,
     createTableAsGuestAndUpdateState,
     sitDownAsUserAndUpdateState,
+    loadTable,
   };
 };

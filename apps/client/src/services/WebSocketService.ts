@@ -1,5 +1,5 @@
 import { getTableWsUrl } from 'utils/url';
-import { getAuthToken } from '../utils/authToken';
+import { getAuthInfo } from '../utils/authInfo';
 
 class WebSocketService {
   url: string;
@@ -11,8 +11,8 @@ class WebSocketService {
   }
 
   connect() {
-    const authToken = getAuthToken();
-    const wsUrl = authToken ? `${this.url}?authToken=${authToken}` : this.url;
+    const authInfo = getAuthInfo();
+    const wsUrl = authInfo?.authToken ? `${this.url}?authToken=${authInfo.authToken}` : this.url;
     this.socket = new WebSocket(wsUrl);
 
     this.socket.onopen = () => {
