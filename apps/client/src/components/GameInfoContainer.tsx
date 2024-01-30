@@ -11,7 +11,7 @@ export default function GameInfoContainer() {
   console.log('table', table);
 
   return (
-    <div className='h-[8vh] flex flex-col justify-center items-end'>
+    <div className='h-[8vh] flex flex-col justify-center items-end text-stone-300'>
       <div className='flex flex-row justify-around text-sm'>
         <div>Owner:</div>
         <div>{owner}</div>

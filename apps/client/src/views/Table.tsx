@@ -81,7 +81,7 @@ export default function Table(props: Props) {
         <div className='absolute mt-[5vh] ml-[1vw]'>
           <TopLeftButtons showOptionsView={() => setShowOptionsView(true)} />
         </div>
-        <div className='absolute mt-[9vh] ml-[99vw] transform -translate-x-full'>
+        <div className='absolute mt-[10vh] ml-[99vw] transform -translate-x-full'>
           <TopRightButtons />
         </div>
         <div className='absolute mt-[19vh] ml-[54vw] transform -translate-x-1/2 -translate-y-1/2'>
