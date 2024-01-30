@@ -87,7 +87,8 @@ export class TableApplicationService {
     const table = await this.tableRepository.findById(tableId);
     const userId = new Ulid(userIdStr);
     table.standUp(userId);
-    const playerPrivateInfo = table.getPlayerPrivateInfo(userId);
+    // already left the table, so no need to send private info
+    const playerPrivateInfo = { holeCards: [], hand: null };
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: 'standUp',

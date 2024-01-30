@@ -1,43 +1,55 @@
-import { getTableWsUrl } from 'utils/url';
-import { getAuthInfo } from '../utils/authInfo';
+import { toast } from 'react-hot-toast';
 
 class WebSocketService {
-  url: string;
-  socket: WebSocket | null;
+  socket: WebSocket;
 
-  constructor(tableId: string, userId: string) {
-    this.url = getTableWsUrl(tableId, userId);
-    this.socket = null;
+  constructor(webSocket: WebSocket) {
+    this.socket = webSocket;
   }
 
-  connect() {
-    const authInfo = getAuthInfo();
-    const wsUrl = authInfo?.authToken ? `${this.url}?authToken=${authInfo.authToken}` : this.url;
-    this.socket = new WebSocket(wsUrl);
-
-    this.socket.onopen = () => {
-      console.log('WebSocket Connected');
-    };
-
-    this.socket.onerror = error => {
-      console.error('WebSocket Error', error);
-    };
-
-    this.socket.onclose = () => {
-      console.log('WebSocket Closed');
-    };
+  send(message: string) {
+    if (this.socket.readyState !== WebSocket.OPEN) return toast.error('WebSocket is not open');
+    this.socket.send(message);
   }
 
-  sendMessage(message: string) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(message);
-    }
+  standUp() {
+    this.socket.send(JSON.stringify({ type: 'standUp' }));
   }
 
-  close() {
-    if (this.socket) {
-      this.socket.close();
-    }
+  call() {
+    this.socket.send(JSON.stringify({ type: 'call' }));
+  }
+
+  check() {
+    this.socket.send(JSON.stringify({ type: 'check' }));
+  }
+
+  fold() {
+    this.socket.send(JSON.stringify({ type: 'fold' }));
+  }
+
+  bet() {
+    this.socket.send(JSON.stringify({ type: 'bet' }));
+  }
+
+  raise() {
+    this.socket.send(JSON.stringify({ type: 'raise' }));
+  }
+
+  addOn() {
+    this.socket.send(JSON.stringify({ type: 'addOn' }));
+  }
+
+  delayTime() {
+    this.socket.send(JSON.stringify({ type: 'delayTime' }));
+  }
+
+  enter() {
+    this.socket.send(JSON.stringify({ type: 'enter' }));
+  }
+
+  dealCards() {
+    this.socket.send(JSON.stringify({ type: 'dealCards' }));
   }
 }
 

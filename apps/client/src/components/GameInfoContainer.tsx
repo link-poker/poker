@@ -8,8 +8,6 @@ export default function GameInfoContainer() {
   const bigBlind = table.poker.bigBlind || '';
   const buyIn = table.poker.buyIn || '';
 
-  console.log('table', table);
-
   return (
     <div className='h-[8vh] flex flex-col justify-center items-end text-stone-300'>
       <div className='flex flex-row justify-around text-sm'>
