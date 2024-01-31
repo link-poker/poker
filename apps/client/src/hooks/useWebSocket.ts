@@ -9,6 +9,9 @@ export const useWebSocket = () => {
       case 'enter':
         dispatch(tableActions.update(payload.table));
         break;
+      case 'sitDown':
+        dispatch(tableActions.update(payload.table));
+        break;
       case 'dealCards':
         dispatch(tableActions.update(payload.table));
         break;

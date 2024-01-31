@@ -207,6 +207,7 @@ export class Player {
   extractState() {
     return {
       id: this.id,
+      name: this.name,
       stackSize: this.stackSize,
       bet: this.bet,
       raise: this.raise,
@@ -219,6 +220,7 @@ export class Player {
 
   restoreState(state: any) {
     this.id = state.id;
+    this.name = state.name;
     this.stackSize = state.stackSize;
     this.bet = state.bet;
     this.raise = state.raise;

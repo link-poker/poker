@@ -12,7 +12,6 @@ import TopRightButtons from 'components/TopRightButtons';
 import TotalPot from 'components/TotalPot';
 import { you, otherUsers } from 'constants/mock';
 import { useTable } from 'hooks/useTable';
-import { useUser } from 'hooks/useUser';
 import WebSocketProvider from 'providers/WebSocketProvider';
 import { getAuthInfo } from 'utils/authInfo';
 import { getTableWsUrl, getWatchTableWsUrl } from 'utils/url';
@@ -24,15 +23,13 @@ type Props = {
 
 export default function Table(props: Props) {
   const { tableId } = props;
-  const { loadTable, table } = useTable();
-  const { user } = useUser();
+  const { loadTable } = useTable();
   const [showOptionsView, setShowOptionsView] = useState(false);
-  const isAlreadySitDown = !!table.poker.players.find(player => player && player.id === user.id);
   const authInfo = getAuthInfo();
   const wsUrl = useMemo(() => {
-    if (isAlreadySitDown && authInfo) return getTableWsUrl(tableId, authInfo);
+    if (authInfo) return getTableWsUrl(tableId, authInfo);
     return getWatchTableWsUrl(tableId);
-  }, [isAlreadySitDown, tableId, authInfo]);
+  }, [tableId, authInfo]);
 
   useEffect(() => {
     loadTable(tableId);
@@ -85,7 +82,7 @@ export default function Table(props: Props) {
           <div key={'seat2'} className='absolute mt-[15vh] ml-[80.5vw] transform -translate-x-1/2'>
             <PlayerSeat seatNumber={2} />
           </div>
-          <div key={'seat3'} className='absolute mt-[35vh] ml-[99vw] transform -translate-x-full z-10'>
+          <div key={'seat3'} className='absolute mt-[35vh] ml-[99vw] transform -translate-x-full z-20'>
             <PlayerSeat seatNumber={3} />
           </div>
           <div key={'seat4'} className='absolute mt-[55vh] ml-[80.5vw] transform -translate-x-1/2'>

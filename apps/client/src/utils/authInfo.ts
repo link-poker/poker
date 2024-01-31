@@ -1,3 +1,4 @@
+'use client';
 const AUTH_INFO_KEY = 'auth_info';
 
 export const setAuthInfo = (authInfo: AuthInfo) => {

@@ -5,6 +5,7 @@ import createTableAsUserReducer from './slices/createTableAsUserSlice';
 import getTableReducer from './slices/getTableSlice';
 import getUserReducer from './slices/getUserSlice';
 import playerPrivateInfoReducer from './slices/playerPrivateInfoSlice';
+import sitDownAsGuestReducer from './slices/sitDownAsGuestSlice';
 import sitDownAsUserReducer from './slices/sitDownAsUserSlice';
 import tableReducer from './slices/tableSlice';
 import userReducer from './slices/userSlice';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   createTableAsUser: createTableAsUserReducer,
   createTableAsGuest: createTableAsGuestReducer,
   sitDownAsUser: sitDownAsUserReducer,
+  sitDownAsGuest: sitDownAsGuestReducer,
   getUser: getUserReducer,
   getTable: getTableReducer,
 });

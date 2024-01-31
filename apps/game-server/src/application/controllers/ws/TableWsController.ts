@@ -20,6 +20,7 @@ export class TableWsController {
   async handle(connection: SocketStream, request: FastifyRequest) {
     const params = request.params as { tableId: string; userId: string };
     const authToken = (request.query as { authToken: string }).authToken;
+    this.webSocketApplicationService.isAuthorizedConnection(params.tableId, params.userId, authToken, connection);
     connection.socket.on('close', () => {
       this.webSocketApplicationService.removeConnection(params.tableId, params.userId);
     });
