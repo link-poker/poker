@@ -13,43 +13,43 @@ class WebSocketService {
   }
 
   standUp() {
-    this.socket.send(JSON.stringify({ type: 'standUp' }));
+    this.send(JSON.stringify({ type: 'standUp' }));
   }
 
   call() {
-    this.socket.send(JSON.stringify({ type: 'call' }));
+    this.send(JSON.stringify({ type: 'call' }));
   }
 
   check() {
-    this.socket.send(JSON.stringify({ type: 'check' }));
+    this.send(JSON.stringify({ type: 'check' }));
   }
 
   fold() {
-    this.socket.send(JSON.stringify({ type: 'fold' }));
+    this.send(JSON.stringify({ type: 'fold' }));
   }
 
   bet() {
-    this.socket.send(JSON.stringify({ type: 'bet' }));
+    this.send(JSON.stringify({ type: 'bet' }));
   }
 
   raise() {
-    this.socket.send(JSON.stringify({ type: 'raise' }));
+    this.send(JSON.stringify({ type: 'raise' }));
   }
 
   addOn() {
-    this.socket.send(JSON.stringify({ type: 'addOn' }));
+    this.send(JSON.stringify({ type: 'addOn' }));
   }
 
   delayTime() {
-    this.socket.send(JSON.stringify({ type: 'delayTime' }));
+    this.send(JSON.stringify({ type: 'delayTime' }));
   }
 
   enter() {
-    this.socket.send(JSON.stringify({ type: 'enter' }));
+    this.send(JSON.stringify({ type: 'enter' }));
   }
 
   dealCards() {
-    this.socket.send(JSON.stringify({ type: 'dealCards' }));
+    this.send(JSON.stringify({ type: 'dealCards' }));
   }
 }
 
