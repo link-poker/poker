@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ActionContainer from 'components/ActionContainer';
 import CommonCards from 'components/CommonCards';
 import ExternalInfoContainer from 'components/ExternalInfoContainer';
@@ -14,7 +14,8 @@ import { you, otherUsers } from 'constants/mock';
 import { useTable } from 'hooks/useTable';
 import { useUser } from 'hooks/useUser';
 import WebSocketProvider from 'providers/WebSocketProvider';
-import { getWatchTableWsUrl, getWsUrl } from 'utils/url';
+import { getAuthInfo } from 'utils/authInfo';
+import { getTableWsUrl, getWatchTableWsUrl } from 'utils/url';
 import OptionsView from 'views/Options';
 
 type Props = {
@@ -27,7 +28,11 @@ export default function Table(props: Props) {
   const { user } = useUser();
   const [showOptionsView, setShowOptionsView] = useState(false);
   const isAlreadySitDown = !!table.poker.players.find(player => player && player.id === user.id);
-  const wsUrl = isAlreadySitDown ? getWsUrl(tableId) : getWatchTableWsUrl(tableId);
+  const authInfo = getAuthInfo();
+  const wsUrl = useMemo(() => {
+    if (isAlreadySitDown && authInfo) return getTableWsUrl(tableId, authInfo);
+    return getWatchTableWsUrl(tableId);
+  }, [isAlreadySitDown, tableId, authInfo]);
 
   useEffect(() => {
     loadTable(tableId);

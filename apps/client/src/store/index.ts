@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import createTableAsGuestReducer from './slices/createTableAsGuestSlice';
 import createTableAsUserReducer from './slices/createTableAsUserSlice';
+import getTableReducer from './slices/getTableSlice';
+import getUserReducer from './slices/getUserSlice';
 import playerPrivateInfoReducer from './slices/playerPrivateInfoSlice';
 import sitDownAsUserReducer from './slices/sitDownAsUserSlice';
 import tableReducer from './slices/tableSlice';
@@ -14,6 +16,8 @@ const rootReducer = combineReducers({
   createTableAsUser: createTableAsUserReducer,
   createTableAsGuest: createTableAsGuestReducer,
   sitDownAsUser: sitDownAsUserReducer,
+  getUser: getUserReducer,
+  getTable: getTableReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

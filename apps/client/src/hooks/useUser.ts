@@ -6,6 +6,7 @@ import { useAppDispatch } from './useAppDispatch';
 
 export const useUser = () => {
   const user = useSelector((state: AppState) => state.user);
+  const getUserState = useSelector((state: AppState) => state.getUser);
   const dispatch = useAppDispatch();
 
   const loadUser = async (userId: string) => {
@@ -18,6 +19,7 @@ export const useUser = () => {
 
   return {
     user,
+    getUserState,
     loadUser,
   };
 };
