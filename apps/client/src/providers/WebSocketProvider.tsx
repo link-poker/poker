@@ -1,35 +1,19 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useWebSocket } from 'hooks/useWebSocket';
+import WebSocketService from 'services/WebSocketService';
 
-const WebSocketContext = React.createContext<WebSocket | null>(null);
+const WebSocketServiceContext = React.createContext<WebSocketService | null>(null);
 
-export default function WebSocketProvider({ children, url }: { children: React.ReactNode; url: string }) {
+export default function WebSocketServiceProvider({ children, url }: { children: React.ReactNode; url: string }) {
   const { updateState } = useWebSocket();
-  const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
+  const [webSocketService, setWebSocketService] = useState<WebSocketService | null>(null);
 
   useEffect(() => {
     if (!url) return;
     const ws = new WebSocket(url);
 
-    const onOpen = () => {
-      console.log('WebSocket open');
-    };
-
-    const onClose = () => {
-      console.log('WebSocket close');
-    };
-
-    const onMessage = (message: MessageEvent) => {
-      console.log('WebSocket message:', message.data);
-      updateState(message.data);
-    };
-
-    ws.onopen = onOpen;
-    ws.onclose = onClose;
-    ws.onmessage = onMessage;
-
-    setWebSocket(ws);
+    setWebSocketService(new WebSocketService(ws, updateState));
 
     return () => {
       ws.close();
@@ -37,11 +21,11 @@ export default function WebSocketProvider({ children, url }: { children: React.R
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
 
-  return <WebSocketContext.Provider value={webSocket}>{children}</WebSocketContext.Provider>;
+  return <WebSocketServiceContext.Provider value={webSocketService}>{children}</WebSocketServiceContext.Provider>;
 }
 
-export function useWebSocketContext() {
-  const context = React.useContext(WebSocketContext);
+export function useWebSocketServiceContext() {
+  const context = React.useContext(WebSocketServiceContext);
   if (context === undefined) {
     throw new Error('useWebSocketContext must be used within a WebSocketProvider');
   }

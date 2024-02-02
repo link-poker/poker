@@ -3,8 +3,7 @@ import { toast } from 'react-hot-toast';
 import { GrLogout } from 'react-icons/gr';
 import { IoMdMenu, IoIosMan } from 'react-icons/io';
 import { PiArmchairFill } from 'react-icons/pi';
-import { useWebSocketContext } from 'providers/WebSocketProvider';
-import WebSocketService from 'services/WebSocketService';
+import { useWebSocketServiceContext } from 'providers/WebSocketProvider';
 
 type Props = {
   showOptionsView: () => void;
@@ -14,10 +13,10 @@ export default function TopLeftButtons(props: Props) {
   // TODO: use redux to store userState
   const [userState, setUserState] = useState('AWAY'); // ['AWAY', 'WAITING', 'PLAYING']
   const { showOptionsView } = props;
-  const webSocket = useWebSocketContext();
+  const webSocketService = useWebSocketServiceContext();
   const onClickLeaveSeat = () => {
-    if (!webSocket) return toast.error('WebSocket is not initialized');
-    const webSocketService = new WebSocketService(webSocket);
+    if (!webSocketService) return toast.error('WebSocket is not initialized');
+    if (!webSocketService.isConnected()) return toast.error('WebSocket is not connected');
     webSocketService.standUp();
   };
 

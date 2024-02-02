@@ -7,6 +7,7 @@ import GameInfoContainer from 'components/GameInfoContainer';
 import LogCard from 'components/LogCard';
 import PlayerSeat from 'components/PlayerSeat';
 import Pot from 'components/Pot';
+import ReconnectBar from 'components/ReconnectBar';
 import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
 import TotalPot from 'components/TotalPot';
@@ -51,6 +52,9 @@ export default function Table(props: Props) {
               src='https://media.pokernow.club/campaing-felts/table-green-plus-3.png'
               alt='table'
             />
+          </div>
+          <div className='absolute mt-[0vh] ml-[0vw] w-full z-50'>
+            <ReconnectBar />
           </div>
           <div className='absolute mt-[0vh] ml-[0vw]'>
             <ExternalInfoContainer />
