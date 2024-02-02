@@ -21,7 +21,7 @@ export default function PlayerSeat(props: Props) {
   const player =
     playerSeatNumber === -1
       ? table.poker.players[seatNumber]
-      : table.poker.players[(seatNumber + playerSeatNumber - 5) % 10];
+      : table.poker.players[(seatNumber + playerSeatNumber + 5) % 10];
   const isAct = player && table.poker.actingPlayers.includes(player);
   const isYou = player && player.id === user.id;
   const isAlreadySitDown = table.poker.players.some(player => player && player.id === user.id);
