@@ -82,16 +82,7 @@ export default function SitDownForm(props: Props) {
     <div className={`absolute ${POSITION[seatNumber].FORM} w-64 z-50`}>
       <div className={`absolute bg-white rotate-45 ${POSITION[seatNumber].ARROW} w-10 h-10 -z-10`} />
       <form onSubmit={handleSubmit(onSubmit)} className='p-8 bg-white text-stone-800 rounded-3xl'>
-        <label className='block'>Your Stack</label>
-        <input
-          type='number'
-          defaultValue={`${table.poker.buyIn}`}
-          {...register('stack', { required: true, min: table.poker.buyIn })}
-          className='block w-full p-2 mt-2 rounded-md text-base border-2'
-        />
-        {errors.stack && <p className='text-red-500 text-xs italic'>Input Valid Number</p>}
-
-        <label className='block mt-4'>Your Name</label>
+        <label className='block'>Your Name</label>
         <input
           type='text'
           defaultValue={`${user.name}`}
@@ -100,6 +91,15 @@ export default function SitDownForm(props: Props) {
           className='block w-full p-2 mt-2 rounded-md text-base border-2'
         />
         {errors.name && <p className='text-red-500 text-xs italic'>Input Valid Name</p>}
+
+        <label className='block mt-4'>Your Stack</label>
+        <input
+          type='number'
+          defaultValue={`${table.poker.buyIn}`}
+          {...register('stack', { required: true, min: table.poker.buyIn })}
+          className='block w-full p-2 mt-2 rounded-md text-base border-2'
+        />
+        {errors.stack && <p className='text-red-500 text-xs italic'>Input Valid Number</p>}
 
         <button type='submit' className='green-btn rounded-md p-2 mt-8 w-full'>
           TAKE THE SEAT
