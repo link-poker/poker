@@ -7,6 +7,7 @@ import {
 import { AppState } from 'store';
 import { createTableAsGuest } from 'store/slices/createTableAsGuestSlice';
 import { getTable } from 'store/slices/getTableSlice';
+import { playerPrivateInfoActions } from 'store/slices/playerPrivateInfoSlice';
 import { sitDownAsGuest } from 'store/slices/sitDownAsGuestSlice';
 import { sitDownAsUser } from 'store/slices/sitDownAsUserSlice';
 import { tableActions } from 'store/slices/tableSlice';
@@ -59,6 +60,9 @@ export const useTable = () => {
     const response = await dispatch(getTable(tableId));
     if (getTable.fulfilled.match(response)) {
       dispatch(tableActions.update(response.payload.table));
+      if (response.payload.playerPrivateInfo) {
+        dispatch(playerPrivateInfoActions.update(response.payload.playerPrivateInfo));
+      }
     }
     return response;
   };

@@ -7,6 +7,7 @@ import {
   ISitDownAsGuestRequest,
 } from '../../../interfaces/request/ITableHttpRequest';
 import { AuthTokenData } from '../../dtos/AuthTokenData';
+import { PlayerPrivateInfoData } from '../../dtos/PlayerPrivateInfoData';
 import { TableData } from '../../dtos/TableData';
 import { UserData } from '../../dtos/UserData';
 import { AuthenticateApplicationService } from '../../services/AuthenticateApplicationService';
@@ -86,8 +87,15 @@ export class TableHttpController {
   async getTable(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { tableId } = request.params as ISitDownAsGuestRequest['params'];
+      const authToken = request.headers.authorization;
       const table = await this.tableApplicationService.getTable(tableId);
       const tableData = new TableData(table);
+      if (authToken) {
+        const user = this.authenticateApplicationService.authenticate(authToken);
+        const playerPrivateInfo = table.getPlayerPrivateInfo(user.id);
+        const playerPrivateInfoData = new PlayerPrivateInfoData(playerPrivateInfo);
+        return reply.send({ table: tableData, playerPrivateInfo: playerPrivateInfoData });
+      }
       reply.send({ table: tableData });
     } catch (error) {
       httpHandleError(error, request, reply);

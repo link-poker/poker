@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { playerPrivateInfoActions } from 'store/slices/playerPrivateInfoSlice';
 import { tableActions } from 'store/slices/tableSlice';
 
 export const useWebSocket = () => {
@@ -14,6 +15,7 @@ export const useWebSocket = () => {
         break;
       case 'dealCards':
         dispatch(tableActions.update(payload.table));
+        dispatch(playerPrivateInfoActions.update(payload.playerPrivateInfo));
         break;
       case 'standUp':
         dispatch(tableActions.update(payload.table));

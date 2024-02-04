@@ -12,7 +12,7 @@ import { RaiseAmount } from '../value-objects/RaiseAmount';
 import { SeatNumber } from '../value-objects/SeatNumber';
 import { SmallBlind } from '../value-objects/SmallBlind';
 import { Stack } from '../value-objects/Stack';
-import { TableStatus } from '../value-objects/TableStatus';
+import { TableStatus, TableStatusEnum } from '../value-objects/TableStatus';
 import { Ulid } from '../value-objects/Ulid';
 import { User } from './User';
 
@@ -44,12 +44,12 @@ export type TableInfoForPlayers = {
 
 export class Table {
   constructor(
-    public readonly id: Ulid,
-    public readonly owner: User,
-    public readonly currency: Currency,
-    public readonly status: TableStatus,
-    public readonly createdAt: Date,
-    public readonly updatedAt: Date,
+    public id: Ulid,
+    public owner: User,
+    public currency: Currency,
+    public status: TableStatus,
+    public createdAt: Date,
+    public updatedAt: Date,
     private poker: Poker,
   ) {}
 
@@ -165,6 +165,7 @@ export class Table {
   }
 
   dealCards(): void {
+    this.status = new TableStatus(TableStatusEnum.PLAYING);
     this.poker.dealCards();
   }
 

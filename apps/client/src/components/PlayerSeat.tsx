@@ -26,7 +26,8 @@ export default function PlayerSeat(props: Props) {
   const isYou = player && player.id === user.id;
   const isAlreadySitDown = table.poker.players.some(player => player && player.id === user.id);
   const holeCardsNullable = isYou ? playerPrivateInfo.holeCards : player ? player.holeCards : null;
-  const holeCards = holeCardsNullable ? holeCardsNullable : ['Blue_Back', 'Blue_Back'];
+  const holeCards = holeCardsNullable && holeCardsNullable.length != 0 ? holeCardsNullable : ['Blue_Back', 'Blue_Back'];
+  const hand = isYou ? playerPrivateInfo.hand : player ? player.hand : null;
 
   if (!player && table.status === TABLE_STATUS.WAITING && !isAlreadySitDown) {
     return <SitDownButton seatNumber={seatNumber} />;
@@ -102,15 +103,15 @@ export default function PlayerSeat(props: Props) {
         </div>
       </div>
       <div className='flex flex-row'>
-        <div key={'hole1'} className='absolute -mt-2 -ml-4 -rotate-12'>
-          <Image alt='card' src={`/cards/${holeCards[0]}.svg`} width={80} height={120} />
+        <div key={'hole1'} className='absolute -mt-3 -ml-4 -rotate-12'>
+          <Image alt='card' src={`/cards/${holeCards[0]}.svg`} width={70} height={100} />
         </div>
-        <div key={'hole2'} className='absolute -mt-2 ml-8 rotate-12'>
-          <Image alt='card' src={`/cards/${holeCards[1]}.svg`} width={80} height={120} />
+        <div key={'hole2'} className='absolute -mt-3 ml-8 rotate-12'>
+          <Image alt='card' src={`/cards/${holeCards[1]}.svg`} width={70} height={100} />
         </div>
-        {player.hand && (
-          <div className='absolute mt-20 bg-red-400 px-2 rounded-md transform -translate-x-1/4'>
-            <div className='text-ms'>{player.hand}</div>
+        {hand && (
+          <div className='absolute mt-16 ml-12 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
+            <div className='text-ms'>{hand}</div>
           </div>
         )}
       </div>

@@ -37,7 +37,7 @@ export class Player {
 
   get privateInfo(): PlayerPrivateInfo {
     return {
-      holeCards: this.showCards ? this.holeCards?.map(card => card.toString()) ?? [] : [],
+      holeCards: this.holeCards?.map(card => card.toString()) ?? [],
       hand: this.hand?.descr ?? null,
     };
   }
@@ -53,7 +53,7 @@ export class Player {
       folded: this.folded,
       showCards: this.showCards,
       left: this.left,
-      hand: this.hand?.descr ?? null,
+      hand: (this.showCards && this.hand?.descr) ?? null,
     };
   }
 
