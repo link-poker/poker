@@ -20,6 +20,7 @@ export class TableData implements ITableResponse {
     actingPlayers: IPlayerInfoForOthersResponse[];
     activePlayers: IPlayerInfoForOthersResponse[];
     currentActor: IPlayerInfoForOthersResponse | null;
+    currentRound: string | null;
     currentPot: number;
     dealer: IPlayerInfoForOthersResponse | null;
     lastActor: IPlayerInfoForOthersResponse | null;
@@ -45,6 +46,7 @@ export class TableData implements ITableResponse {
       actingPlayers: tableInfo.poker.actingPlayers.map(player => new PlayerInfoForOthersData(player)),
       activePlayers: tableInfo.poker.activePlayers.map(player => new PlayerInfoForOthersData(player)),
       currentActor: tableInfo.poker.currentActor ? new PlayerInfoForOthersData(tableInfo.poker.currentActor) : null,
+      currentRound: tableInfo.poker.currentRound?.get() || null,
       currentPot: tableInfo.poker.currentPot?.amount || 0,
       dealer: tableInfo.poker.dealer ? new PlayerInfoForOthersData(tableInfo.poker.dealer) : null,
       lastActor: tableInfo.poker.lastActor ? new PlayerInfoForOthersData(tableInfo.poker.lastActor) : null,

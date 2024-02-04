@@ -22,6 +22,7 @@ const initialState: ITableResponse = {
     activePlayers: [],
     actingPlayers: [],
     currentActor: null,
+    currentRound: null,
     currentPot: 0,
     dealer: null,
     lastActor: null,

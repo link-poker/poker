@@ -17,6 +17,7 @@ export interface ITableResponse {
     actingPlayers: IPlayerInfoForOthersResponse[];
     bigBlindPlayer: IPlayerInfoForOthersResponse | null;
     currentActor: IPlayerInfoForOthersResponse | null;
+    currentRound: string | null;
     currentPot: number;
     dealer: IPlayerInfoForOthersResponse | null;
     lastActor: IPlayerInfoForOthersResponse | null;

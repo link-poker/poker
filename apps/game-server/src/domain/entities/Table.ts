@@ -4,6 +4,7 @@ import { Player, PlayerInfoForOthers, PlayerPrivateInfo } from '../core/Player';
 import { Poker, Pot } from '../core/Poker';
 import { AddOnAmount } from '../value-objects/AddOnAmount';
 import { BetAmount } from '../value-objects/BetAmount';
+import { BettingRound } from '../value-objects/BettingRound';
 import { BigBlind } from '../value-objects/BigBlind';
 import { BuyIn } from '../value-objects/BuyIn';
 import { Currency } from '../value-objects/Currency';
@@ -30,6 +31,7 @@ export type TableInfoForPlayers = {
     actingPlayers: PlayerInfoForOthers[];
     activePlayers: PlayerInfoForOthers[];
     currentActor: PlayerInfoForOthers | null;
+    currentRound: BettingRound | null;
     currentPot: Pot | null;
     dealer: PlayerInfoForOthers | null;
     lastActor: PlayerInfoForOthers | null;
@@ -70,13 +72,14 @@ export class Table {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       poker: {
-        bigBlind: this.getBigBlind(),
-        smallBlind: this.getSmallBlind(),
-        buyIn: this.getBuyIn(),
+        bigBlind: this.bigBlind(),
+        smallBlind: this.smallBlind(),
+        buyIn: this.buyIn(),
         players: this.poker.players.map(player => player?.infoForOthers || null),
-        actingPlayers: this.getActingPlayers().map(player => player.infoForOthers),
-        activePlayers: this.getActivePlayers().map(player => player.infoForOthers),
+        actingPlayers: this.actingPlayers().map(player => player.infoForOthers),
+        activePlayers: this.activePlayers().map(player => player.infoForOthers),
         currentActor: this.currentActor()?.infoForOthers || null,
+        currentRound: this.currentRound(),
         currentPot: this.currentPot() || null,
         dealer: this.dealer()?.infoForOthers || null,
         lastActor: this.lastActor()?.infoForOthers || null,
@@ -88,28 +91,33 @@ export class Table {
     };
   }
 
-  getBigBlind(): BigBlind {
+  bigBlind(): BigBlind {
     return new BigBlind(this.poker.bigBlind);
   }
 
-  getSmallBlind(): SmallBlind {
+  smallBlind(): SmallBlind {
     return new SmallBlind(this.poker.smallBlind);
   }
 
-  getBuyIn(): BuyIn {
+  buyIn(): BuyIn {
     return new BuyIn(this.poker.buyIn);
   }
 
-  getActingPlayers(): Player[] {
+  actingPlayers(): Player[] {
     return this.poker.actingPlayers;
   }
 
-  getActivePlayers(): Player[] {
+  activePlayers(): Player[] {
     return this.poker.activePlayers;
   }
 
   currentActor(): Player | null {
     return this.poker.currentActor;
+  }
+
+  currentRound(): BettingRound | null {
+    if (!this.poker.currentRound) return null;
+    return new BettingRound(this.poker.currentRound);
   }
 
   currentPot(): Pot | null {
