@@ -22,7 +22,7 @@ export default function PlayerSeat(props: Props) {
     playerSeatNumber === -1
       ? table.poker.players[seatNumber]
       : table.poker.players[(seatNumber + playerSeatNumber + 5) % 10];
-  const isAct = player && table.poker.actingPlayers.includes(player);
+  const isAct = player && table.poker.currentActor?.id === player.id;
   const isYou = player && player.id === user.id;
   const isAlreadySitDown = table.poker.players.some(player => player && player.id === user.id);
   const holeCardsNullable = isYou ? playerPrivateInfo.holeCards : player ? player.holeCards : null;
@@ -83,10 +83,10 @@ export default function PlayerSeat(props: Props) {
       {isAct && (
         <div>
           <div className='absolute mt-[7vh]'>
-            <div className='bg-yellow-300 rounded h-4 w-[22vw] xl:w-72'></div>
+            <div className='bg-yellow-300 rounded h-3 w-[22vw] xl:w-72'></div>
           </div>
           <div className='absolute mt-[7vh]'>
-            <div className='bg-red-500 h-4 w-40'></div>
+            <div className='bg-red-500 h-3 w-40'></div>
           </div>
         </div>
       )}
