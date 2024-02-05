@@ -54,7 +54,7 @@ export default function Table(props: Props) {
             />
           </div>
           <div className='absolute mt-[0vh] ml-[0vw] w-full z-50'>
-            <ReconnectBar />
+            <ReconnectBar tableId={tableId} />
           </div>
           <div className='absolute mt-[0vh] ml-[0vw]'>
             <ExternalInfoContainer />
@@ -86,25 +86,25 @@ export default function Table(props: Props) {
           <div key={'seat2'} className='absolute mt-[15vh] ml-[80.5vw] transform -translate-x-1/2'>
             <PlayerSeat seatNumber={2} />
           </div>
-          <div key={'seat3'} className='absolute mt-[35vh] ml-[99vw] transform -translate-x-full z-20'>
+          <div key={'seat3'} className='absolute mt-[35vh] ml-[98vw] transform -translate-x-full z-30'>
             <PlayerSeat seatNumber={3} />
           </div>
           <div key={'seat4'} className='absolute mt-[55vh] ml-[80.5vw] transform -translate-x-1/2'>
             <PlayerSeat seatNumber={4} />
           </div>
-          <div key={'seat5'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2 z-10'>
+          <div key={'seat5'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2 z-20'>
             <PlayerSeat seatNumber={5} />
           </div>
           <div key={'seat6'} className='absolute mt-[68vh] ml-[37.5vw] transform -translate-x-1/2 z-10'>
             <PlayerSeat seatNumber={6} />
           </div>
-          <div key={'seat7'} className='absolute mt-[55vh] ml-[20vw] transform -translate-x-1/2'>
+          <div key={'seat7'} className='absolute mt-[55vh] ml-[10vw]'>
             <PlayerSeat seatNumber={7} />
           </div>
-          <div key={'seat8'} className='absolute mt-[35vh] -ml-[20vw] transform translate-x-full'>
+          <div key={'seat8'} className='absolute mt-[35vh] ml-[2.5vw]'>
             <PlayerSeat seatNumber={8} />
           </div>
-          <div key={'seat9'} className='absolute mt-[15vh] ml-[20vw] transform -translate-x-1/2'>
+          <div key={'seat9'} className='absolute mt-[15vh] ml-[10vw]'>
             <PlayerSeat seatNumber={9} />
           </div>
           <div className='absolute mt-[79vh] ml-[1vw]'>
