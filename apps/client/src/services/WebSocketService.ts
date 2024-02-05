@@ -21,11 +21,6 @@ class WebSocketService {
     this.initialize(updateState);
   }
 
-  send(message: string) {
-    if (this.socket.readyState !== WebSocket.OPEN) return toast.error('WebSocket is not open');
-    this.socket.send(message);
-  }
-
   standUp() {
     this.send(JSON.stringify({ type: 'standUp' }));
   }
@@ -64,6 +59,11 @@ class WebSocketService {
 
   dealCards() {
     this.send(JSON.stringify({ type: 'dealCards' }));
+  }
+
+  private send(message: string) {
+    if (this.socket.readyState !== WebSocket.OPEN) return toast.error('WebSocket is not open');
+    this.socket.send(message);
   }
 
   private initialize(updateState: (message: string) => void) {

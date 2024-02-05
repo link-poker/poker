@@ -1,3 +1,4 @@
+import { MessageTypeEnum } from '../../config/websocket';
 import { Table } from '../../domain/entities/Table';
 import { User } from '../../domain/entities/User';
 import { TableFactory } from '../../domain/factories/TableFactory';
@@ -47,7 +48,7 @@ export class TableApplicationService {
   async enter(tableIdStr: string, user: User): Promise<void> {
     const tableId = new Ulid(tableIdStr);
     const broadcastMessage = JSON.stringify({
-      type: 'enter',
+      type: MessageTypeEnum.ENTER,
       payload: { user: user },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
@@ -57,13 +58,13 @@ export class TableApplicationService {
     const tableId = new Ulid(tableIdStr);
     const table = await this.tableRepository.findById(tableId);
     table.dealCards();
-    const playerPrivateInfo = table.getPlayerPrivateInfo(new Ulid(userIdStr));
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'dealCards',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.DEAL_CARDS,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
   }
 
   async sitDown(tableIdStr: string, user: User, stackNum: number, seatNumberNum: number): Promise<Table> {
@@ -72,13 +73,13 @@ export class TableApplicationService {
     const stack = new Stack(stackNum);
     const seatNumber = new SeatNumber(seatNumberNum);
     table.sitDown(user, stack, seatNumber);
-    const playerPrivateInfo = table.getPlayerPrivateInfo(user.id);
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'sitDown',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.SIT_DOWN,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
     return table;
   }
 
@@ -88,13 +89,13 @@ export class TableApplicationService {
     const userId = new Ulid(userIdStr);
     table.standUp(userId);
     // already left the table, so no need to send private info
-    const playerPrivateInfo = { holeCards: [], hand: null };
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'standUp',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.STAND_UP,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
   }
 
   async call(tableIdStr: string, userIdStr: string): Promise<void> {
@@ -102,13 +103,13 @@ export class TableApplicationService {
     const table = await this.tableRepository.findById(tableId);
     const userId = new Ulid(userIdStr);
     table.call(userId);
-    const playerPrivateInfo = table.getPlayerPrivateInfo(userId);
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'call',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.CALL,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
   }
 
   async check(tableIdStr: string, userIdStr: string): Promise<void> {
@@ -116,13 +117,13 @@ export class TableApplicationService {
     const table = await this.tableRepository.findById(tableId);
     const userId = new Ulid(userIdStr);
     table.check(userId);
-    const playerPrivateInfo = table.getPlayerPrivateInfo(userId);
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'check',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.CHECK,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
   }
 
   async fold(tableIdStr: string, userIdStr: string): Promise<void> {
@@ -130,13 +131,13 @@ export class TableApplicationService {
     const table = await this.tableRepository.findById(tableId);
     const userId = new Ulid(userIdStr);
     table.fold(userId);
-    const playerPrivateInfo = table.getPlayerPrivateInfo(userId);
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'fold',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.FOLD,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
   }
 
   async bet(tableIdStr: string, userIdStr: string, amountStr: number): Promise<void> {
@@ -144,13 +145,13 @@ export class TableApplicationService {
     const table = await this.tableRepository.findById(tableId);
     const userId = new Ulid(userIdStr);
     table.bet(userId, new BetAmount(amountStr));
-    const playerPrivateInfo = table.getPlayerPrivateInfo(userId);
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'bet',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.BET,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
   }
 
   async raise(tableIdStr: string, userIdStr: string, amountStr: number): Promise<void> {
@@ -158,13 +159,13 @@ export class TableApplicationService {
     const table = await this.tableRepository.findById(tableId);
     const userId = new Ulid(userIdStr);
     table.raise(userId, new RaiseAmount(amountStr));
-    const playerPrivateInfo = table.getPlayerPrivateInfo(userId);
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'raise',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.RAISE,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
   }
 
   async addOn(tableIdStr: string, userIdStr: string, amountStr: number): Promise<void> {
@@ -172,12 +173,26 @@ export class TableApplicationService {
     const table = await this.tableRepository.findById(tableId);
     const userId = new Ulid(userIdStr);
     table.addOn(userId, new AddOnAmount(amountStr));
-    const playerPrivateInfo = table.getPlayerPrivateInfo(userId);
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
-      type: 'addOn',
-      payload: { table: new TableData(table), playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo) },
+      type: MessageTypeEnum.ADD_ON,
+      payload: { table: new TableData(table) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
+    this.sendPlayerPrivateInfos(table);
+  }
+
+  private sendPlayerPrivateInfos(table: Table) {
+    const playerPrivateInfos = table.getPlayerPrivateInfos();
+    playerPrivateInfos.forEach(playerPrivateInfo => {
+      this.webSocketService.sendMessage(
+        table.id,
+        playerPrivateInfo.userId,
+        JSON.stringify({
+          type: MessageTypeEnum.PLAYER_PRIVATE_INFO,
+          payload: { playerPrivateInfo: new PlayerPrivateInfoData(playerPrivateInfo.privateInfo) },
+        }),
+      );
+    });
   }
 }

@@ -8,6 +8,7 @@ import { BettingRound } from '../value-objects/BettingRound';
 import { BigBlind } from '../value-objects/BigBlind';
 import { BuyIn } from '../value-objects/BuyIn';
 import { Currency } from '../value-objects/Currency';
+import { CurrentBet } from '../value-objects/CurrentBet';
 import { RaiseAmount } from '../value-objects/RaiseAmount';
 import { SeatNumber } from '../value-objects/SeatNumber';
 import { SmallBlind } from '../value-objects/SmallBlind';
@@ -32,6 +33,7 @@ export type TableInfoForPlayers = {
     activePlayers: PlayerInfoForOthers[];
     currentActor: PlayerInfoForOthers | null;
     currentRound: BettingRound | null;
+    currentBet: CurrentBet | null;
     currentPot: Pot | null;
     dealer: PlayerInfoForOthers | null;
     lastActor: PlayerInfoForOthers | null;
@@ -59,8 +61,18 @@ export class Table {
 
   getPlayerPrivateInfo(userId: Ulid): PlayerPrivateInfo {
     const player = this.poker.players.find(player => player?.id === userId.get());
-    if (!player) throw new ValidationError('Player not found');
+    if (!player) throw new ValidationError(`Player not found: ${userId}`);
     return player.privateInfo;
+  }
+
+  getPlayerPrivateInfos(): { userId: Ulid; privateInfo: PlayerPrivateInfo }[] {
+    const playerPrivateInfos: { userId: Ulid; privateInfo: PlayerPrivateInfo }[] = [];
+    this.poker.players.forEach(player => {
+      if (player) {
+        playerPrivateInfos.push({ userId: new Ulid(player.id), privateInfo: player.privateInfo });
+      }
+    });
+    return playerPrivateInfos;
   }
 
   getTableInfoForPlayers(): TableInfoForPlayers {
@@ -80,6 +92,7 @@ export class Table {
         activePlayers: this.activePlayers().map(player => player.infoForOthers),
         currentActor: this.currentActor()?.infoForOthers || null,
         currentRound: this.currentRound(),
+        currentBet: this.currentBet() || null,
         currentPot: this.currentPot() || null,
         dealer: this.dealer()?.infoForOthers || null,
         lastActor: this.lastActor()?.infoForOthers || null,
@@ -118,6 +131,11 @@ export class Table {
   currentRound(): BettingRound | null {
     if (!this.poker.currentRound) return null;
     return new BettingRound(this.poker.currentRound);
+  }
+
+  currentBet(): CurrentBet | null {
+    if (!this.poker.currentBet) return null;
+    return new CurrentBet(this.poker.currentBet);
   }
 
   currentPot(): Pot | null {
@@ -220,6 +238,10 @@ export class Table {
 
   private ensureYourTurn(userId: Ulid): void {
     if (!this.poker.currentActor) throw new ValidationError('No current actor');
-    if (this.poker.currentActor?.id === userId.get()) throw new ValidationError('Not your turn');
+    if (this.poker.currentActor?.id !== userId.get()) {
+      throw new ValidationError(
+        `It's not your turn. Current actor: ${this.poker.currentActor?.name} id: ${this.poker.currentActor?.id}`,
+      );
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { MessageTypeEnum } from 'configs/websocket';
 import { playerPrivateInfoActions } from 'store/slices/playerPrivateInfoSlice';
 import { tableActions } from 'store/slices/tableSlice';
 
@@ -7,39 +8,41 @@ export const useWebSocket = () => {
   const updateState = (message: string) => {
     const { type, payload } = JSON.parse(message);
     switch (type) {
-      case 'enter':
+      case MessageTypeEnum.ENTER:
         dispatch(tableActions.update(payload.table));
         break;
-      case 'sitDown':
+      case MessageTypeEnum.SIT_DOWN:
         dispatch(tableActions.update(payload.table));
         break;
-      case 'dealCards':
+      case MessageTypeEnum.DEAL_CARDS:
         dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.STAND_UP:
+        dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.CALL:
+        dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.CHECK:
+        dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.FOLD:
+        dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.BET:
+        dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.RAISE:
+        dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.ADD_ON:
+        dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.DELAY_TIME:
+        dispatch(tableActions.update(payload.table));
+        break;
+      case MessageTypeEnum.PLAYER_PRIVATE_INFO:
         dispatch(playerPrivateInfoActions.update(payload.playerPrivateInfo));
-        break;
-      case 'standUp':
-        dispatch(tableActions.update(payload.table));
-        break;
-      case 'call':
-        dispatch(tableActions.update(payload.table));
-        break;
-      case 'check':
-        dispatch(tableActions.update(payload.table));
-        break;
-      case 'fold':
-        dispatch(tableActions.update(payload.table));
-        break;
-      case 'bet':
-        dispatch(tableActions.update(payload.table));
-        break;
-      case 'raise':
-        dispatch(tableActions.update(payload.table));
-        break;
-      case 'addOn':
-        dispatch(tableActions.update(payload.table));
-        break;
-      case 'delayTime':
-        dispatch(tableActions.update(payload.table));
         break;
       default:
         break;
