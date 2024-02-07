@@ -26,6 +26,7 @@ export default function Table(props: Props) {
   const { tableId } = props;
   const { loadTable } = useTable();
   const [showOptionsView, setShowOptionsView] = useState(false);
+  const [showLogCard, setShowLogCard] = useState(true);
   const authInfo = getAuthInfo();
   const wsUrl = useMemo(() => {
     if (authInfo) return getTableWsUrl(tableId, authInfo);
@@ -107,11 +108,9 @@ export default function Table(props: Props) {
           <div key={'seat9'} className='absolute mt-[15vh] ml-[10vw]'>
             <PlayerSeat seatNumber={9} />
           </div>
-          <div className='absolute mt-[79vh] ml-[1vw]'>
-            <LogCard />
-          </div>
+          <div className='absolute mt-[79vh] ml-[1vw]'>{showLogCard && <LogCard />}</div>
           <div className='absolute mt-[99vh] ml-[60vw] transform -translate-y-full'>
-            <ActionContainer />
+            <ActionContainer setShowLogCard={setShowLogCard} />
           </div>
         </div>
       </div>

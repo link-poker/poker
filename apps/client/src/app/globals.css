@@ -59,6 +59,29 @@
   animation: blink 2s linear infinite;
 }
 
+/* カスタムスライダーのスタイル */
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 25px; /* サムの幅 */
+  height: 25px; /* サムの高さ */
+  background: rgb(253 224 71); /* サムの背景色 yellow-300 */
+  border-radius: 50%; /* 角丸 */
+}
+
+.custom-slider::-moz-range-thumb {
+  width: 25px; /* サムの幅 */
+  height: 25px; /* サムの高さ */
+  background: rgb(253 224 71); /* サムの背景色 yellow-300 */
+  border-radius: 50%; /* 角丸 */
+}
+
+.custom-slider::-ms-thumb {
+  width: 25px; /* サムの幅 */
+  height: 25px; /* サムの高さ */
+  background: rgb(253 224 71); /* サムの背景色 yellow-300 */
+  border-radius: 50%; /* 角丸 */
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

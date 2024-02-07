@@ -37,12 +37,12 @@ class WebSocketService {
     this.send(JSON.stringify({ type: 'fold' }));
   }
 
-  bet() {
-    this.send(JSON.stringify({ type: 'bet' }));
+  bet(amount: number) {
+    this.send(JSON.stringify({ type: 'bet', payload: { amount } }));
   }
 
-  raise() {
-    this.send(JSON.stringify({ type: 'raise' }));
+  raise(amount: number) {
+    this.send(JSON.stringify({ type: 'raise', payload: { amount } }));
   }
 
   addOn() {

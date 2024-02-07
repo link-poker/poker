@@ -587,12 +587,12 @@ export class Poker {
       const newPot = new Pot();
       newPot.amount = pot.amount;
       newPot.eligiblePlayers = pot.eligiblePlayers.map((player: any) => {
-        const playerCore = new Player(player.id, player.name, player.stackSize, this);
+        const playerCore = this.players.find((p: Player | null) => p?.id === player.id)!;
         playerCore.restoreState(player);
         return playerCore;
       });
       newPot.winners = pot.winners?.map((player: any) => {
-        const playerCore = new Player(player.id, player.name, player.stackSize, this);
+        const playerCore = this.players.find((p: Player | null) => p?.id === player.id)!;
         playerCore.restoreState(player);
         return playerCore;
       });
@@ -601,7 +601,7 @@ export class Poker {
     this.smallBlind = state.smallBlind;
     this.smallBlindPosition = state.smallBlindPosition;
     this.winners = state.winners?.map((player: any) => {
-      const playerCore = new Player(player.id, player.name, player.stackSize, this);
+      const playerCore = this.players.find((p: Player | null) => p?.id === player.id)!;
       playerCore.restoreState(player);
       return playerCore;
     });

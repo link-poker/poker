@@ -110,7 +110,7 @@ export default function PlayerSeat(props: Props) {
           <Image alt='card' src={`/cards/${holeCards[1]}.svg`} width={70} height={100} />
         </div>
         {hand && (
-          <div className='absolute mt-16 ml-12 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
+          <div className='absolute mt-16 ml-10 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
             <div className='text-ms'>{hand}</div>
           </div>
         )}
