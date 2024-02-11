@@ -12,7 +12,7 @@
     "plugin:import/warnings"
   ],
   "plugins": ["@typescript-eslint", "prettier", "unused-imports"],
-  "ignorePatterns": ["node_modules/", "dist/", "tests/"],
+  "ignorePatterns": ["node_modules/", "dist/", "tests/", "*.config.js"],
   "rules": {
     "@next/next/no-img-element": "off",
     "@typescript-eslint/no-explicit-any": "off",

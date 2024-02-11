@@ -15,6 +15,7 @@ import { you, otherUsers } from 'constants/mock';
 import { useTable } from 'hooks/useTable';
 import WebSocketProvider from 'providers/WebSocketProvider';
 import { getAuthInfo } from 'utils/authInfo';
+import { isClientSide } from 'utils/clientSide';
 import { getTableWsUrl, getWatchTableWsUrl } from 'utils/url';
 import OptionsView from 'views/Options';
 
@@ -27,7 +28,7 @@ export default function Table(props: Props) {
   const { loadTable } = useTable();
   const [showOptionsView, setShowOptionsView] = useState(false);
   const [showLogCard, setShowLogCard] = useState(true);
-  const authInfo = getAuthInfo();
+  const authInfo = isClientSide() && getAuthInfo();
   const wsUrl = useMemo(() => {
     if (authInfo) return getTableWsUrl(tableId, authInfo);
     return getWatchTableWsUrl(tableId);
