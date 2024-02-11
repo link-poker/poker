@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useTable } from 'hooks/useTable';
+import { TABLE_STATUS } from 'constants/table';
 
 export default function CommonCards() {
   const { table } = useTable();
@@ -10,6 +11,8 @@ export default function CommonCards() {
   const flop3 = commonCardsLength >= 3 ? commonCards[2] : 'Blue_Back';
   const turn = commonCardsLength >= 4 ? commonCards[3] : 'Blue_Back';
   const river = commonCardsLength >= 5 ? commonCards[4] : 'Blue_Back';
+
+  if (table.status === TABLE_STATUS.WAITING) return null;
 
   return (
     <div className='flex justify-center gap-2'>
