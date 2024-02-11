@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IUserResponse } from 'interfaces/response/IUserResponse';
 
-const initialState: IUserResponse = {
+export const initialUserState: IUserResponse = {
   id: '',
   name: '',
   createdAt: new Date().toISOString(),
@@ -10,7 +10,7 @@ const initialState: IUserResponse = {
 
 const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: initialUserState,
   reducers: { update: (state, action) => (state = action.payload) },
 });
 

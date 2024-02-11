@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TABLE_STATUS } from 'constants/table';
 import { ITableResponse } from 'interfaces/response/ITableResponse';
 
-const initialState: ITableResponse = {
+const initialTableState: ITableResponse = {
   id: '',
   owner: {
     id: '',
@@ -36,7 +36,7 @@ const initialState: ITableResponse = {
 
 const tableSlice = createSlice({
   name: 'table',
-  initialState,
+  initialState: initialTableState,
   reducers: { update: (state, action) => (state = action.payload) },
 });
 

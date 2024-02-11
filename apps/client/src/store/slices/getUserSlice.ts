@@ -11,8 +11,8 @@ const initialState: ResponseState<{ user: IUserResponse }> = {
   response: null,
 };
 
-export const getUser = createAsyncThunk('gatUser', async (tableId: string) => {
-  const response = await httpService.get(getUserUrl(tableId));
+export const getUser = createAsyncThunk('gatUser', async (userId: string) => {
+  const response = await httpService.get(getUserUrl(userId));
   return response.data;
 });
 
