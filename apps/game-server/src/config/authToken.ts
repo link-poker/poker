@@ -5,7 +5,7 @@ export const AUTH_TOKEN_CONFIG: {
   ALGORITHM: jwt.Algorithm;
   VALIDATE_ALGORITHMS: jwt.Algorithm[];
 } = {
-  EXPIRATION: '1d',
+  EXPIRATION: '7d',
   ALGORITHM: 'HS256',
   VALIDATE_ALGORITHMS: ['HS256'],
 };
