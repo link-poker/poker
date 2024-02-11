@@ -587,24 +587,20 @@ export class Poker {
       const newPot = new Pot();
       newPot.amount = pot.amount;
       newPot.eligiblePlayers = pot.eligiblePlayers.map((player: any) => {
-        const playerCore = this.players.find((p: Player | null) => p?.id === player.id)!;
-        return playerCore
-          ? playerCore.restoreState(player)
-          : new Player(player.id, player.name, player.stackSize, this);
+        const playerCore = this.players.find((p: Player | null) => p?.id === player.id);
+        return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
       });
       newPot.winners = pot.winners?.map((player: any) => {
-        const playerCore = this.players.find((p: Player | null) => p?.id === player.id)!;
-        return playerCore
-          ? playerCore.restoreState(player)
-          : new Player(player.id, player.name, player.stackSize, this);
+        const playerCore = this.players.find((p: Player | null) => p?.id === player.id);
+        return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
       });
       return newPot;
     });
     this.smallBlind = state.smallBlind;
     this.smallBlindPosition = state.smallBlindPosition;
     this.winners = state.winners?.map((player: any) => {
-      const playerCore = this.players.find((p: Player | null) => p?.id === player.id)!;
-      return playerCore ? playerCore.restoreState(player) : new Player(player.id, player.name, player.stackSize, this);
+      const playerCore = this.players.find((p: Player | null) => p?.id === player.id);
+      return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
     });
   }
 }
