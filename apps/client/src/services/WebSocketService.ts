@@ -76,7 +76,7 @@ class WebSocketService {
     };
 
     const onMessage = (message: MessageEvent) => {
-      console.log('WebSocket message:', message.data);
+      console.log('WebSocket message:', JSON.parse(message.data));
       updateState(message.data);
     };
 

@@ -79,7 +79,7 @@ export default function SitDownForm(props: Props) {
   };
 
   return (
-    <div className={`absolute ${POSITION[seatNumber].FORM} w-64 z-50`}>
+    <div className={`absolute ${POSITION[seatNumber].FORM} w-64 z-50 shadow-2xl rounded-3xl shadow-black`}>
       <div className={`absolute bg-white rotate-45 ${POSITION[seatNumber].ARROW} w-10 h-10 -z-10`} />
       <form onSubmit={handleSubmit(onSubmit)} className='p-8 bg-white text-stone-800 rounded-3xl'>
         <label className='block'>Your Name</label>

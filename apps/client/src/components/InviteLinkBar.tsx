@@ -32,14 +32,13 @@ export default function InviteLinkBar(props: Props) {
   if (table.status !== TABLE_STATUS.WAITING) return <></>;
 
   return (
-    <div className='flex flex-col rounded-full px-12 py-5 gap-2 bg-white items-center'>
+    <div className='flex flex-col rounded-full px-12 py-4 gap-2 bg-white items-center max-w-[50vw]'>
       <div className='flex flex-row justify-center gap-1'>
-        <div className='text-xl font-bold whitespace-nowrap text-green-600'>Waiting Players. </div>
-        <div className='text-xl whitespace-nowrap text-green-600'>
+        <div className='text-lg font-bold whitespace-nowrap text-green-600'>
           Click below to copy the link and send to your friends.
         </div>
       </div>
-      <button className='flex flex-row border rounded-full px-4 py-1 w-11/12 flex-start' onClick={onClick}>
+      <button className='flex flex-row border rounded-full px-4 py-1 w-[40vw] flex-start' onClick={onClick}>
         <div className='text-lg text-stone-800 line-clamp-3'>{text}</div>
       </button>
     </div>

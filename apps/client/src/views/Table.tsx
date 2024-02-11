@@ -83,34 +83,34 @@ export default function Table(props: Props) {
           <div className='absolute mt-[30vh] ml-[50vw] transform -translate-x-1/2'>
             <CommonCards />
           </div>
-          <div key={'seat0'} className='absolute mt-[2vh] ml-[37.5vw] transform -translate-x-1/2 z-20'>
+          <div key={'seat0'} className='absolute mt-[2vh] ml-[37.5vw] transform -translate-x-1/2 z-30'>
             <PlayerSeat seatNumber={0} />
           </div>
-          <div key={'seat1'} className='absolute mt-[2vh] ml-[62.5vw] transform -translate-x-1/2 z-30'>
+          <div key={'seat1'} className='absolute mt-[2vh] ml-[62.5vw] transform -translate-x-1/2 z-40'>
             <PlayerSeat seatNumber={1} />
           </div>
-          <div key={'seat2'} className='absolute mt-[15vh] ml-[80.5vw] transform -translate-x-1/2 z-10'>
+          <div key={'seat2'} className='absolute mt-[15vh] ml-[80.5vw] transform -translate-x-1/2 z-20'>
             <PlayerSeat seatNumber={2} />
           </div>
-          <div key={'seat3'} className='absolute mt-[35vh] ml-[98vw] transform -translate-x-full z-40'>
+          <div key={'seat3'} className='absolute mt-[35vh] ml-[98vw] transform -translate-x-full z-50'>
             <PlayerSeat seatNumber={3} />
           </div>
-          <div key={'seat4'} className='absolute mt-[55vh] ml-[80.5vw] transform -translate-x-1/2 z-10'>
+          <div key={'seat4'} className='absolute mt-[55vh] ml-[80.5vw] transform -translate-x-1/2 z-20'>
             <PlayerSeat seatNumber={4} />
           </div>
-          <div key={'seat5'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2 z-30'>
+          <div key={'seat5'} className='absolute mt-[68vh] ml-[62.5vw] transform -translate-x-1/2 z-40'>
             <PlayerSeat seatNumber={5} />
           </div>
-          <div key={'seat6'} className='absolute mt-[68vh] ml-[37.5vw] transform -translate-x-1/2 z-20'>
+          <div key={'seat6'} className='absolute mt-[68vh] ml-[37.5vw] transform -translate-x-1/2 z-30'>
             <PlayerSeat seatNumber={6} />
           </div>
-          <div key={'seat7'} className='absolute mt-[55vh] ml-[10vw]'>
+          <div key={'seat7'} className='absolute mt-[55vh] ml-[10vw] z-20'>
             <PlayerSeat seatNumber={7} />
           </div>
-          <div key={'seat8'} className='absolute mt-[35vh] ml-[2.5vw]'>
+          <div key={'seat8'} className='absolute mt-[35vh] ml-[2.5vw] z-20'>
             <PlayerSeat seatNumber={8} />
           </div>
-          <div key={'seat9'} className='absolute mt-[15vh] ml-[10vw]'>
+          <div key={'seat9'} className='absolute mt-[15vh] ml-[10vw] z-20'>
             <PlayerSeat seatNumber={9} />
           </div>
           <div className='absolute mt-[79vh] ml-[1vw]'>{showLogCard && <LogCard />}</div>
