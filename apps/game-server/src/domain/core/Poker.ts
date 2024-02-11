@@ -588,13 +588,15 @@ export class Poker {
       newPot.amount = pot.amount;
       newPot.eligiblePlayers = pot.eligiblePlayers.map((player: any) => {
         const playerCore = this.players.find((p: Player | null) => p?.id === player.id)!;
-        playerCore.restoreState(player);
-        return playerCore;
+        return playerCore !== null
+          ? playerCore.restoreState(player)
+          : new Player(player.id, player.name, player.stackSize, this);
       });
       newPot.winners = pot.winners?.map((player: any) => {
         const playerCore = this.players.find((p: Player | null) => p?.id === player.id)!;
-        playerCore.restoreState(player);
-        return playerCore;
+        return playerCore !== null
+          ? playerCore.restoreState(player)
+          : new Player(player.id, player.name, player.stackSize, this);
       });
       return newPot;
     });

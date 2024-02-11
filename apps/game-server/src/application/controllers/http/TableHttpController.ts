@@ -42,7 +42,8 @@ export class TableHttpController {
       const user = this.authenticateApplicationService.authenticate(authToken);
       const table = await this.tableApplicationService.sitDown(tableId, user, stack, seatNumber);
       const tableData = new TableData(table);
-      const playerPrivateInfoData = table.getPlayerPrivateInfo(user.id);
+      const playerPrivateInfo = table.getPlayerPrivateInfo(user.id);
+      const playerPrivateInfoData = new PlayerPrivateInfoData(playerPrivateInfo!);
       reply.send({ table: tableData, playerPrivateInfo: playerPrivateInfoData });
     } catch (error) {
       httpHandleError(error, request, reply);
@@ -72,7 +73,8 @@ export class TableHttpController {
       const userData = new UserData(user);
       const authTokenData = new AuthTokenData(authToken);
       const tableData = new TableData(table);
-      const playerPrivateInfoData = table.getPlayerPrivateInfo(user.id);
+      const playerPrivateInfo = table.getPlayerPrivateInfo(user.id);
+      const playerPrivateInfoData = new PlayerPrivateInfoData(playerPrivateInfo!);
       reply.send({
         user: userData,
         authToken: authTokenData,
@@ -93,8 +95,10 @@ export class TableHttpController {
       if (authToken) {
         const user = this.authenticateApplicationService.authenticate(authToken);
         const playerPrivateInfo = table.getPlayerPrivateInfo(user.id);
-        const playerPrivateInfoData = new PlayerPrivateInfoData(playerPrivateInfo);
-        return reply.send({ table: tableData, playerPrivateInfo: playerPrivateInfoData });
+        if (playerPrivateInfo) {
+          const playerPrivateInfoData = new PlayerPrivateInfoData(playerPrivateInfo);
+          return reply.send({ table: tableData, playerPrivateInfo: playerPrivateInfoData });
+        }
       }
       reply.send({ table: tableData });
     } catch (error) {

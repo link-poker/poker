@@ -59,9 +59,9 @@ export class Table {
     return JSON.stringify(this.poker.extractState());
   }
 
-  getPlayerPrivateInfo(userId: Ulid): PlayerPrivateInfo {
+  getPlayerPrivateInfo(userId: Ulid): PlayerPrivateInfo | null {
     const player = this.poker.players.find(player => player?.id === userId.get());
-    if (!player) throw new ValidationError(`Player not found: ${userId}`);
+    if (!player) return null;
     return player.privateInfo;
   }
 
@@ -176,6 +176,9 @@ export class Table {
 
   standUp(userId: Ulid): void {
     this.poker.standUp(userId.get());
+    if (!this.poker.currentRound) {
+      this.status = new TableStatus(TableStatusEnum.WAITING);
+    }
   }
 
   cleanUp(): void {
