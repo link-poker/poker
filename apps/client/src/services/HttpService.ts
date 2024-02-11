@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import { getAuthInfo } from 'utils/authInfo';
+import { getAuthInfo, removeAuthInfo } from 'utils/authInfo';
 
 export class HttpService {
   instance: AxiosInstance;
@@ -8,16 +8,9 @@ export class HttpService {
     const instance = axios.create();
 
     instance.interceptors.request.use(this.handleRequest);
+    instance.interceptors.response.use(this.handleResponse, this.handleError);
     this.instance = instance;
   }
-
-  handleRequest = (config: InternalAxiosRequestConfig) => {
-    const authInfo = getAuthInfo();
-    if (authInfo?.authToken) {
-      config.headers.authorization = `Bearer ${authInfo.authToken}`;
-    }
-    return config;
-  };
 
   get = (url: string, config = {}) => this.instance.get(url, config);
 
@@ -28,4 +21,24 @@ export class HttpService {
   delete = (url: string, config = {}) => this.instance.delete(url, config);
 
   patch = (url: string, data: object, config = {}) => this.instance.patch(url, data, config);
+
+  private handleRequest = (config: InternalAxiosRequestConfig) => {
+    const authInfo = getAuthInfo();
+    if (authInfo?.authToken) {
+      config.headers.authorization = `Bearer ${authInfo.authToken}`;
+    }
+    return config;
+  };
+
+  private handleResponse = (response: any) => {
+    return response;
+  };
+
+  private handleError = (error: any) => {
+    if (error.response?.data.error === 'Invalid authToken') {
+      console.log('Invalid authToken');
+      removeAuthInfo();
+    }
+    return Promise.reject(error);
+  };
 }
