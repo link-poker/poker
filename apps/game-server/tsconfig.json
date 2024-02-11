@@ -11,6 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": true,
     "sourceRoot": "/",
+    "strictNullChecks": true,
     "paths": {
       "pokersolver": ["./types/pokersolver.d.ts"]
     }
