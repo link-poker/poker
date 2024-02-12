@@ -41,6 +41,7 @@ export type TableInfoForPlayers = {
     smallBlindPlayer: PlayerInfoForOthers | null;
     bigBlindPlayer: PlayerInfoForOthers | null;
     commonCards: string[];
+    winners: PlayerInfoForOthers[] | null;
   };
 };
 
@@ -100,6 +101,7 @@ export class Table {
         smallBlindPlayer: this.smallBlindPlayer()?.infoForOthers || null,
         bigBlindPlayer: this.bigBlindPlayer()?.infoForOthers || null,
         commonCards: this.commonCards().map(card => card.toString()),
+        winners: this.winners()?.map(player => player.infoForOthers) || null,
       },
     };
   }
@@ -164,6 +166,10 @@ export class Table {
 
   commonCards(): Card[] {
     return this.poker.communityCards;
+  }
+
+  winners(): Player[] | null {
+    return this.poker.winners ?? null;
   }
 
   moveDealer(): void {

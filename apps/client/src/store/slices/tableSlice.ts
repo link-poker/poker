@@ -31,6 +31,7 @@ const initialTableState: ITableResponse = {
     smallBlindPlayer: null,
     bigBlindPlayer: null,
     commonCards: [],
+    winners: null,
   },
 };
 

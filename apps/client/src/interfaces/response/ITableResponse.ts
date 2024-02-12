@@ -25,5 +25,6 @@ export interface ITableResponse {
     sidePots: number[];
     smallBlindPlayer: IPlayerInfoForOthersResponse | null;
     commonCards: string[];
+    winners: IPlayerInfoForOthersResponse[] | null;
   };
 }
