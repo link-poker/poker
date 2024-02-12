@@ -554,7 +554,7 @@ export class Poker {
     };
   }
 
-  restoreState(state: any): void {
+  restoreState(state: any): Poker {
     this.buyIn = state.buyIn;
     this.autoMoveDealer = state.autoMoveDealer;
     this.bigBlind = state.bigBlind;
@@ -602,6 +602,7 @@ export class Poker {
       const playerCore = this.players.find((p: Player | null) => p?.id === player.id);
       return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
     });
+    return this;
   }
 }
 

@@ -169,7 +169,7 @@ export class Table {
   }
 
   winners(): Player[] | null {
-    return this.poker.winners ?? null;
+    return this.poker.winners || null;
   }
 
   moveDealer(): void {

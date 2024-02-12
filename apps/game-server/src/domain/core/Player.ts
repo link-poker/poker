@@ -218,7 +218,7 @@ export class Player {
     };
   }
 
-  restoreState(state: any) {
+  restoreState(state: any): Player {
     this.id = state.id;
     this.name = state.name;
     this.stackSize = state.stackSize;
@@ -232,5 +232,6 @@ export class Player {
     this.folded = state.folded;
     this.showCards = state.showCards;
     this.left = state.left;
+    return this;
   }
 }

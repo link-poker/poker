@@ -55,9 +55,10 @@ export class Card {
     };
   }
 
-  restoreState(state: any) {
+  restoreState(state: any): Card {
     this._rank = state.rank;
     this._suit = state.suit;
+    return this;
   }
 }
 
