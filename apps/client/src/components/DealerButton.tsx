@@ -1,4 +1,5 @@
 import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
+import { useTable } from 'hooks/useTable';
 
 type Props = {
   player: IPlayerInfoForOthersResponse | null;
@@ -30,14 +31,16 @@ const POSITION: { [seatNumber: number]: string } = {
   9: 'ml-8 mt-24',
 };
 
-export default function CurrentBet(props: Props) {
+export default function DealerButton(props: Props) {
   const { player } = props;
+  const { table } = useTable();
+  const isDealer = player ? table.poker.dealer?.id === player.id : false;
 
-  if (!player || player.bet === 0) return <></>;
+  if (!isDealer) return <></>;
 
   return (
-    <div className='transform -translate-x-1/2 bg-yellow-200 px-3 py-1 rounded-full'>
-      <div className='text-black text-base'>{player.bet}</div>
+    <div className='transform -translate-x-1/2 bg-stone-200 px-3 py-1 rounded-full'>
+      <div className='text-black text-lg'>D</div>
     </div>
   );
 }

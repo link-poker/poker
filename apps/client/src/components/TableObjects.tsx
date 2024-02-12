@@ -1,7 +1,10 @@
 import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
+import CurrentBet from './CurrentBet';
+import DealerButton from './DealerButton';
 
 type Props = {
   player: IPlayerInfoForOthersResponse | null;
+  seatNumber: number;
 };
 
 const BASE: { [seatNumber: number]: boolean } = {
@@ -30,14 +33,18 @@ const POSITION: { [seatNumber: number]: string } = {
   9: 'ml-8 mt-24',
 };
 
-export default function CurrentBet(props: Props) {
-  const { player } = props;
-
-  if (!player || player.bet === 0) return <></>;
+export default function TableObjects(props: Props) {
+  const { player, seatNumber } = props;
 
   return (
-    <div className='transform -translate-x-1/2 bg-yellow-200 px-3 py-1 rounded-full'>
-      <div className='text-black text-base'>{player.bet}</div>
+    <div className='flex flex-row'>
+      {BASE[seatNumber] && <div className='rounded-lg w-[22vw] xl:w-72' />}
+      <div className='relative'>
+        <div className={`absolute ${POSITION[seatNumber]} flex flex-row gap-2`}>
+          <CurrentBet player={player} />
+          <DealerButton player={player} />
+        </div>
+      </div>
     </div>
   );
 }

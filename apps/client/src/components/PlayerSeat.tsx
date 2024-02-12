@@ -6,8 +6,8 @@ import { TABLE_STATUS } from 'constants/table';
 import { usePlayerPrivateInfo } from 'hooks/usePlayerPrivateInfo';
 import { useTable } from 'hooks/useTable';
 import { useUser } from 'hooks/useUser';
-import CurrentBet from './CurrentBet';
 import SitDownButton from './SitDownButton';
+import TableObjects from './TableObjects';
 
 type Props = {
   seatNumber: number;
@@ -91,7 +91,7 @@ export default function PlayerSeat(props: Props) {
           </div>
         </div>
       )}
-      <CurrentBet seatNumber={seatNumber} currentBet={player.bet} />
+      <TableObjects player={player} seatNumber={seatNumber} />
       <div className='absolute -mt-2 ml-[16vw] xl:ml-52 transform -translate-x-1/2'>
         <div className='flex justify-center items-center gap-1 bg-green-600 rounded-2xl h-[2vh] w-12'>
           <FaTrophy size={10} />
