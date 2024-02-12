@@ -1,9 +1,5 @@
+import { ICreateTableAsGuestRequest, ISitDownAsUserRequest, ISitDownAsGuestRequest } from '@link-poker/constants';
 import { useSelector } from 'react-redux';
-import {
-  ICreateTableAsGuestRequest,
-  ISitDownAsUserRequest,
-  ISitDownAsGuestRequest,
-} from 'interfaces/request/ITableHttpRequest';
 import { AppState } from 'store';
 import { createTableAsGuest } from 'store/slices/createTableAsGuestSlice';
 import { getTable } from 'store/slices/getTableSlice';

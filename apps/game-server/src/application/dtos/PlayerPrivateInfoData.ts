@@ -1,5 +1,5 @@
+import { IPlayerPrivateInfoResponse } from '@link-poker/constants';
 import { PlayerPrivateInfo } from '../../domain/core/Player';
-import { IPlayerPrivateInfoResponse } from '../../interfaces/response/IPlayerPrivateInfoResponse';
 
 export class PlayerPrivateInfoData implements IPlayerPrivateInfoResponse {
   holeCards: string[];

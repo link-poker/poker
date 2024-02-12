@@ -1,11 +1,11 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { httpHandleError } from '../../../error';
 import {
   ICreateTableAsUserRequest,
   ISitDownAsUserRequest,
   ICreateTableAsGuestRequest,
   ISitDownAsGuestRequest,
-} from '../../../interfaces/request/ITableHttpRequest';
+} from '@link-poker/constants';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { httpHandleError } from '../../../error';
 import { AuthTokenData } from '../../dtos/AuthTokenData';
 import { PlayerPrivateInfoData } from '../../dtos/PlayerPrivateInfoData';
 import { TableData } from '../../dtos/TableData';

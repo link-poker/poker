@@ -1,6 +1,6 @@
+import { ITableResponse } from '@link-poker/constants';
 import { createSlice } from '@reduxjs/toolkit';
 import { TABLE_STATUS } from 'constants/table';
-import { ITableResponse } from 'interfaces/response/ITableResponse';
 
 const initialTableState: ITableResponse = {
   id: '',

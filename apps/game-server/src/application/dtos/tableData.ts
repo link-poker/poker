@@ -1,7 +1,5 @@
+import { IPlayerInfoForOthersResponse , ITableResponse , IUserResponse } from '@link-poker/constants';
 import { Table } from '../../domain/entities/Table';
-import { IPlayerInfoForOthersResponse } from '../../interfaces/response/IPlayerInfoForOthersResponse';
-import { ITableResponse } from '../../interfaces/response/ITableResponse';
-import { IUserResponse } from '../../interfaces/response/IUserResponse';
 import { PlayerInfoForOthersData } from './PlayerInfoForOthersData';
 import { UserData } from './UserData';
 

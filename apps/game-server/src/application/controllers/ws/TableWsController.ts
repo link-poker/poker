@@ -1,8 +1,8 @@
 import { SocketStream } from '@fastify/websocket';
+import { IAddOnRequest, IBetRequest, IRaiseRequest } from '@link-poker/constants';
 import { FastifyRequest } from 'fastify';
 import { User } from '../../../domain/entities/User';
 import { wsHandleError } from '../../../error';
-import { IAddOnRequest, IBetRequest, IRaiseRequest } from '../../../interfaces/request/ITableWsRequest';
 import { TableApplicationService } from '../../services/TableApplicationService';
 import { WebSocketApplicationService } from '../../services/WebSocketApplicationService';
 

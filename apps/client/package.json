@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@link-poker/constants": "workspace:^",
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.5",
     "eslint-plugin-import": "^2.29.1",

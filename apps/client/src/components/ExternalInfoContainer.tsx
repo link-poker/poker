@@ -1,5 +1,5 @@
-import { useUser } from 'hooks/useUser';
 import { useRouter } from 'next/navigation';
+import { useUser } from 'hooks/useUser';
 
 export default function ExternalInfoContainer() {
   const { user } = useUser();

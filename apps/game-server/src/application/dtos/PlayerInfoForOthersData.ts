@@ -1,5 +1,5 @@
+import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
 import { PlayerInfoForOthers } from '../../domain/core/Player';
-import { IPlayerInfoForOthersResponse } from '../../interfaces/response/IPlayerInfoForOthersResponse';
 
 export class PlayerInfoForOthersData implements IPlayerInfoForOthersResponse {
   id: string;

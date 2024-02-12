@@ -1,5 +1,5 @@
+import { ITableResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ITableResponse } from 'interfaces/response/ITableResponse';
 import { HttpService } from 'services/HttpService';
 import { getTableUrl } from 'utils/url';
 

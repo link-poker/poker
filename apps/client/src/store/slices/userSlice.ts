@@ -1,5 +1,5 @@
+import { IUserResponse } from '@link-poker/constants';
 import { createSlice } from '@reduxjs/toolkit';
-import { IUserResponse } from 'interfaces/response/IUserResponse';
 
 export const initialUserState: IUserResponse = {
   id: '',

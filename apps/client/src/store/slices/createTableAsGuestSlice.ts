@@ -1,7 +1,5 @@
+import { ICreateTableAsGuestRequest, ITableResponse, IUserResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ICreateTableAsGuestRequest } from 'interfaces/request/ITableHttpRequest';
-import { ITableResponse } from 'interfaces/response/ITableResponse';
-import { IUserResponse } from 'interfaces/response/IUserResponse';
 import { HttpService } from 'services/HttpService';
 import { getCreateTableAsGuestUrl } from 'utils/url';
 

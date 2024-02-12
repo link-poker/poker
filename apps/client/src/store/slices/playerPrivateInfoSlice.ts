@@ -1,5 +1,5 @@
+import { IPlayerPrivateInfoResponse } from '@link-poker/constants';
 import { createSlice } from '@reduxjs/toolkit';
-import { IPlayerPrivateInfoResponse } from 'interfaces/response/IPlayerPrivateInfoResponse';
 
 const initialState: IPlayerPrivateInfoResponse = {
   holeCards: null,
