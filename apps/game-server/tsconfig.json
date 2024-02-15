@@ -16,7 +16,7 @@
       "pokersolver": ["./types/pokersolver.d.ts"]
     }
   },
-  "include": ["src/**/*", "modules/pokersolver.d.ts", "modules/pokersolver.d.ts"],
+  "include": ["src/**/*"],
   "exclude": ["dist", "node_modules"],
   "compileOnSave": false
 }
