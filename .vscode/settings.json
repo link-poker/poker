@@ -13,5 +13,5 @@
   },
 
   // cSpell の設定
-  "cSpell.words": ["Consts", "datepicker", "fastify", "JPYC", "pokersolver", "sbps", "unredeem"]
+  "cSpell.words": ["fastify", "pokersolver"]
 }
