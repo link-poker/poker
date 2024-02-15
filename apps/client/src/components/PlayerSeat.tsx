@@ -29,6 +29,7 @@ export default function PlayerSeat(props: Props) {
   const holeCardsNullable = isYou ? playerPrivateInfo.holeCards : player ? player.holeCards : null;
   const holeCards = holeCardsNullable && holeCardsNullable.length != 0 ? holeCardsNullable : ['Blue_Back', 'Blue_Back'];
   const hand = isYou ? playerPrivateInfo.hand : player ? player.hand : null;
+  const isWinner = table.poker.winners?.find(winner => winner.id === player?.id);
 
   if (!player && table.status === TABLE_STATUS.WAITING && !isAlreadySitDown) {
     return <SitDownButton seatNumber={seatNumber} />;
@@ -64,7 +65,9 @@ export default function PlayerSeat(props: Props) {
   }
 
   const getActionBgClassName = (className: string) => {
-    if (isAct) {
+    if (isWinner) {
+      return className + ' bg-white inner-outer-shadow shadow-yellow-200';
+    } else if (isAct) {
       return className + ' bg-white';
     } else {
       return className + ' bg-stone-700';
@@ -72,7 +75,7 @@ export default function PlayerSeat(props: Props) {
   };
 
   const getActionTextClassName = (className: string) => {
-    if (isAct) {
+    if (isWinner || isAct) {
       return className + ' text-stone-700';
     } else {
       return className + ' text-white';

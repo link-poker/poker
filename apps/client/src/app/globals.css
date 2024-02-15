@@ -82,6 +82,12 @@
   border-radius: 50%; /* 角丸 */
 }
 
+.inner-outer-shadow {
+  box-shadow:
+    inset 0 0px 70px 0px rgba(253, 224, 71, 0.8),
+    0 0px 70px 0px rgb(253, 224, 71, 0.8);
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
