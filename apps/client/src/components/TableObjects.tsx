@@ -24,13 +24,13 @@ const POSITION: { [seatNumber: number]: string } = {
   0: 'ml-52 mt-28',
   1: 'ml-12 mt-28',
   2: '-ml-8 mt-24',
-  3: '-ml-8 mt-8',
-  4: '-ml-10 -mt-12',
+  3: '-ml-12 mt-8',
+  4: '-ml-12 -mt-12',
   5: 'ml-12 -mt-16',
   6: 'ml-48 -mt-16',
-  7: 'ml-8 -mt-12',
-  8: 'ml-8 mt-8',
-  9: 'ml-8 mt-24',
+  7: 'ml-4 -mt-12',
+  8: 'ml-6 mt-8',
+  9: 'ml-6 mt-24',
 };
 
 export default function TableObjects(props: Props) {
