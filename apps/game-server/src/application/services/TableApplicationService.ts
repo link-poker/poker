@@ -15,7 +15,7 @@ import { Stack } from '../../domain/value-objects/Stack';
 import { Ulid } from '../../domain/value-objects/Ulid';
 import { ITableRepository } from '../../interfaces/repository/ITableRepository';
 import { PlayerPrivateInfoData } from '../dtos/PlayerPrivateInfoData';
-import { TableData } from '../dtos/TableData';
+import { TableInfoForPlayersData } from '../dtos/TableInfoForPlayersData';
 
 export class TableApplicationService {
   constructor(
@@ -61,7 +61,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.DEAL_CARDS,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
@@ -76,7 +76,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.SIT_DOWN,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
@@ -92,7 +92,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.STAND_UP,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
@@ -106,7 +106,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.CALL,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
@@ -120,7 +120,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.CHECK,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
@@ -134,7 +134,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.FOLD,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
@@ -148,7 +148,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.BET,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
@@ -162,7 +162,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.RAISE,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
@@ -176,7 +176,7 @@ export class TableApplicationService {
     await this.tableRepository.update(table);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.ADD_ON,
-      payload: { table: new TableData(table) },
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);

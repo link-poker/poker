@@ -1,5 +1,6 @@
 import { Hand } from 'pokersolver';
 import { BettingRound, Poker } from '../../../src/domain/core/Poker';
+import { Ulid } from '../../../src/domain/value-objects/Ulid';
 
 const POKER = {
   BUY_IN: 1000,
@@ -50,14 +51,14 @@ describe('Poker', () => {
     });
 
     it('should be able to deal cards', () => {
-      poker.dealCards();
+      poker.dealCards(Ulid.create().get());
       expect(poker.players[PLAYERS.ALICE.SEAT]!.holeCards).toHaveLength(2);
       expect(poker.players[PLAYERS.BOB.SEAT]!.holeCards).toHaveLength(2);
       expect(poker.players[PLAYERS.CHARLIE.SEAT]!.holeCards).toHaveLength(2);
     });
 
     it('should be able to call and check', () => {
-      poker.dealCards();
+      poker.dealCards(Ulid.create().get());
       expect(poker.winners).toBeUndefined();
       // PreFlop
       expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
@@ -106,14 +107,14 @@ describe('Poker', () => {
       const winnerId = Hand.winners([aliceHand, bobHand, charlieHand]).map((hand: any) => hand.playerId);
       expect(poker.winners!.map(winner => winner.id)).toEqual(winnerId);
       // NewGame
-      poker.dealCards();
+      poker.dealCards(Ulid.create().get());
       expect(poker.winners).toBeUndefined();
       expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
     });
 
     it('should be able to raise, bet and fold', () => {
-      poker.dealCards();
+      poker.dealCards(Ulid.create().get());
       expect(poker.winners).toBeUndefined();
       // PreFlop
       expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
@@ -164,7 +165,7 @@ describe('Poker', () => {
       const winnerId = Hand.winners([bobHand, charlieHand]).map((hand: any) => hand.playerId);
       expect(poker.winners!.map(winner => winner.id)).toEqual(winnerId);
       // NewGame
-      poker.dealCards();
+      poker.dealCards(Ulid.create().get());
       expect(poker.winners).toBeUndefined();
       expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);

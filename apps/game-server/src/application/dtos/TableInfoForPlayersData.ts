@@ -1,9 +1,9 @@
-import { IPlayerInfoForOthersResponse , ITableResponse , IUserResponse } from '@link-poker/constants';
-import { Table } from '../../domain/entities/Table';
+import { IPlayerInfoForOthersResponse, ITableResponse, IUserResponse } from '@link-poker/constants';
+import { TableInfoForPlayers } from '../../domain/entities/Table';
 import { PlayerInfoForOthersData } from './PlayerInfoForOthersData';
 import { UserData } from './UserData';
 
-export class TableData implements ITableResponse {
+export class TableInfoForPlayersData implements ITableResponse {
   id: string;
   owner: IUserResponse;
   currency: string;
@@ -11,6 +11,7 @@ export class TableData implements ITableResponse {
   createdAt: string;
   updatedAt: string;
   poker: {
+    gameId: string | null;
     bigBlind: number;
     smallBlind: number;
     buyIn: number;
@@ -30,15 +31,15 @@ export class TableData implements ITableResponse {
     winners: IPlayerInfoForOthersResponse[] | null;
   };
 
-  constructor(table: Table) {
-    const tableInfo = table.getTableInfoForPlayers();
-    this.id = table.id.get();
-    this.owner = new UserData(table.owner);
-    this.currency = table.currency.get();
-    this.status = table.status.get();
+  constructor(tableInfo: TableInfoForPlayers) {
+    this.id = tableInfo.id.get();
+    this.owner = new UserData(tableInfo.owner);
+    this.currency = tableInfo.currency.get();
+    this.status = tableInfo.status.get();
     this.createdAt = tableInfo.createdAt.toISOString();
     this.updatedAt = tableInfo.updatedAt.toISOString();
     this.poker = {
+      gameId: tableInfo.poker.gameId?.get() || null,
       bigBlind: tableInfo.poker.bigBlind.get(),
       smallBlind: tableInfo.poker.smallBlind.get(),
       buyIn: tableInfo.poker.buyIn.get(),

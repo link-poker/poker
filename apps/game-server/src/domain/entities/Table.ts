@@ -18,13 +18,14 @@ import { Ulid } from '../value-objects/Ulid';
 import { User } from './User';
 
 export type TableInfoForPlayers = {
-  id: string;
+  id: Ulid;
   owner: User;
   currency: Currency;
   status: TableStatus;
   createdAt: Date;
   updatedAt: Date;
   poker: {
+    gameId: Ulid | null;
     bigBlind: BigBlind;
     smallBlind: SmallBlind;
     buyIn: BuyIn;
@@ -78,13 +79,14 @@ export class Table {
 
   getTableInfoForPlayers(): TableInfoForPlayers {
     return {
-      id: this.id.get(),
+      id: this.id,
       owner: this.owner,
       currency: this.currency,
       status: this.status,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       poker: {
+        gameId: this.gameId(),
         bigBlind: this.bigBlind(),
         smallBlind: this.smallBlind(),
         buyIn: this.buyIn(),
@@ -104,6 +106,10 @@ export class Table {
         winners: this.winners()?.map(player => player.infoForOthers) || null,
       },
     };
+  }
+
+  gameId(): Ulid | null {
+    return this.poker.gameId ? new Ulid(this.poker.gameId) : null;
   }
 
   bigBlind(): BigBlind {
@@ -193,7 +199,8 @@ export class Table {
 
   dealCards(): void {
     this.status = new TableStatus(TableStatusEnum.PLAYING);
-    this.poker.dealCards();
+    const gameId = Ulid.create();
+    this.poker.dealCards(gameId.get());
   }
 
   nextAction(): void {

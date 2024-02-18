@@ -19,6 +19,7 @@ export class Poker {
   public pots: Pot[] = [];
   public smallBlindPosition?: number;
   public winners?: Player[];
+  public gameId?: string;
 
   constructor(
     public buyIn: number = 1000,
@@ -235,7 +236,7 @@ export class Poker {
     player.stackSize += amount;
   }
 
-  dealCards(): void {
+  dealCards(gameId: string): void {
     // Check for active round and throw if there is one.
     if (this.currentRound) {
       throw new Error('There is already an active hand!');
@@ -297,6 +298,9 @@ export class Poker {
       if (!player) return;
       player.holeCards = [this.deck.pop()!, this.deck.pop()!];
     });
+
+    // set gameId
+    this.gameId = gameId;
   }
 
   nextAction(): void {
@@ -551,6 +555,7 @@ export class Poker {
       smallBlind: this.smallBlind,
       smallBlindPosition: this.smallBlindPosition,
       winners: this.winners?.map(player => player.extractState()),
+      gameId: this.gameId,
     };
   }
 
@@ -603,6 +608,7 @@ export class Poker {
       return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
     });
     return this;
+    this.gameId = state.gameId;
   }
 }
 

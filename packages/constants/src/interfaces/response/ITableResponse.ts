@@ -9,6 +9,7 @@ export interface ITableResponse {
   createdAt: string;
   updatedAt: string;
   poker: {
+    gameId: string | null;
     bigBlind: number;
     smallBlind: number;
     buyIn: number;

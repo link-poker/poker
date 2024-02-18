@@ -10,11 +10,11 @@ import { AuthenticateApplicationService } from './application/services/Authentic
 import { TableApplicationService } from './application/services/TableApplicationService';
 import { UserApplicationService } from './application/services/UserApplicationService';
 import { WebSocketApplicationService } from './application/services/WebSocketApplicationService';
-import { GameFactory } from './domain/factories/GameFactory';
+import { PokerLogFactory } from './domain/factories/PokerLogFactory';
 import { TableFactory } from './domain/factories/TableFactory';
 import { UserFactory } from './domain/factories/UserFactory';
 import { WebSocketService } from './domain/services/WebSocketService';
-import { GameRepository } from './infrastructure/repositories/db/GameRepository';
+import { PokerLogRepository } from './infrastructure/repositories/db/PokerLogRepository';
 import { TableRepository } from './infrastructure/repositories/db/TableRepository';
 import { UserRepository } from './infrastructure/repositories/db/UserRepository';
 import { registerRoutes } from './route';
@@ -22,10 +22,10 @@ import { registerRoutes } from './route';
 export const createApp = async () => {
   const prisma = new PrismaClient();
   const userRepository = new UserRepository(prisma);
-  const gameRepository = new GameRepository(prisma);
+  const pokerLogRepository = new PokerLogRepository(prisma);
   const tableRepository = new TableRepository(prisma);
   const userFactory = new UserFactory();
-  const gameFactory = new GameFactory();
+  const pokerLogFactory = new PokerLogFactory();
   const tableFactory = new TableFactory();
   const webSocketService = new WebSocketService();
   const authenticateApplicationService = new AuthenticateApplicationService(userRepository);

@@ -4,6 +4,7 @@
   "scripts": {
     "client": "pnpm --filter @link-poker/client",
     "game-server": "pnpm --filter @link-poker/game-server",
+    "constants": "pnpm --filter @link-poker/constants",
     "dev:client": "pnpm client dev",
     "dev:game-server": "pnpm game-server dev",
     "build:client": "pnpm client build",

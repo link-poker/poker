@@ -8,7 +8,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { httpHandleError } from '../../../error';
 import { AuthTokenData } from '../../dtos/AuthTokenData';
 import { PlayerPrivateInfoData } from '../../dtos/PlayerPrivateInfoData';
-import { TableData } from '../../dtos/TableData';
+import { TableInfoForPlayersData } from '../../dtos/TableInfoForPlayersData';
 import { UserData } from '../../dtos/UserData';
 import { AuthenticateApplicationService } from '../../services/AuthenticateApplicationService';
 import { TableApplicationService } from '../../services/TableApplicationService';
@@ -27,7 +27,7 @@ export class TableHttpController {
       const authToken = request.headers.authorization;
       const user = this.authenticateApplicationService.authenticate(authToken);
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
-      const tableData = new TableData(table);
+      const tableData = new TableInfoForPlayersData(table.getTableInfoForPlayers());
       reply.send({ table: tableData });
     } catch (error) {
       httpHandleError(error, request, reply);
@@ -41,7 +41,7 @@ export class TableHttpController {
       const authToken = request.headers.authorization;
       const user = this.authenticateApplicationService.authenticate(authToken);
       const table = await this.tableApplicationService.sitDown(tableId, user, stack, seatNumber);
-      const tableData = new TableData(table);
+      const tableData = new TableInfoForPlayersData(table.getTableInfoForPlayers());
       const playerPrivateInfo = table.getPlayerPrivateInfo(user.id);
       const playerPrivateInfoData = new PlayerPrivateInfoData(playerPrivateInfo!);
       reply.send({ table: tableData, playerPrivateInfo: playerPrivateInfoData });
@@ -57,7 +57,7 @@ export class TableHttpController {
       const table = await this.tableApplicationService.createTable(user, currency, smallBlind, bigBlind, buyIn);
       const userData = new UserData(user);
       const authTokenData = new AuthTokenData(authToken);
-      const tableData = new TableData(table);
+      const tableData = new TableInfoForPlayersData(table.getTableInfoForPlayers());
       reply.send({ user: userData, authToken: authTokenData, table: tableData });
     } catch (error) {
       httpHandleError(error, request, reply);
@@ -72,7 +72,7 @@ export class TableHttpController {
       const table = await this.tableApplicationService.sitDown(tableId, user, stack, seatNumber);
       const userData = new UserData(user);
       const authTokenData = new AuthTokenData(authToken);
-      const tableData = new TableData(table);
+      const tableData = new TableInfoForPlayersData(table.getTableInfoForPlayers());
       const playerPrivateInfo = table.getPlayerPrivateInfo(user.id);
       const playerPrivateInfoData = new PlayerPrivateInfoData(playerPrivateInfo!);
       reply.send({
@@ -91,7 +91,7 @@ export class TableHttpController {
       const { tableId } = request.params as ISitDownAsGuestRequest['params'];
       const authToken = request.headers.authorization;
       const table = await this.tableApplicationService.getTable(tableId);
-      const tableData = new TableData(table);
+      const tableData = new TableInfoForPlayersData(table.getTableInfoForPlayers());
       if (authToken) {
         const user = this.authenticateApplicationService.authenticate(authToken);
         const playerPrivateInfo = table.getPlayerPrivateInfo(user.id);
