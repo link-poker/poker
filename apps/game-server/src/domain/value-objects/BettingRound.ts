@@ -8,13 +8,13 @@ export enum BettingRoundEnum {
 }
 
 export class BettingRound {
-  private readonly value: string;
+  private readonly value: BettingRoundEnum;
 
   constructor(value: string) {
     if (!this.isValid(value)) {
       throw new ValidationError('Invalid BettingRound');
     }
-    this.value = value;
+    this.value = value as BettingRoundEnum;
   }
 
   get(): string {
