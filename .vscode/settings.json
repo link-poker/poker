@@ -13,5 +13,5 @@
   },
 
   // cSpell の設定
-  "cSpell.words": ["fastify", "pokersolver"]
+  "cSpell.words": ["dtos", "fastify", "pokersolver"]
 }

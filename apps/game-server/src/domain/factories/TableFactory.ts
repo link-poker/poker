@@ -9,7 +9,7 @@ import { TableStatus, TableStatusEnum } from '../value-objects/TableStatus';
 import { Ulid } from '../value-objects/Ulid';
 
 export class TableFactory {
-  create(owner: User, currency: Currency, smallBlind: SmallBlind, bigBlind: BigBlind, buyIn: BuyIn): Table {
+  static create(owner: User, currency: Currency, smallBlind: SmallBlind, bigBlind: BigBlind, buyIn: BuyIn): Table {
     const id = Ulid.create();
     const tableStatus = new TableStatus(TableStatusEnum.WAITING);
     const poker = new Poker(buyIn.get(), smallBlind.get(), bigBlind.get());

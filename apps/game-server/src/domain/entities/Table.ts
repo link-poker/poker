@@ -2,9 +2,10 @@ import { ValidationError } from '../../error';
 import { Card } from '../core/Card';
 import { Player, PlayerInfoForOthers, PlayerPrivateInfo } from '../core/Player';
 import { Poker, Pot } from '../core/Poker';
+import { PokerLogFactory } from '../factories/PokerLogFactory';
 import { AddOnAmount } from '../value-objects/AddOnAmount';
 import { BetAmount } from '../value-objects/BetAmount';
-import { BettingRound } from '../value-objects/BettingRound';
+import { BettingRound, BettingRoundEnum } from '../value-objects/BettingRound';
 import { BigBlind } from '../value-objects/BigBlind';
 import { BuyIn } from '../value-objects/BuyIn';
 import { Currency } from '../value-objects/Currency';
@@ -15,6 +16,7 @@ import { SmallBlind } from '../value-objects/SmallBlind';
 import { Stack } from '../value-objects/Stack';
 import { TableStatus, TableStatusEnum } from '../value-objects/TableStatus';
 import { Ulid } from '../value-objects/Ulid';
+import { PokerLog } from './PokerLog';
 import { User } from './User';
 
 export type TableInfoForPlayers = {
@@ -108,6 +110,10 @@ export class Table {
     };
   }
 
+  getPlayer(userId: Ulid): Player | null {
+    return this.poker.players.find(player => player?.id === userId.get()) || null;
+  }
+
   gameId(): Ulid | null {
     return this.poker.gameId ? new Ulid(this.poker.gameId) : null;
   }
@@ -178,9 +184,9 @@ export class Table {
     return this.poker.winners || null;
   }
 
-  moveDealer(): void {
-    this.poker.moveDealer;
-  }
+  // moveDealer(): void {
+  //   this.poker.moveDealer;
+  // }
 
   sitDown(user: User, stack: Stack, seatNumber: SeatNumber): void {
     this.poker.sitDown(user.id.get(), user.name.get(), stack.get(), seatNumber.get());
@@ -193,63 +199,110 @@ export class Table {
     }
   }
 
-  cleanUp(): void {
-    this.poker.cleanUp();
-  }
+  // cleanUp(): void {
+  //   this.poker.cleanUp();
+  // }
 
-  dealCards(): void {
+  dealCards(): PokerLog[] {
+    const preRound = this.currentRound();
     this.status = new TableStatus(TableStatusEnum.PLAYING);
     const gameId = Ulid.create();
     this.poker.dealCards(gameId.get());
+    const startingHandLog = PokerLogFactory.createStartingHandLog(this.id, this.gameId()!, {
+      dealerName: this.dealer.name,
+    });
+    const stackLog = PokerLogFactory.createStackLog(
+      this.id,
+      this.gameId()!,
+      this.activePlayers().map(player => {
+        return { playerName: player.name, stack: player.stackSize };
+      }),
+    );
+    const smallBlindLog = PokerLogFactory.createSmallBlindLog(this.id, this.gameId()!, {
+      playerName: this.smallBlindPlayer()!.name,
+      amount: this.smallBlind().get(),
+    });
+    const bigBlindLog = PokerLogFactory.createBigBlindLog(this.id, this.gameId()!, {
+      playerName: this.bigBlindPlayer()!.name,
+      amount: this.bigBlind().get(),
+    });
+    return [startingHandLog, stackLog, smallBlindLog, bigBlindLog, ...this.generatePokerLog(preRound)];
   }
 
-  nextAction(): void {
-    this.poker.nextAction();
-  }
+  // nextAction(): void {
+  //   this.poker.nextAction();
+  // }
 
-  gatherBets(): void {
-    this.poker.gatherBets();
-  }
+  // gatherBets(): void {
+  //   this.poker.gatherBets();
+  // }
 
-  nextRound(): void {
-    this.poker.nextRound();
-  }
+  // nextRound(): void {
+  //   this.poker.nextRound();
+  // }
 
-  showdown(): void {
-    this.poker.showdown();
-  }
+  // showdown(): void {
+  //   this.poker.showdown();
+  // }
 
-  newDeck(): Card[] {
-    return this.poker.newDeck();
-  }
+  // newDeck(): Card[] {
+  //   return this.poker.newDeck();
+  // }
 
   addOn(userId: Ulid, amount: AddOnAmount): void {
     this.poker.addOn(userId.get(), amount.get());
   }
 
-  call(userId: Ulid): void {
+  call(userId: Ulid): PokerLog[] {
+    const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.callAction();
+    const callLog = PokerLogFactory.createCallLog(this.id, this.gameId()!, {
+      playerName: this.getPlayer(userId)!.name,
+    });
+    return [callLog, ...this.generatePokerLog(preRound)];
   }
 
-  check(userId: Ulid): void {
+  check(userId: Ulid): PokerLog[] {
+    const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.checkAction();
+    const checkLog = PokerLogFactory.createCheckLog(this.id, this.gameId()!, {
+      playerName: this.getPlayer(userId)!.name,
+    });
+    return [checkLog, ...this.generatePokerLog(preRound)];
   }
 
-  fold(userId: Ulid): void {
+  fold(userId: Ulid): PokerLog[] {
+    const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.foldAction();
+    const foldLog = PokerLogFactory.createFoldLog(this.id, this.gameId()!, {
+      playerName: this.getPlayer(userId)!.name,
+    });
+    return [foldLog, ...this.generatePokerLog(preRound)];
   }
 
-  bet(userId: Ulid, amount: BetAmount): void {
+  bet(userId: Ulid, amount: BetAmount): PokerLog[] {
+    const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.betAction(amount.get());
+    const betLog = PokerLogFactory.createBetLog(this.id, this.gameId()!, {
+      playerName: this.poker.currentActor!.name,
+      amount: amount.get(),
+    });
+    return [betLog, ...this.generatePokerLog(preRound)];
   }
 
-  raise(userId: Ulid, amount: RaiseAmount): void {
+  raise(userId: Ulid, amount: RaiseAmount): PokerLog[] {
+    const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.raiseAction(amount.get());
+    const raiseLog = PokerLogFactory.createRaiseLog(this.id, this.gameId()!, {
+      playerName: this.poker.currentActor!.name,
+      amount: amount.get(),
+    });
+    return [raiseLog, ...this.generatePokerLog(preRound)];
   }
 
   private ensureYourTurn(userId: Ulid): void {
@@ -258,6 +311,60 @@ export class Table {
       throw new ValidationError(
         `It's not your turn. Current actor: ${this.poker.currentActor?.name} id: ${this.poker.currentActor?.id}`,
       );
+    }
+  }
+
+  private generatePokerLog(preRound: BettingRound | null): PokerLog[] {
+    const round = this.currentRound();
+    if (preRound === round) return [];
+    if (!round) {
+      return [
+        ...this.actingPlayers().map(player => {
+          return PokerLogFactory.createShowDownLog(this.id, this.gameId()!, {
+            playerName: player.name,
+            hand: player.hand,
+          });
+        }),
+        PokerLogFactory.createCollectPotLog(
+          this.id,
+          this.gameId()!,
+          this.winners()!.map(player => {
+            return { playerName: player.name, amount: player.stackSize };
+          }),
+        ),
+        PokerLogFactory.createEndingHandLog(this.id, this.gameId()!, null),
+      ];
+    }
+    switch (round.get()) {
+      case BettingRoundEnum.FLOP:
+        return [
+          PokerLogFactory.createFlopLog(this.id, this.gameId()!, {
+            card1: this.commonCards()[0].toString(),
+            card2: this.commonCards()[1].toString(),
+            card3: this.commonCards()[2].toString(),
+          }),
+        ];
+      case BettingRoundEnum.TURN:
+        return [
+          PokerLogFactory.createTurnLog(this.id, this.gameId()!, {
+            card1: this.commonCards()[0].toString(),
+            card2: this.commonCards()[1].toString(),
+            card3: this.commonCards()[2].toString(),
+            card4: this.commonCards()[3].toString(),
+          }),
+        ];
+      case BettingRoundEnum.RIVER:
+        return [
+          PokerLogFactory.createRiverLog(this.id, this.gameId()!, {
+            card1: this.commonCards()[0].toString(),
+            card2: this.commonCards()[1].toString(),
+            card3: this.commonCards()[2].toString(),
+            card4: this.commonCards()[3].toString(),
+            card5: this.commonCards()[4].toString(),
+          }),
+        ];
+      default:
+        return [];
     }
   }
 }

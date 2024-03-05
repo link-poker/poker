@@ -2,17 +2,16 @@ import cors from '@fastify/cors';
 import websocket from '@fastify/websocket';
 import { PrismaClient } from '@prisma/client';
 import fastify, { FastifyInstance } from 'fastify';
+import { PokerLogHttpController } from './application/controllers/http/PokerLogHttpController';
 import { TableHttpController } from './application/controllers/http/TableHttpController';
 import { UserHttpController } from './application/controllers/http/UserHttpController';
 import { TableWsController } from './application/controllers/ws/TableWsController';
 import { WatchTableWsController } from './application/controllers/ws/WatchTableWsController';
 import { AuthenticateApplicationService } from './application/services/AuthenticateApplicationService';
+import { PokerLogApplicationService } from './application/services/PokerLogApplicationService';
 import { TableApplicationService } from './application/services/TableApplicationService';
 import { UserApplicationService } from './application/services/UserApplicationService';
 import { WebSocketApplicationService } from './application/services/WebSocketApplicationService';
-import { PokerLogFactory } from './domain/factories/PokerLogFactory';
-import { TableFactory } from './domain/factories/TableFactory';
-import { UserFactory } from './domain/factories/UserFactory';
 import { WebSocketService } from './domain/services/WebSocketService';
 import { PokerLogRepository } from './infrastructure/repositories/db/PokerLogRepository';
 import { TableRepository } from './infrastructure/repositories/db/TableRepository';
@@ -24,14 +23,13 @@ export const createApp = async () => {
   const userRepository = new UserRepository(prisma);
   const pokerLogRepository = new PokerLogRepository(prisma);
   const tableRepository = new TableRepository(prisma);
-  const userFactory = new UserFactory();
-  const pokerLogFactory = new PokerLogFactory();
-  const tableFactory = new TableFactory();
   const webSocketService = new WebSocketService();
   const authenticateApplicationService = new AuthenticateApplicationService(userRepository);
-  const userApplicationService = new UserApplicationService(userFactory, userRepository);
-  const tableApplicationService = new TableApplicationService(tableFactory, tableRepository, webSocketService);
+  const pokerLogApplicationService = new PokerLogApplicationService(pokerLogRepository);
+  const userApplicationService = new UserApplicationService(userRepository);
+  const tableApplicationService = new TableApplicationService(tableRepository, pokerLogRepository, webSocketService);
   const webSocketApplicationService = new WebSocketApplicationService(webSocketService);
+  const pokerLogHttpController = new PokerLogHttpController(pokerLogApplicationService);
   const tableHttpController = new TableHttpController(
     authenticateApplicationService,
     tableApplicationService,
@@ -48,7 +46,14 @@ export const createApp = async () => {
   });
   app.register(websocket);
 
-  registerRoutes(app, tableHttpController, userHttpController, tableWsController, watchTableWsController);
+  registerRoutes(
+    app,
+    tableHttpController,
+    pokerLogHttpController,
+    userHttpController,
+    tableWsController,
+    watchTableWsController,
+  );
 
   app.addHook('onClose', async () => {
     await prisma.$disconnect();

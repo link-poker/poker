@@ -10,7 +10,8 @@
     "dev:studio": "prisma studio",
     "test": "jest tests/.*/.*.test.ts$ --testPathIgnorePatterns=tests/integrations",
     "test:integrations": "jest tests/integrations/.*.test.ts$ --runInBand",
-    "lint": "eslint ./src --ext .ts"
+    "lint": "eslint ./src --ext .ts",
+    "prisma": "npx prisma"
   },
   "keywords": [],
   "author": "",

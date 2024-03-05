@@ -37,3 +37,9 @@ export interface ISitDownAsGuestRequest {
     seatNumber: number;
   };
 }
+
+export interface IGetTableRequest {
+  params: {
+    tableId: string;
+  };
+}

@@ -2,33 +2,29 @@ import { z } from 'zod';
 import { ValidationError } from '../../error';
 import { PokerLogType, PokerLogTypeEnum } from './PokerLogType';
 
-type StartingHandParams = {
-  dealer: string;
+export type StartingHandCommentParams = {
+  dealerName: string;
 };
 
-type StackParams = {
+export type StackCommentParams = {
   playerName: string;
   stack: number;
 }[];
 
-type YourHandParams = {
-  hand: string;
-};
-
-type FlopParams = {
+export type FlopCommentParams = {
   card1: string;
   card2: string;
   card3: string;
 };
 
-type TurnParams = {
+export type TurnCommentParams = {
   card1: string;
   card2: string;
   card3: string;
   card4: string;
 };
 
-type RiverParams = {
+export type RiverCommentParams = {
   card1: string;
   card2: string;
   card3: string;
@@ -36,67 +32,66 @@ type RiverParams = {
   card5: string;
 };
 
-type ShowDownParams = {
+export type ShowDownCommentParams = {
   playerName: string;
   hand: string;
 };
 
-type CollectPotParams = {
+export type CollectPotCommentParams = {
   playerName: string;
   amount: number;
 }[];
 
-type EndingHandParams = null;
+export type EndingHandCommentParams = null;
 
-type smallBlindParams = {
+export type smallBlindCommentParams = {
   playerName: string;
   amount: number;
 };
 
-type bigBlindParams = {
+export type bigBlindCommentParams = {
   playerName: string;
   amount: number;
 };
 
-type BetParams = {
+export type BetCommentParams = {
   playerName: string;
   amount: number;
 };
 
-type CallParams = {
+export type CallCommentParams = {
   playerName: string;
 };
 
-type CheckParams = {
+export type CheckCommentParams = {
   playerName: string;
 };
 
-type RaiseParams = {
+export type RaiseCommentParams = {
   playerName: string;
   amount: number;
 };
 
-type FoldParams = {
+export type FoldCommentParams = {
   playerName: string;
 };
 
-type CommentParams =
-  | StartingHandParams
-  | StackParams
-  | YourHandParams
-  | FlopParams
-  | TurnParams
-  | RiverParams
-  | ShowDownParams
-  | CollectPotParams
-  | EndingHandParams
-  | smallBlindParams
-  | bigBlindParams
-  | BetParams
-  | CallParams
-  | CheckParams
-  | RaiseParams
-  | FoldParams;
+export type CommentParams =
+  | StartingHandCommentParams
+  | StackCommentParams
+  | FlopCommentParams
+  | TurnCommentParams
+  | RiverCommentParams
+  | ShowDownCommentParams
+  | CollectPotCommentParams
+  | EndingHandCommentParams
+  | smallBlindCommentParams
+  | bigBlindCommentParams
+  | BetCommentParams
+  | CallCommentParams
+  | CheckCommentParams
+  | RaiseCommentParams
+  | FoldCommentParams;
 
 export class PokerLogComment {
   private readonly value: string;
@@ -128,102 +123,96 @@ export class PokerLogComment {
 const getComment = (type: PokerLogType, params: CommentParams): string => {
   switch (type.get()) {
     case PokerLogTypeEnum.STARTING_HAND:
-      return startingHand(params as StartingHandParams);
+      return startingHand(params as StartingHandCommentParams);
     case PokerLogTypeEnum.STACK:
-      return stack(params as StackParams);
-    case PokerLogTypeEnum.YOUR_HAND:
-      return yourHand(params as YourHandParams);
+      return stack(params as StackCommentParams);
     case PokerLogTypeEnum.FLOP:
-      return flop(params as FlopParams);
+      return flop(params as FlopCommentParams);
     case PokerLogTypeEnum.TURN:
-      return turn(params as TurnParams);
+      return turn(params as TurnCommentParams);
     case PokerLogTypeEnum.RIVER:
-      return river(params as RiverParams);
+      return river(params as RiverCommentParams);
     case PokerLogTypeEnum.SHOW_DOWN:
-      return showDown(params as ShowDownParams);
+      return showDown(params as ShowDownCommentParams);
     case PokerLogTypeEnum.COLLECT_POT:
-      return collectPot(params as CollectPotParams);
+      return collectPot(params as CollectPotCommentParams);
     case PokerLogTypeEnum.ENDING_HAND:
-      return endingHand(params as EndingHandParams);
+      return endingHand(params as EndingHandCommentParams);
     case PokerLogTypeEnum.SMALL_BLIND:
-      return smallBlind(params as smallBlindParams);
+      return smallBlind(params as smallBlindCommentParams);
     case PokerLogTypeEnum.BIG_BLIND:
-      return bigBlind(params as bigBlindParams);
+      return bigBlind(params as bigBlindCommentParams);
     case PokerLogTypeEnum.BET:
-      return bet(params as BetParams);
+      return bet(params as BetCommentParams);
     case PokerLogTypeEnum.CALL:
-      return call(params as CallParams);
+      return call(params as CallCommentParams);
     case PokerLogTypeEnum.CHECK:
-      return check(params as CheckParams);
+      return check(params as CheckCommentParams);
     case PokerLogTypeEnum.RAISE:
-      return raise(params as RaiseParams);
+      return raise(params as RaiseCommentParams);
     case PokerLogTypeEnum.FOLD:
-      return fold(params as FoldParams);
+      return fold(params as FoldCommentParams);
     default:
       return 'Unknown Comment';
   }
 };
 
-const startingHand = (params: StartingHandParams): string => {
-  return `Starting hand dealer: ${params.dealer}`;
+const startingHand = (params: StartingHandCommentParams): string => {
+  return `Starting hand dealer: ${params.dealerName}`;
 };
 
-const stack = (params: StackParams): string => {
+const stack = (params: StackCommentParams): string => {
   return `Stacks: ${params.map(p => `${p.playerName}: ${p.stack}`).join(', ')}`;
 };
 
-const yourHand = (params: YourHandParams): string => {
-  return `Your hand: ${params.hand}`;
-};
-
-const flop = (params: FlopParams): string => {
+const flop = (params: FlopCommentParams): string => {
   return `Flop: ${params.card1}, ${params.card2}, ${params.card3}`;
 };
 
-const turn = (params: TurnParams): string => {
+const turn = (params: TurnCommentParams): string => {
   return `Turn: ${params.card4}`;
 };
 
-const river = (params: RiverParams): string => {
+const river = (params: RiverCommentParams): string => {
   return `River: ${params.card5}`;
 };
 
-const showDown = (params: ShowDownParams): string => {
+const showDown = (params: ShowDownCommentParams): string => {
   return `${params.playerName} show down: ${params.hand}`;
 };
 
-const collectPot = (params: CollectPotParams): string => {
+const collectPot = (params: CollectPotCommentParams): string => {
   return `Collect pot: ${params.map(p => `${p.playerName}: ${p.amount}`).join(', ')}`;
 };
 
-const endingHand = (params: EndingHandParams): string => {
+const endingHand = (params: EndingHandCommentParams): string => {
   return 'Ending hand';
 };
 
-const smallBlind = (params: smallBlindParams): string => {
+const smallBlind = (params: smallBlindCommentParams): string => {
   return `${params.playerName} small blind: ${params.amount}`;
 };
 
-const bigBlind = (params: bigBlindParams): string => {
+const bigBlind = (params: bigBlindCommentParams): string => {
   return `${params.playerName} big blind: ${params.amount}`;
 };
 
-const bet = (params: BetParams): string => {
+const bet = (params: BetCommentParams): string => {
   return `${params.playerName} bet: ${params.amount}`;
 };
 
-const call = (params: CallParams): string => {
+const call = (params: CallCommentParams): string => {
   return `${params.playerName} call`;
 };
 
-const check = (params: CheckParams): string => {
+const check = (params: CheckCommentParams): string => {
   return `${params.playerName} check`;
 };
 
-const raise = (params: RaiseParams): string => {
+const raise = (params: RaiseCommentParams): string => {
   return `${params.playerName} raise: ${params.amount}`;
 };
 
-const fold = (params: FoldParams): string => {
+const fold = (params: FoldCommentParams): string => {
   return `${params.playerName} fold`;
 };

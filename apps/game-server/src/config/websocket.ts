@@ -11,4 +11,5 @@ export enum MessageTypeEnum {
   ADD_ON = 'addOn',
   DELAY_TIME = 'delayTime',
   PLAYER_PRIVATE_INFO = 'playerPrivateInfo',
+  POKER_LOG = 'pokerLog',
 }

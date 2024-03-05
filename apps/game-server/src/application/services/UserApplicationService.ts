@@ -8,14 +8,11 @@ import { UserName } from '../../domain/value-objects/UserName';
 import { IUserRepository } from '../../interfaces/repository/IUserRepository';
 
 export class UserApplicationService {
-  constructor(
-    private readonly userFactory: UserFactory,
-    private readonly userRepository: IUserRepository,
-  ) {}
+  constructor(private readonly userRepository: IUserRepository) {}
 
   async createUser(userNameStr: string): Promise<{ user: User; authToken: AuthToken }> {
     const userName = new UserName(userNameStr);
-    const user = this.userFactory.create(userName);
+    const user = UserFactory.create(userName);
     await this.userRepository.create(user);
     const authTokenGenerator = new AuthTokenGenerator(ENV_CONFIG.AUTH_TOKEN_SECRET_KEY_BASE64);
     const authToken = authTokenGenerator.generate(user);

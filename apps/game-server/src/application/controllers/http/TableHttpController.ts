@@ -3,6 +3,7 @@ import {
   ISitDownAsUserRequest,
   ICreateTableAsGuestRequest,
   ISitDownAsGuestRequest,
+  IGetTableRequest,
 } from '@link-poker/constants';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { httpHandleError } from '../../../error';
@@ -88,7 +89,7 @@ export class TableHttpController {
 
   async getTable(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { tableId } = request.params as ISitDownAsGuestRequest['params'];
+      const { tableId } = request.params as IGetTableRequest['params'];
       const authToken = request.headers.authorization;
       const table = await this.tableApplicationService.getTable(tableId);
       const tableData = new TableInfoForPlayersData(table.getTableInfoForPlayers());

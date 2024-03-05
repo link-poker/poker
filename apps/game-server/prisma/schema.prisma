@@ -11,7 +11,7 @@ datasource db {
 model PokerLog {
   id        String   @id
   tableId   String   @map("table_id")
-  gameId    String   
+  gameId    String
   type      String
   params    String   @db.Text
   createdAt DateTime @map("created_at")
@@ -29,7 +29,7 @@ model Table {
   createdAt  DateTime @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  user    User      @relation(fields: [ownerId], references: [id])
+  user    User       @relation(fields: [ownerId], references: [id])
   GameLog PokerLog[]
 }
 

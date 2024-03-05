@@ -15,8 +15,7 @@ describe('AuthTokenValidator', () => {
   });
 
   it('should be able to validate auth token', () => {
-    const userFactory = new UserFactory();
-    const user = userFactory.create(new UserName('Alice'));
+    const user = UserFactory.create(new UserName('Alice'));
     const token = tokenGenerator.generate(user);
     const validatedUser = tokenValidator.validate(token);
     expect(validatedUser).toEqual(user);
