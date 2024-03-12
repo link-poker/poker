@@ -8,7 +8,9 @@
     "dev:client": "pnpm client dev",
     "dev:game-server": "pnpm game-server dev",
     "build:client": "pnpm client build",
-    "build:game-server": "pnpm game-server build"
+    "build:game-server": "pnpm game-server build",
+    "test:client-container": "sh docker.test.sh dockers/Dockerfile.client",
+    "test:game-server-container": "sh docker.test.sh dockers/Dockerfile.game-server"
   },
   "prettier": {
     "printWidth": 100,

@@ -1,3 +1,4 @@
+import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
 import { useState } from 'react';
 import { BsCircleFill } from 'react-icons/bs';
 import { useTable } from 'hooks/useTable';
@@ -20,7 +21,9 @@ export default function ActionContainer(props: Props) {
   const currentBet = table.poker.currentBet || 0;
   const isOwner = table.owner.id === user.id;
   const isYourTurn = table.poker.currentActor && table.poker.currentActor.id === user.id;
-  const numberOfPlayers = table.poker.players.filter(player => player && player.stack !== 0).length;
+  const numberOfPlayers = table.poker.players.filter(
+    (player: IPlayerInfoForOthersResponse | null) => player && player.stack !== 0,
+  ).length;
   const isNotEnoughPlayers = numberOfPlayers < 2;
   const isReadyStart = !table.poker.currentRound && !isNotEnoughPlayers;
   const isCheck = table.poker.currentActor?.bet === (currentBet || 0);

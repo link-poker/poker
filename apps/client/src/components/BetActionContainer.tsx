@@ -1,3 +1,4 @@
+import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
 import { useState } from 'react';
 import { useTable } from 'hooks/useTable';
 import { useUser } from 'hooks/useUser';
@@ -21,8 +22,8 @@ export default function BetActionContainer(props: Props) {
   const isReadyStart = !table.poker.currentRound && table.poker.activePlayers.length >= 2;
   const isBet = table.poker.currentBet === null;
   const totalBetExceptYou = table.poker.activePlayers
-    .filter(player => player.id !== user.id)
-    .reduce((acc, player) => acc + player.bet, 0);
+    .filter((player: IPlayerInfoForOthersResponse) => player.id !== user.id)
+    .reduce((acc: number, player: IPlayerInfoForOthersResponse) => acc + player.bet, 0);
   const currentBet = table.poker.currentBet || 0;
   const stack = table.poker.currentActor?.stack || 0;
   const pot = (table.poker.currentPot || 0) + totalBetExceptYou + currentBet * 2;

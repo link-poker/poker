@@ -15,6 +15,7 @@ const initialTableState: ITableResponse = {
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   poker: {
+    gameId: '',
     bigBlind: 0,
     smallBlind: 0,
     buyIn: 0,

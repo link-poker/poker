@@ -1,0 +1,38 @@
+# BUILDER
+FROM node:20-bullseye-slim AS builder
+
+WORKDIR /workspace
+
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
+COPY ./apps/client ./apps/client
+COPY ./packages ./packages
+
+ARG NEXT_PUBLIC_GAME_SERVER_HTTP_URL
+ARG NEXT_PUBLIC_GAME_SERVER_WS_URL
+
+RUN npm i -g pnpm@8.10.5
+RUN pnpm i
+RUN pnpm run client build
+RUN rm -rf node_modules
+RUN rm -rf apps/client/node_modules
+RUN pnpm i --prod
+
+# Production image
+FROM node:20-bullseye-slim AS runner
+
+ENV TZ utc
+
+WORKDIR /workspace
+
+COPY --from=builder /workspace/package.json /workspace/pnpm-lock.yaml /workspace/pnpm-workspace.yaml ./
+COPY --from=builder /workspace/node_modules ./node_modules
+COPY --from=builder /workspace/apps/client/package.json ./apps/client/package.json
+COPY --from=builder /workspace/apps/client/.next ./apps/client/.next
+COPY --from=builder /workspace/apps/client/public ./apps/client/public
+COPY --from=builder /workspace/apps/client/node_modules ./apps/client/node_modules
+
+WORKDIR /workspace/apps/client
+
+CMD [ "node_modules/next/dist/bin/next", "start" ]

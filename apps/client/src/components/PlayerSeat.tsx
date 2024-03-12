@@ -1,3 +1,4 @@
+import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
 import Image from 'next/image';
 import { FaTrophy } from 'react-icons/fa';
 import { ImLoop } from 'react-icons/im';
@@ -18,18 +19,22 @@ export default function PlayerSeat(props: Props) {
   const { table } = useTable();
   const { user } = useUser();
   const { playerPrivateInfo } = usePlayerPrivateInfo();
-  const playerSeatNumber = table.poker.players.findIndex(player => player && player.id === user.id);
+  const playerSeatNumber = table.poker.players.findIndex(
+    (player: IPlayerInfoForOthersResponse | null) => player && player.id === user.id,
+  );
   const player =
     playerSeatNumber === -1
       ? table.poker.players[seatNumber]
       : table.poker.players[(seatNumber + playerSeatNumber + 5) % 10];
   const isAct = player && table.poker.currentActor?.id === player.id;
   const isYou = player && player.id === user.id;
-  const isAlreadySitDown = table.poker.players.some(player => player && player.id === user.id);
+  const isAlreadySitDown = table.poker.players.some(
+    (player: IPlayerInfoForOthersResponse | null) => player && player.id === user.id,
+  );
   const holeCardsNullable = isYou ? playerPrivateInfo.holeCards : player ? player.holeCards : null;
   const holeCards = holeCardsNullable && holeCardsNullable.length != 0 ? holeCardsNullable : ['Blue_Back', 'Blue_Back'];
   const hand = isYou ? playerPrivateInfo.hand : player ? player.hand : null;
-  const isWinner = table.poker.winners?.find(winner => winner.id === player?.id);
+  const isWinner = table.poker.winners?.find((winner: IPlayerInfoForOthersResponse) => winner.id === player?.id);
 
   if (!player && table.status === TABLE_STATUS.WAITING && !isAlreadySitDown) {
     return <SitDownButton seatNumber={seatNumber} />;
