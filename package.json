@@ -2,7 +2,7 @@
   "private": true,
   "name": "@link-poker/monorepo",
   "scripts": {
-    "setup": "pnpm i && pnpm build:packages",
+    "setup": "pnpm i && pnpm build:packages && git config --local core.hooksPath .githooks && chmod +x .githooks/pre-commit",
     "client": "pnpm --filter @link-poker/client",
     "game-server": "pnpm --filter @link-poker/game-server",
     "constants": "pnpm --filter @link-poker/constants",
