@@ -8,15 +8,16 @@ COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./
 COPY ./apps/client ./apps/client
 COPY ./packages ./packages
+COPY ./scripts ./scripts
 
 ARG NEXT_PUBLIC_GAME_SERVER_HTTP_URL
 ARG NEXT_PUBLIC_GAME_SERVER_WS_URL
 
 RUN npm i -g pnpm@8.10.5
 RUN pnpm i
+RUN pnpm run build:packages
 RUN pnpm run client build
-RUN rm -rf node_modules
-RUN rm -rf apps/client/node_modules
+RUN pnpm run remove-node-modules
 RUN pnpm i --prod
 
 # Production image

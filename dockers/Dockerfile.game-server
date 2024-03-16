@@ -8,15 +8,16 @@ COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./
 COPY ./apps/game-server ./apps/game-server
 COPY ./packages ./packages
+COPY ./scripts ./scripts
 
 ARG DATABASE_URL
 ARG AUTH_TOKEN_SECRET_KEY_BASE64
 
 RUN npm i -g pnpm@8.10.5
 RUN pnpm i
+RUN pnpm run build:packages
 RUN pnpm run game-server build
-RUN rm -rf node_modules
-RUN rm -rf apps/game-server/node_modules
+RUN pnpm run remove-node-modules
 RUN pnpm run game-server add prisma@5.11.0
 RUN pnpm run game-server prisma generate
 RUN pnpm i --prod

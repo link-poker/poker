@@ -2,6 +2,7 @@
   "private": true,
   "name": "@link-poker/monorepo",
   "scripts": {
+    "setup": "pnpm i && pnpm build:packages",
     "client": "pnpm --filter @link-poker/client",
     "game-server": "pnpm --filter @link-poker/game-server",
     "constants": "pnpm --filter @link-poker/constants",
@@ -9,8 +10,10 @@
     "dev:game-server": "pnpm game-server dev",
     "build:client": "pnpm client build",
     "build:game-server": "pnpm game-server build",
+    "build:packages": "sh scripts/build-packages.sh",
     "test:client-container": "sh dockers/docker.test.sh dockers/Dockerfile.client",
-    "test:game-server-container": "sh dockers/docker.test.sh dockers/Dockerfile.game-server"
+    "test:game-server-container": "sh dockers/docker.test.sh dockers/Dockerfile.game-server",
+    "remove-node-modules": "sh scripts/remove-node-modules.sh"
   },
   "prettier": {
     "printWidth": 100,
