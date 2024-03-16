@@ -26,9 +26,6 @@ echo "Container started with ID: $container_id"
 # コンテナの起動を待つ（例: 10秒待機）
 sleep 10
 
-# アプリケーションの起動ログを確認
-docker logs $container_id
-
 # アプリケーションが起動しているかどうかを確認
 if ! docker logs $container_id ; then
   echo "Application did not start successfully."
