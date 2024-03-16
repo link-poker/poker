@@ -33,6 +33,7 @@ steps:
         --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
+      - '--set-env-vars=DATABASE_URL=$_DATABASE_URL,AUTH_TOKEN_SECRET_KEY_BASE64=$_AUTH_TOKEN_SECRET_KEY_BASE64'
     id: Deploy
     entrypoint: gcloud
 images:

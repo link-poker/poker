@@ -44,7 +44,7 @@ options:
 substitutions:
   _DEPLOY_REGION: us-central1
   _AR_HOSTNAME: us-central1-docker.pkg.dev
-  _TRIGGER_ID: 4e7a5e70-3e1e-4a07-bdc8-0ec970e48343
+  _TRIGGER_ID: 673bef63-28d5-4709-b22a-a3afb99074a3
   _PLATFORM: managed
   _SERVICE_NAME: link-poker-client
 tags:
