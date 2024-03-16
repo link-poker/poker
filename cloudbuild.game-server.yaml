@@ -3,12 +3,16 @@ steps:
     args:
       - build
       - '--no-cache'
+      - '--build-arg'
+      - 'DATABASE_URL=${_DATABASE_URL}'
+      - '--build-arg'
+      - 'AUTH_TOKEN_SECRET_KEY_BASE64=${_AUTH_TOKEN_SECRET_KEY_BASE64}'
       - '-t'
       - >-
         $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-      - '.'
       - '-f'
       - dockers/Dockerfile.game-server
+      - '.'
     id: Build
   - name: gcr.io/cloud-builders/docker
     args:
