@@ -11,8 +11,8 @@
     "build:client": "pnpm client build",
     "build:game-server": "pnpm game-server build",
     "build:packages": "sh scripts/build-packages.sh",
-    "test:client-container": "sh dockers/docker.test.sh dockers/Dockerfile.client",
-    "test:game-server-container": "sh dockers/docker.test.sh dockers/Dockerfile.game-server",
+    "test:client-container": "sh dockers/docker.test.sh dockers/Dockerfile.client apps/client/.env",
+    "test:game-server-container": "sh dockers/docker.test.sh dockers/Dockerfile.game-server apps/game-server/.env",
     "remove-node-modules": "sh scripts/remove-node-modules.sh"
   },
   "prettier": {

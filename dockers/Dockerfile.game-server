@@ -1,6 +1,9 @@
 # BUILDER
 FROM node:20-bullseye-slim AS builder
 
+# Install ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
+
 WORKDIR /workspace
 
 COPY package.json ./
@@ -20,6 +23,7 @@ RUN pnpm run game-server build
 RUN pnpm run remove-node-modules
 RUN pnpm run game-server add prisma@5.11.0
 RUN pnpm run game-server prisma generate
+RUN pnpm run game-server test:health
 RUN pnpm i --prod
 
 # Production image

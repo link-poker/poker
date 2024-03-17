@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, PokerLog as prismaPokerLog } from '@prisma/client';
 import { PokerLog } from '../../../domain/entities/PokerLog';
 import { Ulid } from '../../../domain/value-objects/Ulid';
 import { IPokerLogRepository } from '../../../interfaces/repository/IPokerLogRepository';
@@ -8,7 +8,7 @@ export class PokerLogRepository implements IPokerLogRepository {
   constructor(private readonly prisma: PrismaClient) {}
   async createMany(pokerLogs: PokerLog[]): Promise<PokerLog[]> {
     await this.prisma.pokerLog.createMany({
-      data: pokerLogs.map(pokerLog => PokerLogTransformer.toPrismaModel(pokerLog)),
+      data: pokerLogs.map((pokerLog: PokerLog) => PokerLogTransformer.toPrismaModel(pokerLog)),
     });
     return pokerLogs;
   }
@@ -19,6 +19,6 @@ export class PokerLogRepository implements IPokerLogRepository {
         tableId: tableId.get(),
       },
     });
-    return pokerLogs.map(pokerLog => PokerLogTransformer.toModel(pokerLog));
+    return pokerLogs.map((pokerLog: prismaPokerLog) => PokerLogTransformer.toModel(pokerLog));
   }
 }

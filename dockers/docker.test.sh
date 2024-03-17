@@ -1,21 +1,28 @@
 #!/bin/bash
 
-# 第一引数としてDockerファイルのパスを受け取る
+# Receive the path of the Dockerfile and the environment file as arguments
 dockerfile_path=$1
+env_path=$2
 
-# 引数で指定されたパスを使用してDockerイメージをビルド
-docker build -t my-node-app -f $dockerfile_path .
+# Get the environment variables from the file and convert them to build arguments and run arguments
+build_args=$(grep -v '^#' $env_path | awk -F'=' '{print "--build-arg " $1 "=\"" $2 "\""}' | xargs)
+echo "Build arguments: $build_args"
+run_args=$(grep -v '^#' $env_path | awk -F'=' '{print "-e " $1 "=\"" $2 "\""}' | xargs)
+echo "Run arguments: $run_args"
 
-# ビルドが成功したかどうかを確認
+# Build the Docker image
+docker build $build_args -t test-app -f $dockerfile_path .
+
+# Check if the build was successful
 if [ $? -ne 0 ]; then
   echo "Docker build failed."
   exit 1
 fi
 
-# コンテナをデタッチモードで起動し、コンテナIDを取得
-container_id=$(docker run -d my-node-app)
+# Run the Docker container
+container_id=$(docker run $run_args -d my-node-app)
 
-# コンテナIDが空でないことを確認
+# Check if the container was started successfully
 if [ -z "$container_id" ]; then
   echo "Failed to start the container."
   exit 1
@@ -23,16 +30,16 @@ fi
 
 echo "Container started with ID: $container_id"
 
-# コンテナの起動を待つ（例: 10秒待機）
+# Wait for the application to start
 sleep 10
 
-# アプリケーションが起動しているかどうかを確認
+# Check the logs for any errors
 if ! docker logs $container_id ; then
   echo "Application did not start successfully."
   exit
 fi
 
-# コンテナの停止と削除
+# Stop and remove the container
 docker stop $container_id
 docker rm $container_id
 
