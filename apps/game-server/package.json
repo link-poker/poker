@@ -10,6 +10,7 @@
     "dev:studio": "prisma studio",
     "test": "jest tests/.*/.*.test.ts$ --testPathIgnorePatterns=tests/integrations",
     "test:integrations": "jest tests/integrations/.*.test.ts$ --runInBand",
+    "test:health": "jest tests/integrations/health.test.ts$ --runInBand",
     "lint": "eslint ./src --ext .ts",
     "prisma": "npx prisma"
   },

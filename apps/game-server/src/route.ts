@@ -5,6 +5,7 @@ import { TableHttpController } from './application/controllers/http/TableHttpCon
 import { UserHttpController } from './application/controllers/http/UserHttpController';
 import { TableWsController } from './application/controllers/ws/TableWsController';
 import { WatchTableWsController } from './application/controllers/ws/WatchTableWsController';
+import { PrismaClient } from '@prisma/client';
 
 const registerHttpRoutes = (
   app: FastifyInstance,
@@ -13,6 +14,12 @@ const registerHttpRoutes = (
   userHttpController: UserHttpController,
 ) => {
   app.get('/health', async (request, reply) => {
+    reply.send({ status: 'ok' });
+  });
+  app.get('/health/db', async (request, reply) => {
+    const prisma = new PrismaClient();
+    await prisma.$connect();
+    await prisma.$disconnect();
     reply.send({ status: 'ok' });
   });
   app.post('/tables', tableHttpController.createAsUser.bind(tableHttpController));
