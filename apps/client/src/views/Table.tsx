@@ -50,11 +50,7 @@ export default function Table(props: Props) {
         <div className='relative h-screen w-screen bg-stone-800'>
           <div className='absolute'>
             {/* TODO: イメージを付けるための仮置き*/}
-            <img
-              className='object-fill h-[80vh] w-screen'
-              src='https://media.pokernow.club/campaing-felts/table-green-plus-3.png'
-              alt='table'
-            />
+            <img className='object-fill h-[80vh] w-screen' src='/table.png' alt='table' />
           </div>
           <div className='absolute mt-[0vh] ml-[0vw] w-full z-50'>
             <ReconnectBar tableId={tableId} />

@@ -101,7 +101,7 @@ export default function SitDownForm(props: Props) {
         />
         {errors.stack && <p className='text-red-500 text-xs italic'>Input Valid Number</p>}
 
-        <button type='submit' className='green-btn rounded-md p-2 mt-8 w-full'>
+        <button type='submit' className='cyan-btn rounded-md p-2 mt-8 w-full'>
           TAKE THE SEAT
         </button>
       </form>

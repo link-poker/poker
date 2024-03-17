@@ -101,7 +101,7 @@ export default function PlayerSeat(props: Props) {
       )}
       <TableObjects player={player} seatNumber={seatNumber} />
       <div className='absolute -mt-2 ml-[16vw] xl:ml-52 transform -translate-x-1/2'>
-        <div className='flex justify-center items-center gap-1 bg-green-600 rounded-2xl h-[2vh] w-12'>
+        <div className='flex justify-center items-center gap-1 bg-cyan-600 rounded-2xl h-[2vh] w-12'>
           <FaTrophy size={10} />
           <div className='text-xs'>19</div>
         </div>

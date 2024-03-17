@@ -46,7 +46,7 @@ export default function Options(props: Props) {
             onClick={() => setSelected(Select.PREFERENCE)}
           />
         </div>
-        <div className='h-4 w-full bg-lime-800' />
+        <div className='h-4 w-full bg-cyan-800' />
         <div className='flex flex-row justify-start items-center'>
           {selected === Select.PLAYERS && <PlayersSetting players={players} />}
           {selected === Select.GAME && <GameSetting />}

@@ -10,7 +10,7 @@ export default function TotalPot() {
   );
   const totalPod = pod + totalBet;
   return (
-    <div className='flex flex-row items-end bg-green-800 rounded-xl px-1 gap-1'>
+    <div className='flex flex-row items-end bg-cyan-800 rounded-xl px-1 gap-1'>
       <div className='text-xs'>total</div>
       <div className='text-xl'>{totalPod}</div>
     </div>

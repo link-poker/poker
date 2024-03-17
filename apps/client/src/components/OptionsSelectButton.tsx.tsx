@@ -9,7 +9,7 @@ export default function OptionsSelectButton(props: Props) {
 
   if (isSelected) {
     return (
-      <button className='h-32 w-72 bg-lime-800' disabled>
+      <button className='h-32 w-72 bg-cyan-800' disabled>
         {display}
       </button>
     );

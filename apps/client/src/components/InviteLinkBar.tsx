@@ -34,7 +34,7 @@ export default function InviteLinkBar(props: Props) {
   return (
     <div className='flex flex-col rounded-full px-12 py-4 gap-2 bg-white items-center max-w-[50vw]'>
       <div className='flex flex-row justify-center gap-1'>
-        <div className='text-lg font-bold whitespace-nowrap text-green-600'>
+        <div className='text-lg font-bold whitespace-nowrap text-cyan-600'>
           Click below to copy the link and send to your friends.
         </div>
       </div>

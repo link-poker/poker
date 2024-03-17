@@ -13,5 +13,5 @@
   },
 
   // cSpell の設定
-  "cSpell.words": ["cloudsdktool", "dtos", "fastify", "pokersolver"]
+  "cSpell.words": ["cloudsdktool", "dtos", "fastify", "pokersolver", "webp"]
 }

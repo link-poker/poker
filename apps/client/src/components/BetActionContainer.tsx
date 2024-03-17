@@ -137,11 +137,11 @@ export default function BetActionContainer(props: Props) {
           BACK
         </button>
         {isBet ? (
-          <button className='outline-green-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickBetConfirm}>
+          <button className='outline-cyan-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickBetConfirm}>
             BET
           </button>
         ) : (
-          <button className='outline-green-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickRaiseConfirm}>
+          <button className='outline-cyan-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickRaiseConfirm}>
             RAISE
           </button>
         )}

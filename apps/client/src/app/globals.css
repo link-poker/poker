@@ -10,17 +10,17 @@
 
 /* 青色ボタン - 通常時は青、ホバー時は濃い青 */
 .blue-btn {
-  @apply bg-blue-500 hover:bg-blue-700 text-white btn;
+  @apply bg-blue-600 hover:bg-blue-800 text-white btn;
 }
 
-/* 緑色ボタン - 通常時は緑、ホバー時は濃い緑 */
-.green-btn {
-  @apply bg-green-500 hover:bg-green-700 text-white btn;
+/* シアン色ボタン - 通常時はシアン、ホバー時は濃いシアン */
+.cyan-btn {
+  @apply bg-cyan-600 hover:bg-cyan-800 text-white btn;
 }
 
 /* 赤色ボタン - 通常時は赤、ホバー時は濃い赤 */
 .red-btn {
-  @apply bg-red-500 hover:bg-red-700 text-white btn;
+  @apply bg-red-600 hover:bg-red-800 text-white btn;
 }
 
 /* 枠線付きの青色ボタン - 通常時は青の枠、ホバー時は濃い青の枠 */
@@ -28,9 +28,9 @@
   @apply border-blue-500 hover:border-blue-700 text-blue-500 hover:text-blue-700 border-4;
 }
 
-/* 枠線付きの緑色ボタン - 通常時は緑の枠、ホバー時は濃い緑の枠 */
-.outline-green-btn {
-  @apply border-green-500 hover:border-green-700 text-green-500 hover:text-green-700 border-4;
+/* 枠線付きのシアン色ボタン - 通常時はシアンの枠、ホバー時は濃いシアンの枠 */
+.outline-cyan-btn {
+  @apply border-cyan-500 hover:border-cyan-700 text-cyan-500 hover:text-cyan-700 border-4;
 }
 
 /* 枠線付きの赤色ボタン - 通常時は赤の枠、ホバー時は濃い赤の枠 */

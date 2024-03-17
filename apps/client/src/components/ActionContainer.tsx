@@ -76,22 +76,22 @@ export default function ActionContainer(props: Props) {
               {!isOnlyCallOrFold && (
                 <>
                   {isBet ? (
-                    <button className='outline-green-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickBet}>
+                    <button className='outline-cyan-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickBet}>
                       BET
                     </button>
                   ) : (
-                    <button className='outline-green-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickRaise}>
+                    <button className='outline-cyan-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickRaise}>
                       RAISE
                     </button>
                   )}
                 </>
               )}
               {isCheck ? (
-                <button className='outline-green-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickCheck}>
+                <button className='outline-cyan-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickCheck}>
                   CHECK
                 </button>
               ) : (
-                <button className='outline-green-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickCall}>
+                <button className='outline-cyan-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickCall}>
                   CALL
                 </button>
               )}
