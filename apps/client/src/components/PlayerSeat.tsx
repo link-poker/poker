@@ -1,7 +1,5 @@
 import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
 import Image from 'next/image';
-import { FaTrophy } from 'react-icons/fa';
-import { ImLoop } from 'react-icons/im';
 import { LuClock9 } from 'react-icons/lu';
 import { TABLE_STATUS } from 'constants/table';
 import { usePlayerPrivateInfo } from 'hooks/usePlayerPrivateInfo';
@@ -100,7 +98,7 @@ export default function PlayerSeat(props: Props) {
         </div>
       )}
       <TableObjects player={player} seatNumber={seatNumber} />
-      <div className='absolute -mt-2 ml-[16vw] xl:ml-52 transform -translate-x-1/2'>
+      {/* <div className='absolute -mt-2 ml-[16vw] xl:ml-52 transform -translate-x-1/2'>
         <div className='flex justify-center items-center gap-1 bg-cyan-600 rounded-2xl h-[2vh] w-12'>
           <FaTrophy size={10} />
           <div className='text-xs'>19</div>
@@ -111,7 +109,7 @@ export default function PlayerSeat(props: Props) {
           <ImLoop size={10} />
           <div className='text-xs'>2</div>
         </div>
-      </div>
+      </div> */}
       <div className='flex flex-row'>
         <div key={'hole1'} className='absolute -mt-3 -ml-4 -rotate-12'>
           <Image alt='card' src={`/cards/${holeCards[0]}.svg`} width={70} height={100} />
