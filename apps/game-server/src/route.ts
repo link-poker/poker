@@ -24,11 +24,11 @@ const registerHttpRoutes = (
   });
   app.post('/tables', tableHttpController.createAsUser.bind(tableHttpController));
   app.post('/tables/guest', tableHttpController.createAsGuest.bind(tableHttpController));
-  app.post('/tables/:tableId/sit-down', tableHttpController.sitDownAsUser.bind(tableHttpController));
-  app.post('/tables/:tableId/sit-down/guest', tableHttpController.sitDownAsGuest.bind(tableHttpController));
-  app.get('/tables/:tableId', tableHttpController.getTable.bind(tableHttpController));
-  app.get('/poker-logs/:tableId', tableLogHttpController.getTableLog.bind(tableLogHttpController));
-  app.get('/users/:userId', userHttpController.getUser.bind(tableHttpController));
+  app.post('/table/:tableId/sit-down', tableHttpController.sitDownAsUser.bind(tableHttpController));
+  app.post('/table/:tableId/sit-down/guest', tableHttpController.sitDownAsGuest.bind(tableHttpController));
+  app.get('/table/:tableId', tableHttpController.getTable.bind(tableHttpController));
+  app.get('/table/:tableId/logs', tableLogHttpController.getTableLog.bind(tableLogHttpController));
+  app.get('/user/:userId', userHttpController.getUser.bind(tableHttpController));
 };
 
 const registerWsRoutes = (

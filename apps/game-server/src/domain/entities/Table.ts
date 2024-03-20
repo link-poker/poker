@@ -324,10 +324,10 @@ export class Table {
     if (preRound === round) return [];
     if (!round) {
       return [
-        ...this.actingPlayers().map(player => {
+        ...this.actingPlayers().map((player: Player) => {
           return TableLogFactory.createShowDownLog(this.id, this.ensurerGameId(), {
             playerName: player.name,
-            hand: player.hand,
+            hand: player.hand.name,
           });
         }),
         TableLogFactory.createCollectPotLog(

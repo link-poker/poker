@@ -21,4 +21,8 @@ export class TableLogData implements ITableLogResponse {
     this.createdAt = tableLog.createdAt.toISOString();
     this.updatedAt = tableLog.updatedAt.toISOString();
   }
+
+  static createList(tableLogs: TableLog[]): TableLogData[] {
+    return tableLogs.map(tableLog => new TableLogData(tableLog));
+  }
 }

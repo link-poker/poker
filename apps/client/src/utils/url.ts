@@ -17,19 +17,23 @@ export const getCreateTableAsGuestUrl = () => {
 };
 
 export const getSitDownAsUserUrl = (tableId: string) => {
-  return `${GAME_SERVER_HTTP_URL}/tables/${tableId}/sit-down`;
+  return `${GAME_SERVER_HTTP_URL}/table/${tableId}/sit-down`;
 };
 
 export const getSitDownAsGuestUrl = (tableId: string) => {
-  return `${GAME_SERVER_HTTP_URL}/tables/${tableId}/sit-down/guest`;
+  return `${GAME_SERVER_HTTP_URL}/table/${tableId}/sit-down/guest`;
 };
 
 export const getTableUrl = (tableId: string) => {
-  return `${GAME_SERVER_HTTP_URL}/tables/${tableId}`;
+  return `${GAME_SERVER_HTTP_URL}/table/${tableId}`;
 };
 
 export const getUserUrl = (userId: string) => {
-  return `${GAME_SERVER_HTTP_URL}/users/${userId}`;
+  return `${GAME_SERVER_HTTP_URL}/user/${userId}`;
+};
+
+export const getTableLogsUrl = (tableId: string) => {
+  return `${GAME_SERVER_HTTP_URL}/table/${tableId}/logs`;
 };
 
 export const getWsUrl = (tableId: string) => {

@@ -11,8 +11,7 @@ export class TableLogHttpController {
     try {
       const { tableId } = request.params as ITableLogRequest['params'];
       const tableLogs = await this.tableLogApplicationService.getManyByTableId(tableId);
-      const tableLog = tableLogs.map(tableLog => new TableLogData(tableLog));
-      reply.send({ tableLog: tableLog });
+      reply.send({ tableLogs: TableLogData.createList(tableLogs) });
     } catch (error) {
       httpHandleError(error, request, reply);
     }

@@ -1,6 +1,7 @@
 import { WebSocketMessageKindEnum } from '@link-poker/constants';
 import { useDispatch } from 'react-redux';
 import { playerPrivateInfoActions } from 'store/slices/playerPrivateInfoSlice';
+import { tableLogsActions } from 'store/slices/tableLogsSlice';
 import { tableActions } from 'store/slices/tableSlice';
 
 export const useWebSocket = () => {
@@ -43,6 +44,9 @@ export const useWebSocket = () => {
         break;
       case 'PLAYER_PRIVATE_INFO':
         dispatch(playerPrivateInfoActions.update(payload.playerPrivateInfo));
+        break;
+      case 'TABLE_LOGS':
+        dispatch(tableLogsActions.update(payload.tableLogs));
         break;
       default:
         break;

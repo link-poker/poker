@@ -5,15 +5,16 @@ import CommonCards from 'components/CommonCards';
 import ExternalInfoContainer from 'components/ExternalInfoContainer';
 import GameInfoContainer from 'components/GameInfoContainer';
 import InviteLinkBar from 'components/InviteLinkBar';
-import LogCard from 'components/LogCard';
 import PlayerSeat from 'components/PlayerSeat';
 import Pot from 'components/Pot';
 import ReconnectBar from 'components/ReconnectBar';
+import TableLogCard from 'components/TableLogCard';
 import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
 import TotalPot from 'components/TotalPot';
 import { you, otherUsers } from 'constants/mock';
 import { useTable } from 'hooks/useTable';
+import { useTableLogs } from 'hooks/useTableLogs';
 import WebSocketProvider from 'providers/WebSocketProvider';
 import { getAuthInfo } from 'utils/authInfo';
 import { isClientSide } from 'utils/clientSide';
@@ -27,6 +28,7 @@ type Props = {
 export default function Table(props: Props) {
   const { tableId } = props;
   const { loadTable } = useTable();
+  const { loadTableLogs } = useTableLogs();
   const [showOptionsView, setShowOptionsView] = useState(false);
   const [showLogCard, setShowLogCard] = useState(true);
   const authInfo = isClientSide() && getAuthInfo();
@@ -37,6 +39,7 @@ export default function Table(props: Props) {
 
   useEffect(() => {
     loadTable(tableId);
+    loadTableLogs(tableId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableId]);
 
@@ -109,7 +112,7 @@ export default function Table(props: Props) {
           <div key={'seat9'} className='absolute mt-[15vh] ml-[10vw] z-20'>
             <PlayerSeat seatNumber={9} />
           </div>
-          <div className='absolute mt-[79vh] ml-[1vw]'>{showLogCard && <LogCard />}</div>
+          <div className='absolute mt-[79vh] ml-[1vw]'>{showLogCard && <TableLogCard />}</div>
           <div className='absolute mt-[99vh] ml-[60vw] transform -translate-y-full'>
             <ActionContainer setShowLogCard={setShowLogCard} />
           </div>

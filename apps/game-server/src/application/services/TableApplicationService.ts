@@ -211,7 +211,7 @@ export class TableApplicationService {
     const tableLogs = await this.tableLogRepository.findByTableId(table.id);
     const message = new WebSocketMessage({
       kind: 'TABLE_LOGS',
-      payload: { tableLogs: tableLogs.map(tableLog => new TableLogData(tableLog)) },
+      payload: { tableLogs: TableLogData.createList(tableLogs) },
     });
     this.webSocketService.broadcastMessage(table.id, message);
   }
