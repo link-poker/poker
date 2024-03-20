@@ -5,6 +5,8 @@
 if git diff --cached --name-only | grep -q "^packages"; then
   echo "Building packages ..."
   pnpm run build:packages
+  pnpm run build:client
+  pnpm run build:game-server
 else
   echo "No changes detected in packages"
 fi
