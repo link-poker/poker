@@ -1,6 +1,7 @@
 import { Hand } from 'pokersolver';
-import { BettingRound, Poker } from '../../../src/domain/core/Poker';
+import { Poker } from '../../../src/domain/core/Poker';
 import { Ulid } from '../../../src/domain/value-objects/Ulid';
+import { BettingRound } from '../../../src/domain/value-objects/BettingRound';
 
 const POKER = {
   BUY_IN: 1000,
@@ -61,43 +62,43 @@ describe('Poker', () => {
       poker.dealCards(Ulid.create().get());
       expect(poker.winners).toBeUndefined();
       // PreFlop
-      expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
+      expect(poker.currentRound?.get()).toBe('PRE_FLOP');
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
       poker.currentActor!.callAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
       poker.currentActor!.callAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.CHARLIE.ID);
-      expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
+      expect(poker.currentRound?.get()).toBe('PRE_FLOP');
       poker.currentActor!.checkAction();
       // Flop
-      expect(poker.currentRound).toBe(BettingRound.FLOP);
+      expect(poker.currentRound?.get()).toBe('FLOP');
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
       poker.currentActor!.checkAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.CHARLIE.ID);
       poker.currentActor!.checkAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
-      expect(poker.currentRound).toBe(BettingRound.FLOP);
+      expect(poker.currentRound?.get()).toBe('FLOP');
       poker.currentActor!.checkAction();
       // Turn
-      expect(poker.currentRound).toBe(BettingRound.TURN);
+      expect(poker.currentRound?.get()).toBe('TURN');
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
       poker.currentActor!.checkAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.CHARLIE.ID);
       poker.currentActor!.checkAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
-      expect(poker.currentRound).toBe(BettingRound.TURN);
+      expect(poker.currentRound?.get()).toBe('TURN');
       poker.currentActor!.checkAction();
       // River
-      expect(poker.currentRound).toBe(BettingRound.RIVER);
+      expect(poker.currentRound?.get()).toBe('RIVER');
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
       poker.currentActor!.checkAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.CHARLIE.ID);
       poker.currentActor!.checkAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
-      expect(poker.currentRound).toBe(BettingRound.RIVER);
+      expect(poker.currentRound?.get()).toBe('RIVER');
       poker.currentActor!.checkAction();
       // Showdown
-      expect(poker.currentRound).toBeUndefined();
+      expect(poker.currentRound?.get()).toBeUndefined();
       const aliceHand = poker.players[PLAYERS.ALICE.SEAT]!.hand;
       const bobHand = poker.players[PLAYERS.BOB.SEAT]!.hand;
       const charlieHand = poker.players[PLAYERS.CHARLIE.SEAT]!.hand;
@@ -109,7 +110,7 @@ describe('Poker', () => {
       // NewGame
       poker.dealCards(Ulid.create().get());
       expect(poker.winners).toBeUndefined();
-      expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
+      expect(poker.currentRound?.get()).toBe('PRE_FLOP');
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
     });
 
@@ -117,36 +118,36 @@ describe('Poker', () => {
       poker.dealCards(Ulid.create().get());
       expect(poker.winners).toBeUndefined();
       // PreFlop
-      expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
+      expect(poker.currentRound?.get()).toBe('PRE_FLOP');
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
       poker.currentActor!.callAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
       poker.currentActor!.raiseAction(POKER.BIG_BLIND * 2);
       expect(poker.currentActor!.id).toBe(PLAYERS.CHARLIE.ID);
       poker.currentActor!.callAction();
-      expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
+      expect(poker.currentRound?.get()).toBe('PRE_FLOP');
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
       poker.currentActor!.callAction();
       // Flop
-      expect(poker.currentRound).toBe(BettingRound.FLOP);
+      expect(poker.currentRound?.get()).toBe('FLOP');
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
       poker.currentActor!.betAction(POKER.BIG_BLIND * 4);
       expect(poker.currentActor!.id).toBe(PLAYERS.CHARLIE.ID);
       poker.currentActor!.callAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
-      expect(poker.currentRound).toBe(BettingRound.FLOP);
+      expect(poker.currentRound?.get()).toBe('FLOP');
       poker.currentActor!.callAction();
       // Turn
-      expect(poker.currentRound).toBe(BettingRound.TURN);
+      expect(poker.currentRound?.get()).toBe('TURN');
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
       poker.currentActor!.checkAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.CHARLIE.ID);
       poker.currentActor!.checkAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
-      expect(poker.currentRound).toBe(BettingRound.TURN);
+      expect(poker.currentRound?.get()).toBe('TURN');
       poker.currentActor!.checkAction();
       // River
-      expect(poker.currentRound).toBe(BettingRound.RIVER);
+      expect(poker.currentRound?.get()).toBe('RIVER');
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
       poker.currentActor!.betAction(POKER.BIG_BLIND * 8);
       expect(poker.currentActor!.id).toBe(PLAYERS.CHARLIE.ID);
@@ -154,10 +155,10 @@ describe('Poker', () => {
       expect(poker.currentActor!.id).toBe(PLAYERS.ALICE.ID);
       poker.currentActor!.foldAction();
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
-      expect(poker.currentRound).toBe(BettingRound.RIVER);
+      expect(poker.currentRound?.get()).toBe('RIVER');
       poker.currentActor!.callAction();
       // Showdown
-      expect(poker.currentRound).toBeUndefined();
+      expect(poker.currentRound?.get()).toBeUndefined();
       const bobHand = poker.players[PLAYERS.BOB.SEAT]!.hand;
       const charlieHand = poker.players[PLAYERS.CHARLIE.SEAT]!.hand;
       bobHand.playerId = PLAYERS.BOB.ID;
@@ -167,7 +168,7 @@ describe('Poker', () => {
       // NewGame
       poker.dealCards(Ulid.create().get());
       expect(poker.winners).toBeUndefined();
-      expect(poker.currentRound).toBe(BettingRound.PRE_FLOP);
+      expect(poker.currentRound?.get()).toBe('PRE_FLOP');
       expect(poker.currentActor!.id).toBe(PLAYERS.BOB.ID);
     });
   });
