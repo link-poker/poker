@@ -33,6 +33,7 @@ COPY --from=builder /workspace/apps/client/package.json ./apps/client/package.js
 COPY --from=builder /workspace/apps/client/.next ./apps/client/.next
 COPY --from=builder /workspace/apps/client/public ./apps/client/public
 COPY --from=builder /workspace/apps/client/node_modules ./apps/client/node_modules
+COPY --from=builder /workspace/packages ./packages
 
 WORKDIR /workspace/apps/client
 

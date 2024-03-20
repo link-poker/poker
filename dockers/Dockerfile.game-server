@@ -42,6 +42,7 @@ COPY --from=builder /workspace/apps/game-server/package.json ./apps/game-server/
 COPY --from=builder /workspace/apps/game-server/dist ./apps/game-server/dist
 COPY --from=builder /workspace/apps/game-server/node_modules ./apps/game-server/node_modules
 COPY --from=builder /workspace/apps/game-server/prisma ./apps/game-server/prisma
+COPY --from=builder /workspace/packages ./packages
 
 WORKDIR /workspace/apps/game-server
 
