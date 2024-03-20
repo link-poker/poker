@@ -1,4 +1,5 @@
 import { Hand } from 'pokersolver';
+import { BettingRound } from '../value-objects/BettingRound';
 import { Card, CardSuit, CardRank } from './Card';
 import { Player } from './Player';
 
@@ -250,7 +251,7 @@ export class Poker {
     }
 
     // Set round to pre-flop.
-    this.currentRound = BettingRound.PRE_FLOP;
+    this.currentRound = new BettingRound('PRE_FLOP');
 
     // Increase hand number.
     this.handNumber++;
@@ -416,8 +417,8 @@ export class Poker {
       }
     };
 
-    switch (this.currentRound) {
-      case BettingRound.PRE_FLOP:
+    switch (this.currentRound?.get()) {
+      case 'PRE_FLOP':
         // Gather bets and place them in the pot.
         this.gatherBets();
 
@@ -426,7 +427,7 @@ export class Poker {
         delete this.lastRaise;
 
         // Set round to flop.
-        this.currentRound = BettingRound.FLOP;
+        this.currentRound = new BettingRound('FLOP');
 
         // Deal the flop.
         this.communityCards.push(this.deck.pop()!, this.deck.pop()!, this.deck.pop()!);
@@ -435,7 +436,7 @@ export class Poker {
         resetPosition();
 
         break;
-      case BettingRound.FLOP:
+      case 'FLOP':
         // Gather bets and place them in the pot.
         this.gatherBets();
 
@@ -444,7 +445,7 @@ export class Poker {
         delete this.lastRaise;
 
         // Set round to turn.
-        this.currentRound = BettingRound.TURN;
+        this.currentRound = new BettingRound('TURN');
 
         // Deal the turn.
         this.communityCards.push(this.deck.pop()!);
@@ -453,7 +454,7 @@ export class Poker {
         resetPosition();
 
         break;
-      case BettingRound.TURN:
+      case 'TURN':
         // Gather bets and place them in the pot.
         this.gatherBets();
 
@@ -462,7 +463,7 @@ export class Poker {
         delete this.lastRaise;
 
         // Set round to river.
-        this.currentRound = BettingRound.RIVER;
+        this.currentRound = new BettingRound('RIVER');
 
         // Deal the turn.
         this.communityCards.push(this.deck.pop()!);
@@ -471,7 +472,7 @@ export class Poker {
         resetPosition();
 
         break;
-      case BettingRound.RIVER:
+      case 'RIVER':
         this.players.forEach(player => {
           if (!player) return;
           player.showCards = !player.folded;
@@ -539,7 +540,7 @@ export class Poker {
       communityCards: this.communityCards.map(card => card.extractState()),
       currentBet: this.currentBet,
       currentPosition: this.currentPosition,
-      currentRound: this.currentRound,
+      currentRound: this.currentRound?.get(),
       dealerPosition: this.dealerPosition,
       debug: this.debug,
       deck: this.deck.map(card => card.extractState()),
@@ -571,7 +572,7 @@ export class Poker {
     });
     this.currentBet = state.currentBet;
     this.currentPosition = state.currentPosition;
-    this.currentRound = state.currentRound;
+    this.currentRound = state.currentRound ? new BettingRound(state.currentRound) : undefined;
     this.dealerPosition = state.dealerPosition;
     this.debug = state.debug;
     this.deck = state.deck.map((card: any) => {
@@ -616,11 +617,4 @@ export class Pot {
   amount: number = 0;
   eligiblePlayers: Player[] = [];
   winners?: Player[];
-}
-
-export enum BettingRound {
-  PRE_FLOP = 'pre-flop',
-  FLOP = 'flop',
-  TURN = 'turn',
-  RIVER = 'river',
 }

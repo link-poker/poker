@@ -149,7 +149,7 @@ export class Table {
 
   currentRound(): BettingRound | null {
     if (!this.poker.currentRound) return null;
-    return new BettingRound(this.poker.currentRound);
+    return this.poker.currentRound;
   }
 
   currentBet(): CurrentBet | null {
