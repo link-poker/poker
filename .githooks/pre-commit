@@ -11,5 +11,11 @@ else
   echo "No changes detected in packages"
 fi
 
+# check if there are changes in game-server
 # game-server require a test before push to ensure that tests are passing
-pnpm run game-server test
+if git diff --cached --name-only | grep -q "^apps/game-server"; then
+  echo "Running tests for game-server ..."
+  pnpm run game-server test
+else
+  echo "No changes detected in game-server"
+fi
