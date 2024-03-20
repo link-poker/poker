@@ -1,9 +1,8 @@
+import { z } from 'zod';
 import { ValidationError } from '../../error';
 
-export enum UserStatusEnum {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-}
+const UserStatusList = ['ACTIVE', 'INACTIVE'] as const;
+type UserStatusEnum = (typeof UserStatusList)[number];
 
 export class UserStatus {
   private readonly value: UserStatusEnum;
@@ -24,6 +23,6 @@ export class UserStatus {
   }
 
   private isValid(value: string): boolean {
-    return Object.values(UserStatusEnum).includes(value as UserStatusEnum);
+    return z.enum(UserStatusList).safeParse(value).success;
   }
 }

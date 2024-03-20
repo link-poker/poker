@@ -1,47 +1,47 @@
+import { WebSocketMessageKindEnum } from '@link-poker/constants';
 import { useDispatch } from 'react-redux';
-import { MessageTypeEnum } from 'configs/websocket';
 import { playerPrivateInfoActions } from 'store/slices/playerPrivateInfoSlice';
 import { tableActions } from 'store/slices/tableSlice';
 
 export const useWebSocket = () => {
   const dispatch = useDispatch();
   const updateState = (message: string) => {
-    const { type, payload } = JSON.parse(message);
-    switch (type) {
-      case MessageTypeEnum.ENTER:
+    const { kind, payload } = JSON.parse(message);
+    switch (kind as WebSocketMessageKindEnum) {
+      case 'ENTER':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.SIT_DOWN:
+      case 'SIT_DOWN':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.DEAL_CARDS:
+      case 'DEAL_CARDS':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.STAND_UP:
+      case 'STAND_UP':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.CALL:
+      case 'CALL':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.CHECK:
+      case 'CHECK':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.FOLD:
+      case 'FOLD':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.BET:
+      case 'BET':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.RAISE:
+      case 'RAISE':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.ADD_ON:
+      case 'ADD_ON':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.DELAY_TIME:
+      case 'DELAY_TIME':
         dispatch(tableActions.update(payload.table));
         break;
-      case MessageTypeEnum.PLAYER_PRIVATE_INFO:
+      case 'PLAYER_PRIVATE_INFO':
         dispatch(playerPrivateInfoActions.update(payload.playerPrivateInfo));
         break;
       default:

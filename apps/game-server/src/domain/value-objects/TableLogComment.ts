@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { ValidationError } from '../../error';
-import { TableLogType, TableLogTypeEnum } from './TableLogType';
+import { TableLogType } from './TableLogType';
 
 export type StartingHandCommentParams = {
   dealerName: string;
@@ -122,35 +122,35 @@ export class TableLogComment {
 
 const getComment = (type: TableLogType, params: CommentParams): string => {
   switch (type.get()) {
-    case TableLogTypeEnum.STARTING_HAND:
+    case 'STARTING_HAND':
       return startingHand(params as StartingHandCommentParams);
-    case TableLogTypeEnum.STACK:
+    case 'STACK':
       return stack(params as StackCommentParams);
-    case TableLogTypeEnum.FLOP:
+    case 'FLOP':
       return flop(params as FlopCommentParams);
-    case TableLogTypeEnum.TURN:
+    case 'TURN':
       return turn(params as TurnCommentParams);
-    case TableLogTypeEnum.RIVER:
+    case 'RIVER':
       return river(params as RiverCommentParams);
-    case TableLogTypeEnum.SHOW_DOWN:
+    case 'SHOW_DOWN':
       return showDown(params as ShowDownCommentParams);
-    case TableLogTypeEnum.COLLECT_POT:
+    case 'COLLECT_POT':
       return collectPot(params as CollectPotCommentParams);
-    case TableLogTypeEnum.ENDING_HAND:
+    case 'ENDING_HAND':
       return endingHand(params as EndingHandCommentParams);
-    case TableLogTypeEnum.SMALL_BLIND:
+    case 'SMALL_BLIND':
       return smallBlind(params as smallBlindCommentParams);
-    case TableLogTypeEnum.BIG_BLIND:
+    case 'BIG_BLIND':
       return bigBlind(params as bigBlindCommentParams);
-    case TableLogTypeEnum.BET:
+    case 'BET':
       return bet(params as BetCommentParams);
-    case TableLogTypeEnum.CALL:
+    case 'CALL':
       return call(params as CallCommentParams);
-    case TableLogTypeEnum.CHECK:
+    case 'CHECK':
       return check(params as CheckCommentParams);
-    case TableLogTypeEnum.RAISE:
+    case 'RAISE':
       return raise(params as RaiseCommentParams);
-    case TableLogTypeEnum.FOLD:
+    case 'FOLD':
       return fold(params as FoldCommentParams);
     default:
       return 'Unknown Comment';

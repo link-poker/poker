@@ -1,9 +1,8 @@
+import { z } from 'zod';
 import { ValidationError } from '../../error';
 
-export enum CurrencyEnum {
-  USDT = 'USDT',
-  POTATO = 'POTATO',
-}
+const CurrencyList = ['USDT', 'POTATO'] as const;
+type CurrencyEnum = (typeof CurrencyList)[number];
 
 export class Currency {
   private readonly value: CurrencyEnum;
@@ -24,6 +23,6 @@ export class Currency {
   }
 
   private isValid(value: string): boolean {
-    return Object.values(CurrencyEnum).includes(value as CurrencyEnum);
+    return z.enum(CurrencyList).safeParse(value).success;
   }
 }

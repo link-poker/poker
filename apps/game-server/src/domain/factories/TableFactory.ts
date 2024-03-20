@@ -5,13 +5,13 @@ import { BigBlind } from '../value-objects/BigBlind';
 import { BuyIn } from '../value-objects/BuyIn';
 import { Currency } from '../value-objects/Currency';
 import { SmallBlind } from '../value-objects/SmallBlind';
-import { TableStatus, TableStatusEnum } from '../value-objects/TableStatus';
+import { TableStatus } from '../value-objects/TableStatus';
 import { Ulid } from '../value-objects/Ulid';
 
 export class TableFactory {
   static create(owner: User, currency: Currency, smallBlind: SmallBlind, bigBlind: BigBlind, buyIn: BuyIn): Table {
     const id = Ulid.create();
-    const tableStatus = new TableStatus(TableStatusEnum.WAITING);
+    const tableStatus = new TableStatus('WAITING');
     const poker = new Poker(buyIn.get(), smallBlind.get(), bigBlind.get());
     return new Table(id, owner, currency, tableStatus, new Date(), new Date(), poker);
   }

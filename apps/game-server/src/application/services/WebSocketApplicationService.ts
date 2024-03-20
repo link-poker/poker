@@ -38,15 +38,4 @@ export class WebSocketApplicationService {
     const tableId = new Ulid(tableIdStr);
     this.webSocketService.removeWatcherConnection(tableId, connection);
   }
-
-  sendMessage(tableIdStr: string, userIdStr: string, message: string) {
-    const tableId = new Ulid(tableIdStr);
-    const userId = new Ulid(userIdStr);
-    this.webSocketService.sendMessage(tableId, userId, message);
-  }
-
-  broadcastMessage(tableIdStr: string, message: string) {
-    const tableId = new Ulid(tableIdStr);
-    this.webSocketService.broadcastMessage(tableId, message);
-  }
 }

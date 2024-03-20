@@ -7,3 +7,4 @@ export * from './interfaces/response/IPlayerPrivateInfoResponse';
 export * from './interfaces/response/ITableLogResponse';
 export * from './interfaces/response/ITableResponse';
 export * from './interfaces/response/IUserResponse';
+export * from './types/WebSocketMessageKind';

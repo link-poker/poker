@@ -5,7 +5,7 @@ import { Poker, Pot } from '../core/Poker';
 import { TableLogFactory } from '../factories/TableLogFactory';
 import { AddOnAmount } from '../value-objects/AddOnAmount';
 import { BetAmount } from '../value-objects/BetAmount';
-import { BettingRound, BettingRoundEnum } from '../value-objects/BettingRound';
+import { BettingRound } from '../value-objects/BettingRound';
 import { BigBlind } from '../value-objects/BigBlind';
 import { BuyIn } from '../value-objects/BuyIn';
 import { Currency } from '../value-objects/Currency';
@@ -14,7 +14,7 @@ import { RaiseAmount } from '../value-objects/RaiseAmount';
 import { SeatNumber } from '../value-objects/SeatNumber';
 import { SmallBlind } from '../value-objects/SmallBlind';
 import { Stack } from '../value-objects/Stack';
-import { TableStatus, TableStatusEnum } from '../value-objects/TableStatus';
+import { TableStatus } from '../value-objects/TableStatus';
 import { Ulid } from '../value-objects/Ulid';
 import { TableLog } from './TableLog';
 import { User } from './User';
@@ -200,7 +200,7 @@ export class Table {
   standUp(userId: Ulid): void {
     this.poker.standUp(userId.get());
     if (!this.poker.currentRound) {
-      this.status = new TableStatus(TableStatusEnum.WAITING);
+      this.status = new TableStatus('WAITING');
     }
   }
 
@@ -210,7 +210,7 @@ export class Table {
 
   dealCards(): TableLog[] {
     const preRound = this.currentRound();
-    this.status = new TableStatus(TableStatusEnum.PLAYING);
+    this.status = new TableStatus('PLAYING');
     const gameId = Ulid.create();
     this.poker.dealCards(gameId.get());
     const startingHandLog = TableLogFactory.createStartingHandLog(this.id, gameId, {
@@ -341,7 +341,7 @@ export class Table {
       ];
     }
     switch (round.get()) {
-      case BettingRoundEnum.FLOP:
+      case 'FLOP':
         return [
           TableLogFactory.createFlopLog(this.id, this.ensurerGameId(), {
             card1: this.commonCards()[0].toString(),
@@ -349,7 +349,7 @@ export class Table {
             card3: this.commonCards()[2].toString(),
           }),
         ];
-      case BettingRoundEnum.TURN:
+      case 'TURN':
         return [
           TableLogFactory.createTurnLog(this.id, this.ensurerGameId(), {
             card1: this.commonCards()[0].toString(),
@@ -358,7 +358,7 @@ export class Table {
             card4: this.commonCards()[3].toString(),
           }),
         ];
-      case BettingRoundEnum.RIVER:
+      case 'RIVER':
         return [
           TableLogFactory.createRiverLog(this.id, this.ensurerGameId(), {
             card1: this.commonCards()[0].toString(),

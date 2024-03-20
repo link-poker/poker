@@ -1,23 +1,25 @@
+import { z } from 'zod';
 import { ValidationError } from '../../error';
 
-export enum TableLogTypeEnum {
-  STARTING_HAND = 'startingHand',
-  STACK = 'stack',
-  YOUR_HAND = 'yourHand',
-  FLOP = 'flop',
-  TURN = 'turn',
-  RIVER = 'river',
-  SHOW_DOWN = 'showDown',
-  COLLECT_POT = 'collectPot',
-  ENDING_HAND = 'endingHand',
-  SMALL_BLIND = 'smallBlind',
-  BIG_BLIND = 'bigBlind',
-  BET = 'bet',
-  CALL = 'call',
-  CHECK = 'check',
-  RAISE = 'raise',
-  FOLD = 'fold',
-}
+const TableLogTypeList = [
+  'STARTING_HAND',
+  'STACK',
+  'YOUR_HAND',
+  'FLOP',
+  'TURN',
+  'RIVER',
+  'SHOW_DOWN',
+  'COLLECT_POT',
+  'ENDING_HAND',
+  'SMALL_BLIND',
+  'BIG_BLIND',
+  'BET',
+  'CALL',
+  'CHECK',
+  'RAISE',
+  'FOLD',
+] as const;
+type TableLogTypeEnum = (typeof TableLogTypeList)[number];
 
 export class TableLogType {
   private readonly value: TableLogTypeEnum;
@@ -38,6 +40,6 @@ export class TableLogType {
   }
 
   private isValid(value: string): boolean {
-    return Object.values(TableLogTypeEnum).includes(value as TableLogTypeEnum);
+    return z.enum(TableLogTypeList).safeParse(value).success;
   }
 }

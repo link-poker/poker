@@ -1,11 +1,8 @@
+import { z } from 'zod';
 import { ValidationError } from '../../error';
 
-export enum BettingRoundEnum {
-  PRE_FLOP = 'pre-flop',
-  FLOP = 'flop',
-  TURN = 'turn',
-  RIVER = 'river',
-}
+const BettingRoundList = ['PRE_FLOP', 'FLOP', 'TURN', 'RIVER'] as const;
+type BettingRoundEnum = (typeof BettingRoundList)[number];
 
 export class BettingRound {
   private readonly value: BettingRoundEnum;
@@ -17,7 +14,7 @@ export class BettingRound {
     this.value = value as BettingRoundEnum;
   }
 
-  get(): string {
+  get(): BettingRoundEnum {
     return this.value;
   }
 
@@ -26,6 +23,6 @@ export class BettingRound {
   }
 
   private isValid(value: string): boolean {
-    return Object.values(BettingRoundEnum).includes(value as BettingRoundEnum);
+    return z.enum(BettingRoundList).safeParse(value).success;
   }
 }

@@ -1,5 +1,6 @@
 import { SocketStream } from '@fastify/websocket';
 import { Ulid } from '../value-objects/Ulid';
+import { WebSocketMessage } from '../value-objects/WebSocketMessage';
 
 type Connections = Map<string, SocketStream>;
 
@@ -36,11 +37,13 @@ export class WebSocketService {
     );
   }
 
-  sendMessage(tableId: Ulid, userId: Ulid, message: string) {
-    this.connections.get(tableId.get() + ':' + userId.get())?.socket.send(message);
+  sendMessage(tableId: Ulid, userId: Ulid, webSocketMessage: WebSocketMessage) {
+    this.connections.get(tableId.get() + ':' + userId.get())?.socket.send(webSocketMessage.toString());
   }
 
-  broadcastMessage(tableId: Ulid, message: string) {
-    this.watcherConnections.get(tableId.get())?.forEach(connection => connection.socket.send(message));
+  broadcastMessage(tableId: Ulid, webSocketMessage: WebSocketMessage) {
+    this.watcherConnections
+      .get(tableId.get())
+      ?.forEach(connection => connection.socket.send(webSocketMessage.toString()));
   }
 }
