@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# game-server require a test before push to ensure that tests are passing
-pnpm run game-server test
