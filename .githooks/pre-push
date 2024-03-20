@@ -1,10 +1,4 @@
 #!/bin/sh
 
-# check if there are changes in packages
 # game-server require a test before push to ensure that tests are passing
-if git diff --cached --name-only | grep -q "^apps/game-server"; then
-  echo "Testing game-server ..."
-  pnpm run game-server test
-else
-  echo "No changes detected in game-server"
-fi
+pnpm run game-server test
