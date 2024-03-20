@@ -1,7 +1,7 @@
-export interface IPokerLogResponse {
+export interface ITableLogResponse {
     id: string;
     tableId: string;
-    gameId: string;
+    gameId: string | null;
     type: string;
     params: string;
     comment: string;

@@ -13,16 +13,16 @@ import { SeatNumber } from '../../domain/value-objects/SeatNumber';
 import { SmallBlind } from '../../domain/value-objects/SmallBlind';
 import { Stack } from '../../domain/value-objects/Stack';
 import { Ulid } from '../../domain/value-objects/Ulid';
-import { IPokerLogRepository } from '../../interfaces/repository/IPokerLogRepository';
+import { ITableLogRepository } from '../../interfaces/repository/ITableLogRepository';
 import { ITableRepository } from '../../interfaces/repository/ITableRepository';
 import { PlayerPrivateInfoData } from '../dtos/PlayerPrivateInfoData';
-import { PokerLogData } from '../dtos/PokerLogData';
 import { TableInfoForPlayersData } from '../dtos/TableInfoForPlayersData';
+import { TableLogData } from '../dtos/TableLogData';
 
 export class TableApplicationService {
   constructor(
     private readonly tableRepository: ITableRepository,
-    private readonly pokerLogRepository: IPokerLogRepository,
+    private readonly tableLogRepository: ITableLogRepository,
     private readonly webSocketService: WebSocketService,
   ) {}
 
@@ -61,14 +61,14 @@ export class TableApplicationService {
     const table = await this.tableRepository.findById(tableId);
     const logs = table.dealCards();
     await this.tableRepository.update(table);
-    await this.pokerLogRepository.createMany(logs);
+    await this.tableLogRepository.createMany(logs);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.DEAL_CARDS,
       payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
-    this.sendPokerLogs(table);
+    this.sendTableLogs(table);
   }
 
   async sitDown(tableIdStr: string, user: User, stackNum: number, seatNumberNum: number): Promise<Table> {
@@ -108,14 +108,14 @@ export class TableApplicationService {
     const userId = new Ulid(userIdStr);
     const logs = table.call(userId);
     await this.tableRepository.update(table);
-    await this.pokerLogRepository.createMany(logs);
+    await this.tableLogRepository.createMany(logs);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.CALL,
       payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
-    this.sendPokerLogs(table);
+    this.sendTableLogs(table);
   }
 
   async check(tableIdStr: string, userIdStr: string): Promise<void> {
@@ -124,14 +124,14 @@ export class TableApplicationService {
     const userId = new Ulid(userIdStr);
     const logs = table.check(userId);
     await this.tableRepository.update(table);
-    await this.pokerLogRepository.createMany(logs);
+    await this.tableLogRepository.createMany(logs);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.CHECK,
       payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
-    this.sendPokerLogs(table);
+    this.sendTableLogs(table);
   }
 
   async fold(tableIdStr: string, userIdStr: string): Promise<void> {
@@ -140,14 +140,14 @@ export class TableApplicationService {
     const userId = new Ulid(userIdStr);
     const logs = table.fold(userId);
     await this.tableRepository.update(table);
-    await this.pokerLogRepository.createMany(logs);
+    await this.tableLogRepository.createMany(logs);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.FOLD,
       payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
-    this.sendPokerLogs(table);
+    this.sendTableLogs(table);
   }
 
   async bet(tableIdStr: string, userIdStr: string, amountStr: number): Promise<void> {
@@ -156,14 +156,14 @@ export class TableApplicationService {
     const userId = new Ulid(userIdStr);
     const logs = table.bet(userId, new BetAmount(amountStr));
     await this.tableRepository.update(table);
-    await this.pokerLogRepository.createMany(logs);
+    await this.tableLogRepository.createMany(logs);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.BET,
       payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
-    this.sendPokerLogs(table);
+    this.sendTableLogs(table);
   }
 
   async raise(tableIdStr: string, userIdStr: string, amountStr: number): Promise<void> {
@@ -172,14 +172,14 @@ export class TableApplicationService {
     const userId = new Ulid(userIdStr);
     const logs = table.raise(userId, new RaiseAmount(amountStr));
     await this.tableRepository.update(table);
-    await this.pokerLogRepository.createMany(logs);
+    await this.tableLogRepository.createMany(logs);
     const broadcastMessage = JSON.stringify({
       type: MessageTypeEnum.RAISE,
       payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
     });
     this.webSocketService.broadcastMessage(tableId, broadcastMessage);
     this.sendPlayerPrivateInfos(table);
-    this.sendPokerLogs(table);
+    this.sendTableLogs(table);
   }
 
   async addOn(tableIdStr: string, userIdStr: string, amountStr: number): Promise<void> {
@@ -210,13 +210,13 @@ export class TableApplicationService {
     });
   }
 
-  private async sendPokerLogs(table: Table) {
-    const pokerLogs = await this.pokerLogRepository.findByTableId(table.id);
+  private async sendTableLogs(table: Table) {
+    const tableLogs = await this.tableLogRepository.findByTableId(table.id);
     this.webSocketService.broadcastMessage(
       table.id,
       JSON.stringify({
-        type: MessageTypeEnum.POKER_LOG,
-        payload: { pokerLogs: pokerLogs.map(pokerLog => new PokerLogData(pokerLog)) },
+        type: MessageTypeEnum.TABLE_LOG,
+        payload: { tableLogs: tableLogs.map(tableLog => new TableLogData(tableLog)) },
       }),
     );
   }

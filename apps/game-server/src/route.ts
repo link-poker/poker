@@ -1,16 +1,16 @@
 import { SocketStream } from '@fastify/websocket';
+import { PrismaClient } from '@prisma/client';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { PokerLogHttpController } from './application/controllers/http/PokerLogHttpController';
 import { TableHttpController } from './application/controllers/http/TableHttpController';
+import { TableLogHttpController } from './application/controllers/http/TableLogHttpController';
 import { UserHttpController } from './application/controllers/http/UserHttpController';
 import { TableWsController } from './application/controllers/ws/TableWsController';
 import { WatchTableWsController } from './application/controllers/ws/WatchTableWsController';
-import { PrismaClient } from '@prisma/client';
 
 const registerHttpRoutes = (
   app: FastifyInstance,
   tableHttpController: TableHttpController,
-  pokerLogHttpController: PokerLogHttpController,
+  tableLogHttpController: TableLogHttpController,
   userHttpController: UserHttpController,
 ) => {
   app.get('/health', async (request, reply) => {
@@ -27,7 +27,7 @@ const registerHttpRoutes = (
   app.post('/tables/:tableId/sit-down', tableHttpController.sitDownAsUser.bind(tableHttpController));
   app.post('/tables/:tableId/sit-down/guest', tableHttpController.sitDownAsGuest.bind(tableHttpController));
   app.get('/tables/:tableId', tableHttpController.getTable.bind(tableHttpController));
-  app.get('/poker-logs/:tableId', pokerLogHttpController.getPokerLog.bind(pokerLogHttpController));
+  app.get('/poker-logs/:tableId', tableLogHttpController.getTableLog.bind(tableLogHttpController));
   app.get('/users/:userId', userHttpController.getUser.bind(tableHttpController));
 };
 
@@ -54,11 +54,11 @@ const registerWsRoutes = (
 export const registerRoutes = (
   app: FastifyInstance,
   tableHttpController: TableHttpController,
-  pokerLogHttpController: PokerLogHttpController,
+  tableLogHttpController: TableLogHttpController,
   userHttpController: UserHttpController,
   tableWsController: TableWsController,
   watchTableWsController: WatchTableWsController,
 ) => {
-  registerHttpRoutes(app, tableHttpController, pokerLogHttpController, userHttpController);
+  registerHttpRoutes(app, tableHttpController, tableLogHttpController, userHttpController);
   registerWsRoutes(app, tableWsController, watchTableWsController);
 };

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { ValidationError } from '../../error';
-import { PokerLogType, PokerLogTypeEnum } from './PokerLogType';
+import { TableLogType, TableLogTypeEnum } from './TableLogType';
 
 export type StartingHandCommentParams = {
   dealerName: string;
@@ -93,7 +93,7 @@ export type CommentParams =
   | RaiseCommentParams
   | FoldCommentParams;
 
-export class PokerLogComment {
+export class TableLogComment {
   private readonly value: string;
 
   private constructor(value: string) {
@@ -103,15 +103,15 @@ export class PokerLogComment {
     this.value = value;
   }
 
-  static init(type: PokerLogType, params: CommentParams): PokerLogComment {
-    return new PokerLogComment(getComment(type, params));
+  static init(type: TableLogType, params: CommentParams): TableLogComment {
+    return new TableLogComment(getComment(type, params));
   }
 
   get(): string {
     return this.value;
   }
 
-  equals(other: PokerLogComment): boolean {
+  equals(other: TableLogComment): boolean {
     return this.value === other.value;
   }
 
@@ -120,37 +120,37 @@ export class PokerLogComment {
   }
 }
 
-const getComment = (type: PokerLogType, params: CommentParams): string => {
+const getComment = (type: TableLogType, params: CommentParams): string => {
   switch (type.get()) {
-    case PokerLogTypeEnum.STARTING_HAND:
+    case TableLogTypeEnum.STARTING_HAND:
       return startingHand(params as StartingHandCommentParams);
-    case PokerLogTypeEnum.STACK:
+    case TableLogTypeEnum.STACK:
       return stack(params as StackCommentParams);
-    case PokerLogTypeEnum.FLOP:
+    case TableLogTypeEnum.FLOP:
       return flop(params as FlopCommentParams);
-    case PokerLogTypeEnum.TURN:
+    case TableLogTypeEnum.TURN:
       return turn(params as TurnCommentParams);
-    case PokerLogTypeEnum.RIVER:
+    case TableLogTypeEnum.RIVER:
       return river(params as RiverCommentParams);
-    case PokerLogTypeEnum.SHOW_DOWN:
+    case TableLogTypeEnum.SHOW_DOWN:
       return showDown(params as ShowDownCommentParams);
-    case PokerLogTypeEnum.COLLECT_POT:
+    case TableLogTypeEnum.COLLECT_POT:
       return collectPot(params as CollectPotCommentParams);
-    case PokerLogTypeEnum.ENDING_HAND:
+    case TableLogTypeEnum.ENDING_HAND:
       return endingHand(params as EndingHandCommentParams);
-    case PokerLogTypeEnum.SMALL_BLIND:
+    case TableLogTypeEnum.SMALL_BLIND:
       return smallBlind(params as smallBlindCommentParams);
-    case PokerLogTypeEnum.BIG_BLIND:
+    case TableLogTypeEnum.BIG_BLIND:
       return bigBlind(params as bigBlindCommentParams);
-    case PokerLogTypeEnum.BET:
+    case TableLogTypeEnum.BET:
       return bet(params as BetCommentParams);
-    case PokerLogTypeEnum.CALL:
+    case TableLogTypeEnum.CALL:
       return call(params as CallCommentParams);
-    case PokerLogTypeEnum.CHECK:
+    case TableLogTypeEnum.CHECK:
       return check(params as CheckCommentParams);
-    case PokerLogTypeEnum.RAISE:
+    case TableLogTypeEnum.RAISE:
       return raise(params as RaiseCommentParams);
-    case PokerLogTypeEnum.FOLD:
+    case TableLogTypeEnum.FOLD:
       return fold(params as FoldCommentParams);
     default:
       return 'Unknown Comment';

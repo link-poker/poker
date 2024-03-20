@@ -20,7 +20,6 @@ export class AuthTokenValidator {
       const secretKey = Buffer.from(this.secretKeyBase64, 'base64').toString();
       const payload = jwt.verify(authToken.get(), secretKey, { algorithms: AUTH_TOKEN_CONFIG.VALIDATE_ALGORITHMS });
       validatedUser = (payload as any).user;
-      console.log(validatedUser);
     } catch (error) {
       throw new AuthorizationError('Invalid authToken');
     }

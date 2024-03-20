@@ -607,8 +607,8 @@ export class Poker {
       const playerCore = this.players.find((p: Player | null) => p?.id === player.id);
       return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
     });
-    return this;
     this.gameId = state.gameId;
+    return this;
   }
 }
 

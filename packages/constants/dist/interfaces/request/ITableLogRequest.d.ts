@@ -1,4 +1,4 @@
-export interface IPokerLogRequest {
+export interface ITableLogRequest {
     params: {
         tableId: string;
     };

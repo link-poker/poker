@@ -1,6 +1,6 @@
 import { ValidationError } from '../../error';
 
-export enum PokerLogTypeEnum {
+export enum TableLogTypeEnum {
   STARTING_HAND = 'startingHand',
   STACK = 'stack',
   YOUR_HAND = 'yourHand',
@@ -19,25 +19,25 @@ export enum PokerLogTypeEnum {
   FOLD = 'fold',
 }
 
-export class PokerLogType {
-  private readonly value: PokerLogTypeEnum;
+export class TableLogType {
+  private readonly value: TableLogTypeEnum;
 
   constructor(value: string) {
     if (!this.isValid(value)) {
       throw new ValidationError('Invalid LogType.');
     }
-    this.value = value as PokerLogTypeEnum;
+    this.value = value as TableLogTypeEnum;
   }
 
   get(): string {
     return this.value;
   }
 
-  equals(other: PokerLogType): boolean {
+  equals(other: TableLogType): boolean {
     return this.value === other.value;
   }
 
   private isValid(value: string): boolean {
-    return Object.values(PokerLogTypeEnum).includes(value as PokerLogTypeEnum);
+    return Object.values(TableLogTypeEnum).includes(value as TableLogTypeEnum);
   }
 }
