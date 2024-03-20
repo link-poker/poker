@@ -8,9 +8,10 @@
     "start": "node dist/main.js",
     "dev": "nodemon src/main.ts",
     "dev:studio": "prisma studio",
-    "test": "jest tests/.*/.*.test.ts$ --testPathIgnorePatterns=tests/integrations --onlyChanged",
-    "test:integrations": "jest tests/integrations/.*.test.ts$ --runInBand --onlyChanged",
-    "test:health": "jest tests/integrations/health.test.ts$ --runInBand --onlyChanged",
+    "test": "jest --testPathIgnorePatterns=tests/integrations --onlyChanged",
+    "test:all": "jest --testPathIgnorePatterns=tests/integrations",
+    "test:integrations": "jest --testPathIgnorePatterns=tests/units --runInBand",
+    "test:health": "jest tests/integrations/health.test.ts$ --runInBand",
     "lint": "eslint ./src --ext .ts",
     "prisma": "npx prisma"
   },
