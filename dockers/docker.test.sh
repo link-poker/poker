@@ -20,7 +20,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run the Docker container
-container_id=$(docker run $run_args -d my-node-app)
+container_id=$(docker run $run_args -d test-app)
 
 # Check if the container was started successfully
 if [ -z "$container_id" ]; then
