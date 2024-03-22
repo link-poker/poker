@@ -74,10 +74,10 @@ export const CardColor = {
 
 export type CardSuit = (typeof CardSuit)[keyof typeof CardSuit];
 export const CardSuit = {
-  CLUB: 'c',
-  DIAMOND: 'd',
-  HEART: 'h',
-  SPADE: 's',
+  CLUB: 'C',
+  DIAMOND: 'D',
+  HEART: 'H',
+  SPADE: 'S',
 } as const;
 
 export type CardRank = (typeof CardRank)[keyof typeof CardRank];
