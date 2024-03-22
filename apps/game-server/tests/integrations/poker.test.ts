@@ -60,10 +60,10 @@ describe('Poker Test', () => {
 
   it('should be able to connect', done => {
     alice.ws.on('open', () => {
-      alice.ws.send(JSON.stringify({ type: 'enter' }));
+      alice.ws.send(JSON.stringify({ kind: 'ENTER' }));
     });
     bob.ws.on('open', () => {
-      bob.ws.send(JSON.stringify({ type: 'enter' }));
+      bob.ws.send(JSON.stringify({ kind: 'ENTER' }));
     });
     alice.ws.on('message', message => {
       const data = JSON.parse(message.toString());

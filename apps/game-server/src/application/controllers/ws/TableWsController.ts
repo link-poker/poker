@@ -1,5 +1,5 @@
 import { SocketStream } from '@fastify/websocket';
-import { IAddOnRequest, IBetRequest, IRaiseRequest } from '@link-poker/constants';
+import { IAddOnRequest, IBetRequest, IRaiseRequest, WebSocketMessageKindEnum } from '@link-poker/constants';
 import { FastifyRequest } from 'fastify';
 import { User } from '../../../domain/entities/User';
 import { wsHandleError } from '../../../error';
@@ -27,7 +27,7 @@ export class TableWsController {
     connection.socket.on('message', message => {
       try {
         const data = JSON.parse(message.toString());
-        const { type, payload } = data;
+        const { kind, payload } = data;
         const user = this.webSocketApplicationService.isAuthorizedConnection(
           params.tableId,
           params.userId,
@@ -35,35 +35,35 @@ export class TableWsController {
           connection,
         );
 
-        switch (type) {
-          case 'enter':
+        switch (kind as WebSocketMessageKindEnum) {
+          case 'ENTER':
             this.enter(params, payload, user);
             break;
-          case 'dealCards':
+          case 'DEAL_CARDS':
             this.dealCards(params, payload);
             break;
-          case 'standUp':
+          case 'STAND_UP':
             this.standUp(params, payload);
             break;
-          case 'call':
+          case 'CALL':
             this.call(params, payload);
             break;
-          case 'check':
+          case 'CHECK':
             this.check(params, payload);
             break;
-          case 'fold':
+          case 'FOLD':
             this.fold(params, payload);
             break;
-          case 'bet':
+          case 'BET':
             this.bet(params, payload);
             break;
-          case 'raise':
+          case 'RAISE':
             this.raise(params, payload);
             break;
-          case 'addOn':
+          case 'ADD_ON':
             this.addOn(params, payload);
             break;
-          case 'delayTime':
+          case 'DELAY_TIME':
             this.delayTime(params, payload);
             break;
           default:

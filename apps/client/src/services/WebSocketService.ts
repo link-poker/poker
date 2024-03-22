@@ -1,4 +1,10 @@
+import { WebSocketMessageKindEnum } from '@link-poker/constants';
 import { toast } from 'react-hot-toast';
+
+type WebSocketMessage = {
+  kind: WebSocketMessageKindEnum;
+  payload?: any;
+};
 
 class WebSocketService {
   socket: WebSocket;
@@ -22,47 +28,48 @@ class WebSocketService {
   }
 
   standUp() {
-    this.send(JSON.stringify({ type: 'standUp' }));
+    this.send({ kind: 'STAND_UP' });
   }
 
   call() {
-    this.send(JSON.stringify({ type: 'call' }));
+    this.send({ kind: 'CALL' });
   }
 
   check() {
-    this.send(JSON.stringify({ type: 'check' }));
+    this.send({ kind: 'CHECK' });
   }
 
   fold() {
-    this.send(JSON.stringify({ type: 'fold' }));
+    this.send({ kind: 'FOLD' });
   }
 
   bet(amount: number) {
-    this.send(JSON.stringify({ type: 'bet', payload: { amount } }));
+    this.send({ kind: 'BET', payload: { amount } });
   }
 
   raise(amount: number) {
-    this.send(JSON.stringify({ type: 'raise', payload: { amount } }));
+    this.send({ kind: 'RAISE', payload: { amount } });
   }
 
   addOn() {
-    this.send(JSON.stringify({ type: 'addOn' }));
+    this.send({ kind: 'ADD_ON' });
   }
 
   delayTime() {
-    this.send(JSON.stringify({ type: 'delayTime' }));
+    this.send({ kind: 'DELAY_TIME' });
   }
 
   enter() {
-    this.send(JSON.stringify({ type: 'enter' }));
+    this.send({ kind: 'ENTER' });
   }
 
   dealCards() {
-    this.send(JSON.stringify({ type: 'dealCards' }));
+    this.send({ kind: 'DEAL_CARDS' });
   }
 
-  private send(message: string) {
+  private send(webSocketMessage: WebSocketMessage) {
     if (this.socket.readyState !== WebSocket.OPEN) return toast.error('WebSocket is not open');
+    const message = JSON.stringify(webSocketMessage);
     this.socket.send(message);
   }
 
