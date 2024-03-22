@@ -33,7 +33,7 @@ export const sitDownAsUser = async (
 ) => {
   const response = await app.inject({
     method: 'POST',
-    url: `/tables/${tableId}/sit-down`,
+    url: `/table/${tableId}/sit-down`,
     body,
     headers,
   });
@@ -71,7 +71,7 @@ export const sitDownAsGuest = async (
 ) => {
   const response = await app.inject({
     method: 'POST',
-    url: `/tables/${tableId}/sit-down/guest`,
+    url: `/table/${tableId}/sit-down/guest`,
     body,
   });
   const data = JSON.parse(response.body);
@@ -81,7 +81,7 @@ export const sitDownAsGuest = async (
 export const getTable = async (app: FastifyInstance, tableId: string) => {
   const response = await app.inject({
     method: 'GET',
-    url: `/tables/${tableId}`,
+    url: `/table/${tableId}`,
   });
   const data = JSON.parse(response.body);
   return { response: response, table: data.table };

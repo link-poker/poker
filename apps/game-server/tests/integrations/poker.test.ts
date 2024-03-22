@@ -67,12 +67,12 @@ describe('Poker Test', () => {
     });
     alice.ws.on('message', message => {
       const data = JSON.parse(message.toString());
-      expect(data.type).toEqual('enter');
+      expect(data.kind).toEqual('ENTER');
       alice.ws.close();
     });
     bob.ws.on('message', message => {
       const data = JSON.parse(message.toString());
-      expect(data.type).toEqual('enter');
+      expect(data.kind).toEqual('ENTER');
       bob.ws.close();
       done();
     });
