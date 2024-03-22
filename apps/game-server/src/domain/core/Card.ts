@@ -1,3 +1,9 @@
+// only primitive types are allowed in this type
+export type CardState = {
+  rank: string;
+  suit: string;
+};
+
 export type CardInfo = {
   rank: string;
   suit: string;
@@ -10,6 +16,17 @@ export class Card {
   constructor(rank: CardRank, suit: CardSuit) {
     this._rank = rank;
     this._suit = suit;
+  }
+
+  static initFromState(state: CardState) {
+    return new Card(state.rank as CardRank, state.suit as CardSuit);
+  }
+
+  toState(): CardState {
+    return {
+      rank: this._rank,
+      suit: this._suit,
+    };
   }
 
   toString(): string {
@@ -47,45 +64,35 @@ export class Card {
         return '♠';
     }
   }
-
-  extractState() {
-    return {
-      rank: this._rank,
-      suit: this._suit,
-    };
-  }
-
-  restoreState(state: any): Card {
-    this._rank = state.rank;
-    this._suit = state.suit;
-    return this;
-  }
 }
 
-export enum CardColor {
-  RED = '#ff0000',
-  BLACK = '#000000',
-}
+export type CardColor = (typeof CardColor)[keyof typeof CardColor];
+export const CardColor = {
+  RED: '#ff0000',
+  BLACK: '#000000',
+} as const;
 
-export enum CardSuit {
-  CLUB = 'c',
-  DIAMOND = 'd',
-  HEART = 'h',
-  SPADE = 's',
-}
+export type CardSuit = (typeof CardSuit)[keyof typeof CardSuit];
+export const CardSuit = {
+  CLUB: 'c',
+  DIAMOND: 'd',
+  HEART: 'h',
+  SPADE: 's',
+} as const;
 
-export enum CardRank {
-  ACE = 'A',
-  KING = 'K',
-  QUEEN = 'Q',
-  JACK = 'J',
-  TEN = 'T',
-  NINE = '9',
-  EIGHT = '8',
-  SEVEN = '7',
-  SIX = '6',
-  FIVE = '5',
-  FOUR = '4',
-  THREE = '3',
-  TWO = '2',
-}
+export type CardRank = (typeof CardRank)[keyof typeof CardRank];
+export const CardRank = {
+  ACE: 'A',
+  KING: 'K',
+  QUEEN: 'Q',
+  JACK: 'J',
+  TEN: 'T',
+  NINE: '9',
+  EIGHT: '8',
+  SEVEN: '7',
+  SIX: '6',
+  FIVE: '5',
+  FOUR: '4',
+  THREE: '3',
+  TWO: '2',
+} as const;

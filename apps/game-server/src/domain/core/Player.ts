@@ -1,6 +1,19 @@
 import { Hand } from 'pokersolver';
-import { Card } from './Card';
+import { Card, CardState } from './Card';
 import { Poker } from './Poker';
+
+// only primitive types are allowed in this type
+export type PlayerState = {
+  id: string;
+  name: string;
+  stackSize: number;
+  bet: number;
+  raise: number | undefined;
+  holeCards: [CardState, CardState] | undefined;
+  folded: boolean;
+  showCards: boolean;
+  left: boolean;
+};
 
 export type PlayerPrivateInfo = {
   holeCards: string[];
@@ -34,6 +47,12 @@ export class Player {
     public stackSize: number,
     public table: Poker,
   ) {}
+
+  static initFromState(state: PlayerState, table: Poker) {
+    const player = new Player(state.id, state.name, state.stackSize, table);
+    player.restoreState(state);
+    return player;
+  }
 
   get privateInfo(): PlayerPrivateInfo {
     return {
@@ -204,34 +223,31 @@ export class Player {
     return actions;
   }
 
-  extractState() {
+  toState(): PlayerState {
     return {
       id: this.id,
       name: this.name,
       stackSize: this.stackSize,
       bet: this.bet,
       raise: this.raise,
-      holeCards: this.holeCards?.map(card => card.extractState()),
+      holeCards: this.holeCards ? [this.holeCards[0].toState(), this.holeCards[1].toState()] : undefined,
       folded: this.folded,
       showCards: this.showCards,
       left: this.left,
     };
   }
 
-  restoreState(state: any): Player {
-    this.id = state.id;
-    this.name = state.name;
-    this.stackSize = state.stackSize;
-    this.bet = state.bet;
-    this.raise = state.raise;
-    this.holeCards = state.holeCards?.map((card: any) => {
-      const cardCore = new Card(card.rank, card.suit);
-      cardCore.restoreState(card);
-      return cardCore;
-    });
-    this.folded = state.folded;
-    this.showCards = state.showCards;
-    this.left = state.left;
+  restoreState(state: PlayerState): Player {
+    const { id, name, stackSize, bet, raise, holeCards, folded, showCards, left } = state;
+    this.id = id;
+    this.name = name;
+    this.stackSize = stackSize;
+    this.bet = bet;
+    this.raise = raise;
+    this.holeCards = holeCards ? [Card.initFromState(holeCards[0]), Card.initFromState(holeCards[1])] : undefined;
+    this.folded = folded;
+    this.showCards = showCards;
+    this.left = left;
     return this;
   }
 }

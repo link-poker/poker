@@ -1,7 +1,8 @@
 import { ValidationError } from '../../error';
 import { Card } from '../core/Card';
 import { Player, PlayerInfoForOthers, PlayerPrivateInfo } from '../core/Player';
-import { Poker, Pot } from '../core/Poker';
+import { Poker } from '../core/Poker';
+import { Pot } from '../core/Pot';
 import { TableLogFactory } from '../factories/TableLogFactory';
 import { AddOnAmount } from '../value-objects/AddOnAmount';
 import { BetAmount } from '../value-objects/BetAmount';
@@ -60,7 +61,7 @@ export class Table {
   ) {}
 
   getPokerState(): string {
-    return JSON.stringify(this.poker.extractState());
+    return JSON.stringify(this.poker.toState());
   }
 
   getPlayerPrivateInfo(userId: Ulid): PlayerPrivateInfo | null {

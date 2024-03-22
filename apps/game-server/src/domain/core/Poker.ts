@@ -1,7 +1,36 @@
 import { Hand } from 'pokersolver';
 import { BettingRound } from '../value-objects/BettingRound';
-import { Card, CardSuit, CardRank } from './Card';
-import { Player } from './Player';
+import { Card, CardSuit, CardRank, CardState } from './Card';
+import { Player, PlayerState } from './Player';
+import { Pot, PotState } from './Pot';
+
+// only primitive types are allowed in this type
+export type PokerState = {
+  buyIn: number;
+  autoMoveDealer: boolean;
+  bigBlind: number;
+  bigBlindPosition?: number;
+  communityCards: CardState[];
+  currentBet?: number;
+  currentPosition?: number;
+  currentRound?: string;
+  dealerPosition?: number;
+  debug: boolean;
+  deck: CardState[];
+  handNumber: number;
+  lastPosition?: number;
+  lastRaise?: number;
+  players: (PlayerState | null)[];
+  pots: {
+    amount: number;
+    eligiblePlayers: PlayerState[];
+    winners?: PlayerState[];
+  }[];
+  smallBlind: number;
+  smallBlindPosition?: number;
+  winners?: PlayerState[];
+  gameId?: string;
+};
 
 export class Poker {
   public autoMoveDealer: boolean = true;
@@ -30,6 +59,12 @@ export class Poker {
     if (smallBlind >= bigBlind) {
       throw new Error('The small blind must be less than the big blind.');
     }
+  }
+
+  static initFromState(state: PokerState): Poker {
+    const poker = new Poker(state.buyIn, state.smallBlind, state.bigBlind);
+    poker.restoreState(state);
+    return poker;
   }
 
   get actingPlayers(): Player[] {
@@ -519,9 +554,9 @@ export class Poker {
 
   newDeck(): Card[] {
     const newDeck: Card[] = [];
-    Object.keys(CardSuit).forEach(suit => {
-      Object.keys(CardRank).forEach(rank => {
-        newDeck.push(new Card(CardRank[rank as keyof typeof CardRank], CardSuit[suit as keyof typeof CardSuit]));
+    Object.values(CardSuit).forEach(suit => {
+      Object.values(CardRank).forEach(rank => {
+        newDeck.push(new Card(rank, suit));
       });
     });
     for (let index = newDeck.length - 1; index > 0; index--) {
@@ -531,90 +566,80 @@ export class Poker {
     return newDeck;
   }
 
-  extractState(): object {
+  toState(): PokerState {
     return {
       buyIn: this.buyIn,
       autoMoveDealer: this.autoMoveDealer,
       bigBlind: this.bigBlind,
       bigBlindPosition: this.bigBlindPosition,
-      communityCards: this.communityCards.map(card => card.extractState()),
+      communityCards: this.communityCards.map(card => card.toState()),
       currentBet: this.currentBet,
       currentPosition: this.currentPosition,
       currentRound: this.currentRound?.get(),
       dealerPosition: this.dealerPosition,
       debug: this.debug,
-      deck: this.deck.map(card => card.extractState()),
+      deck: this.deck.map(card => card.toState()),
       handNumber: this.handNumber,
       lastPosition: this.lastPosition,
       lastRaise: this.lastRaise,
-      players: this.players.map(player => (player ? player.extractState() : null)),
-      pots: this.pots.map(pot => ({
-        amount: pot.amount,
-        eligiblePlayers: pot.eligiblePlayers.map(player => player.extractState()),
-        winners: pot.winners?.map(player => player.extractState()),
-      })),
+      players: this.players.map(player => (player ? player.toState() : null)),
+      pots: this.pots.map(pot => pot.toState()),
       smallBlind: this.smallBlind,
       smallBlindPosition: this.smallBlindPosition,
-      winners: this.winners?.map(player => player.extractState()),
+      winners: this.winners?.map(player => player.toState()),
       gameId: this.gameId,
     };
   }
 
-  restoreState(state: any): Poker {
-    this.buyIn = state.buyIn;
-    this.autoMoveDealer = state.autoMoveDealer;
-    this.bigBlind = state.bigBlind;
-    this.bigBlindPosition = state.bigBlindPosition;
-    this.communityCards = state.communityCards.map((card: any) => {
-      const cardCore = new Card(card.rank, card.suit);
-      cardCore.restoreState(card);
-      return cardCore;
+  restoreState(state: PokerState) {
+    const {
+      buyIn,
+      autoMoveDealer,
+      bigBlind,
+      bigBlindPosition,
+      communityCards,
+      currentBet,
+      currentPosition,
+      currentRound,
+      dealerPosition,
+      debug,
+      deck,
+      handNumber,
+      lastPosition,
+      lastRaise,
+      players,
+      pots,
+      smallBlind,
+      smallBlindPosition,
+      winners,
+      gameId,
+    } = state;
+    this.buyIn = buyIn;
+    this.autoMoveDealer = autoMoveDealer;
+    this.bigBlind = bigBlind;
+    this.bigBlindPosition = bigBlindPosition;
+    this.communityCards = communityCards.map((cardState: CardState) => Card.initFromState(cardState));
+    this.currentBet = currentBet;
+    this.currentPosition = currentPosition;
+    this.currentRound = currentRound ? new BettingRound(currentRound) : undefined;
+    this.dealerPosition = dealerPosition;
+    this.debug = debug;
+    this.deck = deck.map((card: CardState) => Card.initFromState(card));
+    this.handNumber = handNumber;
+    this.lastPosition = lastPosition;
+    this.lastRaise = lastRaise;
+    this.players = players.map(
+      (playerState: PlayerState | null) => playerState && Player.initFromState(playerState, this),
+    );
+    this.pots = pots.map((potState: PotState) => {
+      return Pot.initFromState(potState, this);
     });
-    this.currentBet = state.currentBet;
-    this.currentPosition = state.currentPosition;
-    this.currentRound = state.currentRound ? new BettingRound(state.currentRound) : undefined;
-    this.dealerPosition = state.dealerPosition;
-    this.debug = state.debug;
-    this.deck = state.deck.map((card: any) => {
-      const cardCore = new Card(card.rank, card.suit);
-      cardCore.restoreState(card);
-      return cardCore;
+    this.smallBlind = smallBlind;
+    this.smallBlindPosition = smallBlindPosition;
+    this.winners = winners?.map((playerState: PlayerState) => {
+      const player = this.players.find((p: Player | null) => p?.id === playerState.id);
+      return player || Player.initFromState(playerState, this);
     });
-    this.handNumber = state.handNumber;
-    this.lastPosition = state.lastPosition;
-    this.lastRaise = state.lastRaise;
-    this.players = state.players.map((player: any) => {
-      if (!player) return null;
-      const playerCore = new Player(player.id, player.name, player.stackSize, this);
-      playerCore.restoreState(player);
-      return playerCore;
-    });
-    this.pots = state.pots.map((pot: any) => {
-      const newPot = new Pot();
-      newPot.amount = pot.amount;
-      newPot.eligiblePlayers = pot.eligiblePlayers.map((player: any) => {
-        const playerCore = this.players.find((p: Player | null) => p?.id === player.id);
-        return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
-      });
-      newPot.winners = pot.winners?.map((player: any) => {
-        const playerCore = this.players.find((p: Player | null) => p?.id === player.id);
-        return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
-      });
-      return newPot;
-    });
-    this.smallBlind = state.smallBlind;
-    this.smallBlindPosition = state.smallBlindPosition;
-    this.winners = state.winners?.map((player: any) => {
-      const playerCore = this.players.find((p: Player | null) => p?.id === player.id);
-      return playerCore || new Player(player.id, player.name, player.stackSize, this).restoreState(player);
-    });
-    this.gameId = state.gameId;
-    return this;
+    this.gameId = gameId;
   }
-}
-
-export class Pot {
-  amount: number = 0;
-  eligiblePlayers: Player[] = [];
-  winners?: Player[];
 }
