@@ -53,8 +53,6 @@ export default function ActionContainer(props: Props) {
     if (webSocketService) webSocketService.fold();
   };
 
-  if (isNotEnoughPlayers) return <></>;
-
   if (isReadyStart) {
     if (!isOwner) return <></>;
     return <StartActionContainer />;
