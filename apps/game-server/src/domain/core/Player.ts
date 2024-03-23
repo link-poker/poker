@@ -85,7 +85,7 @@ export class Player {
     if (this !== this.table.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
-    if (!this.legalActions().includes('bet')) {
+    if (!this.legalActions().includes('BET')) {
       throw new Error('Illegal action.');
     }
     if (isNaN(amount)) {
@@ -105,7 +105,7 @@ export class Player {
     if (this !== this.table.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
-    if (!this.legalActions().includes('call')) {
+    if (!this.legalActions().includes('CALL')) {
       throw new Error('Illegal action.');
     }
     const currentBet = this.table.currentBet;
@@ -129,7 +129,7 @@ export class Player {
       throw new Error('Action invoked on player out of turn!');
     }
     const legalActions = this.legalActions();
-    if (!legalActions.includes('raise') && !legalActions.includes('bet')) {
+    if (!legalActions.includes('RAISE') && !legalActions.includes('BET')) {
       throw new Error('Illegal action.');
     }
     if (amount === undefined || isNaN(amount)) {
@@ -178,7 +178,7 @@ export class Player {
     if (this !== this.table.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
-    if (!this.legalActions().includes('check')) {
+    if (!this.legalActions().includes('CHECK')) {
       throw new Error('Illegal action.');
     }
     this.table.nextAction();
@@ -188,38 +188,38 @@ export class Player {
     if (this !== this.table.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
-    if (!this.legalActions().includes('fold')) {
+    if (!this.legalActions().includes('FOLD')) {
       throw new Error('Illegal action.');
     }
     this.folded = true;
     this.table.nextAction();
   }
 
-  legalActions() {
+  legalActions(): Action[] {
     const currentBet = this.table.currentBet;
     const lastRaise = this.table.lastRaise;
-    const actions: string[] = [];
+    const actions: Action[] = [];
     if (!currentBet) {
-      actions.push('check', 'bet');
+      actions.push('CHECK', 'BET');
     } else {
       if (this.bet === currentBet) {
-        actions.push('check');
+        actions.push('CHECK');
         if (this.stackSize > currentBet && this.table.actingPlayers.length > 0) {
-          actions.push('raise');
+          actions.push('RAISE');
         }
       }
       if (this.bet < currentBet) {
-        actions.push('call');
+        actions.push('CALL');
         if (
           this.stackSize > currentBet &&
           this.table.actingPlayers.length > 0 &&
           (!lastRaise || !this.raise || lastRaise >= this.raise)
         ) {
-          actions.push('raise');
+          actions.push('RAISE');
         }
       }
     }
-    actions.push('fold');
+    actions.push('FOLD');
     return actions;
   }
 
@@ -251,3 +251,11 @@ export class Player {
     return this;
   }
 }
+type Action = (typeof Action)[keyof typeof Action];
+const Action = {
+  BET: 'BET',
+  CALL: 'CALL',
+  CHECK: 'CHECK',
+  FOLD: 'FOLD',
+  RAISE: 'RAISE',
+} as const;
