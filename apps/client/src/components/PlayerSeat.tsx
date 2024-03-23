@@ -1,5 +1,6 @@
 import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
 import Image from 'next/image';
+import { IoIosMan } from 'react-icons/io';
 import { LuClock9 } from 'react-icons/lu';
 import { TABLE_STATUS } from 'constants/table';
 import { usePlayerPrivateInfo } from 'hooks/usePlayerPrivateInfo';
@@ -110,19 +111,26 @@ export default function PlayerSeat(props: Props) {
           <div className='text-xs'>2</div>
         </div>
       </div> */}
-      <div className='flex flex-row'>
-        <div key={'hole1'} className='absolute -mt-3 -ml-4 -rotate-12'>
-          <Image alt='card' src={`/cards/${holeCards[0]}.svg`} width={70} height={100} />
-        </div>
-        <div key={'hole2'} className='absolute -mt-3 ml-8 rotate-12'>
-          <Image alt='card' src={`/cards/${holeCards[1]}.svg`} width={70} height={100} />
-        </div>
-        {hand && (
-          <div className='absolute mt-16 ml-10 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
-            <div className='text-ms'>{hand}</div>
+      {player && !player.away ? (
+        <div className='flex flex-row'>
+          <div key={'hole1'} className='absolute -mt-3 -ml-4 -rotate-12'>
+            <Image alt='card' src={`/cards/${holeCards[0]}.svg`} width={70} height={100} />
           </div>
-        )}
-      </div>
+          <div key={'hole2'} className='absolute -mt-3 ml-8 rotate-12'>
+            <Image alt='card' src={`/cards/${holeCards[1]}.svg`} width={70} height={100} />
+          </div>
+          {hand && (
+            <div className='absolute mt-16 ml-10 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>
+              <div className='text-ms'>{hand}</div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className='absolute mt-3 ml-14 rounded-md transform -translate-x-1/2'>
+          <IoIosMan size={50} />
+          AWAY
+        </div>
+      )}
       <div className='absolute mt-3 ml-32 flex flex-col justify-center items-start'>
         <div className={getActionTextClassName('text-sm text-stone-700')}>{player.name}</div>
         <div className={getActionTextClassName('text-base text-stone-700')}>{player.stack}</div>

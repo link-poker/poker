@@ -142,7 +142,7 @@ export class Poker {
     if (this.smallBlindPosition >= this.players.length) {
       this.smallBlindPosition -= this.players.length * Math.floor(this.smallBlindPosition / this.players.length);
     }
-    while (this.smallBlindPlayer === null && this.players.length > 0) {
+    while ((this.smallBlindPlayer === null || this.smallBlindPlayer.away) && this.players.length > 0) {
       this.smallBlindPosition!++;
       if (this.smallBlindPosition! >= this.players.length) {
         this.smallBlindPosition! -= this.players.length * Math.floor(this.smallBlindPosition! / this.players.length);
@@ -152,7 +152,7 @@ export class Poker {
     if (this.bigBlindPosition >= this.players.length) {
       this.bigBlindPosition -= this.players.length * Math.floor(this.bigBlindPosition / this.players.length);
     }
-    while (this.bigBlindPlayer === null && this.players.length > 0) {
+    while ((this.bigBlindPlayer === null || this.bigBlindPlayer.away) && this.players.length > 0) {
       this.bigBlindPosition!++;
       if (this.bigBlindPosition! >= this.players.length) {
         this.bigBlindPosition! -= this.players.length * Math.floor(this.bigBlindPosition! / this.players.length);
@@ -237,6 +237,7 @@ export class Poker {
     }
     if (playersToAway.length !== 1) throw new Error('Something went wrong.');
     const playerToAway = playersToAway[0];
+    playerToAway.folded = true;
     playerToAway.away = true;
     if (this.currentRound && this.currentActor === playerToAway) {
       this.nextAction();
@@ -348,7 +349,7 @@ export class Poker {
     if (this.currentPosition >= this.players.length) {
       this.currentPosition -= this.players.length * Math.floor(this.currentPosition / this.players.length);
     }
-    while (this.currentActor === null && this.players.length > 0) {
+    while ((this.currentActor === null || this.currentActor.away) && this.players.length > 0) {
       this.currentPosition!++;
       if (this.currentPosition! >= this.players.length) {
         this.currentPosition! -= this.players.length * Math.floor(this.currentPosition! / this.players.length);
@@ -361,7 +362,7 @@ export class Poker {
 
     // Deal cards to players.
     this.players.forEach(player => {
-      if (!player) return;
+      if (!player || player.away) return;
       player.holeCards = [this.deck.pop()!, this.deck.pop()!];
     });
 
