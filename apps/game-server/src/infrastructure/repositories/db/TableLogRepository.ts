@@ -18,6 +18,14 @@ export class TableLogRepository implements ITableLogRepository {
       where: {
         tableId: tableId.get(),
       },
+      orderBy: [
+        {
+          createdAt: 'asc',
+        },
+        {
+          sequence: 'asc',
+        },
+      ],
     });
     return tableLogs.map((tableLog: prismaTableLog) => TableLogTransformer.toModel(tableLog));
   }

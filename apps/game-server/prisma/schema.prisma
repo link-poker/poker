@@ -14,6 +14,7 @@ model TableLog {
   gameId    String?
   type      String
   params    String   @db.Text
+  sequence  Int
   createdAt DateTime @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

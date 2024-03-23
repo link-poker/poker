@@ -11,6 +11,7 @@ export class TableLogTransformer {
       prismaTableLog.gameId ? new Ulid(prismaTableLog.gameId) : null,
       new TableLogType(prismaTableLog.type),
       prismaTableLog.params,
+      prismaTableLog.sequence,
       new Date(prismaTableLog.createdAt),
       new Date(prismaTableLog.updatedAt),
     );
@@ -23,6 +24,7 @@ export class TableLogTransformer {
       gameId: tableLog.gameId ? tableLog.gameId.get() : null,
       type: tableLog.type.get(),
       params: tableLog.params,
+      sequence: tableLog.sequence,
       createdAt: tableLog.createdAt,
       updatedAt: tableLog.updatedAt,
     };

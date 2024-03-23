@@ -237,8 +237,8 @@ export class Poker {
     }
     if (playersToAway.length !== 1) throw new Error('Something went wrong.');
     const playerToAway = playersToAway[0];
-    playerToAway.folded = true;
     playerToAway.away = true;
+    if (this.currentRound) playerToAway.folded = true;
     if (this.currentRound && this.currentActor === playerToAway) {
       this.nextAction();
     }

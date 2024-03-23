@@ -3,7 +3,7 @@ import { ValidationError } from '../../error';
 
 export class SeatNumber {
   private readonly value: number;
-  private static readonly maxSeat = 10;
+  private static readonly maxSeat = 9;
 
   constructor(value: number) {
     if (!this.isValid(value)) {
@@ -21,6 +21,6 @@ export class SeatNumber {
   }
 
   private isValid(value: number): boolean {
-    return z.number().int().min(1).max(SeatNumber.maxSeat).safeParse(value).success;
+    return z.number().int().min(0).max(SeatNumber.maxSeat).safeParse(value).success;
   }
 }

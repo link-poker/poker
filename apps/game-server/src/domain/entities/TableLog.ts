@@ -9,6 +9,7 @@ export class TableLog {
     public readonly gameId: Ulid | null,
     public readonly type: TableLogType,
     public readonly params: string,
+    public readonly sequence: number,
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
   ) {}

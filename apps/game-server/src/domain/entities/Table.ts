@@ -50,6 +50,8 @@ export type TableInfoForPlayers = {
 };
 
 export class Table {
+  // createdAt is not fully reliable to generate sequence number for log because it's not guaranteed to be unique.
+  private sequenceForLog = 0;
   constructor(
     public id: Ulid,
     public owner: User,
@@ -59,6 +61,10 @@ export class Table {
     public updatedAt: Date,
     private poker: Poker,
   ) {}
+
+  getSequenceForLog(): number {
+    return this.sequenceForLog++;
+  }
 
   getPokerState(): string {
     return JSON.stringify(this.poker.toState());
@@ -205,8 +211,22 @@ export class Table {
     }
   }
 
-  away(userId: Ulid): void {
+  away(userId: Ulid): TableLog[] {
+    const logs = [];
+    if (this.poker.currentRound) {
+      logs.push(
+        TableLogFactory.createFoldLog(
+          this.id,
+          this.ensurerGameId(),
+          {
+            playerName: this.getPlayer(userId)!.name,
+          },
+          this.getSequenceForLog(),
+        ),
+      );
+    }
     this.poker.away(userId.get());
+    return [...this.generateTableLog(this.currentRound())];
   }
 
   back(userId: Ulid): void {
@@ -218,24 +238,40 @@ export class Table {
     this.status = new TableStatus('PLAYING');
     const gameId = Ulid.create();
     this.poker.dealCards(gameId.get());
-    const startingHandLog = TableLogFactory.createStartingHandLog(this.id, gameId, {
-      dealerName: this.dealer.name,
-    });
+    const startingHandLog = TableLogFactory.createStartingHandLog(
+      this.id,
+      gameId,
+      {
+        dealerName: this.dealer.name,
+      },
+      this.getSequenceForLog(),
+    );
     const stackLog = TableLogFactory.createStackLog(
       this.id,
       gameId,
       this.activePlayers().map(player => {
         return { playerName: player.name, stack: player.stackSize };
       }),
+      this.getSequenceForLog(),
     );
-    const smallBlindLog = TableLogFactory.createSmallBlindLog(this.id, gameId, {
-      playerName: this.smallBlindPlayer()!.name,
-      amount: this.smallBlind().get(),
-    });
-    const bigBlindLog = TableLogFactory.createBigBlindLog(this.id, gameId, {
-      playerName: this.bigBlindPlayer()!.name,
-      amount: this.bigBlind().get(),
-    });
+    const smallBlindLog = TableLogFactory.createSmallBlindLog(
+      this.id,
+      gameId,
+      {
+        playerName: this.smallBlindPlayer()!.name,
+        amount: this.smallBlind().get(),
+      },
+      this.getSequenceForLog(),
+    );
+    const bigBlindLog = TableLogFactory.createBigBlindLog(
+      this.id,
+      gameId,
+      {
+        playerName: this.bigBlindPlayer()!.name,
+        amount: this.bigBlind().get(),
+      },
+      this.getSequenceForLog(),
+    );
     return [startingHandLog, stackLog, smallBlindLog, bigBlindLog, ...this.generateTableLog(preRound)];
   }
 
@@ -247,9 +283,14 @@ export class Table {
     const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.callAction();
-    const callLog = TableLogFactory.createCallLog(this.id, this.ensurerGameId(), {
-      playerName: this.getPlayer(userId)!.name,
-    });
+    const callLog = TableLogFactory.createCallLog(
+      this.id,
+      this.ensurerGameId(),
+      {
+        playerName: this.getPlayer(userId)!.name,
+      },
+      this.getSequenceForLog(),
+    );
     return [callLog, ...this.generateTableLog(preRound)];
   }
 
@@ -257,9 +298,14 @@ export class Table {
     const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.checkAction();
-    const checkLog = TableLogFactory.createCheckLog(this.id, this.ensurerGameId(), {
-      playerName: this.getPlayer(userId)!.name,
-    });
+    const checkLog = TableLogFactory.createCheckLog(
+      this.id,
+      this.ensurerGameId(),
+      {
+        playerName: this.getPlayer(userId)!.name,
+      },
+      this.getSequenceForLog(),
+    );
     return [checkLog, ...this.generateTableLog(preRound)];
   }
 
@@ -267,9 +313,14 @@ export class Table {
     const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.foldAction();
-    const foldLog = TableLogFactory.createFoldLog(this.id, this.ensurerGameId(), {
-      playerName: this.getPlayer(userId)!.name,
-    });
+    const foldLog = TableLogFactory.createFoldLog(
+      this.id,
+      this.ensurerGameId(),
+      {
+        playerName: this.getPlayer(userId)!.name,
+      },
+      this.getSequenceForLog(),
+    );
     return [foldLog, ...this.generateTableLog(preRound)];
   }
 
@@ -277,10 +328,15 @@ export class Table {
     const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.betAction(amount.get());
-    const betLog = TableLogFactory.createBetLog(this.id, this.ensurerGameId(), {
-      playerName: this.poker.currentActor!.name,
-      amount: amount.get(),
-    });
+    const betLog = TableLogFactory.createBetLog(
+      this.id,
+      this.ensurerGameId(),
+      {
+        playerName: this.poker.currentActor!.name,
+        amount: amount.get(),
+      },
+      this.getSequenceForLog(),
+    );
     return [betLog, ...this.generateTableLog(preRound)];
   }
 
@@ -288,10 +344,15 @@ export class Table {
     const preRound = this.currentRound();
     this.ensureYourTurn(userId);
     this.poker.currentActor!.raiseAction(amount.get());
-    const raiseLog = TableLogFactory.createRaiseLog(this.id, this.ensurerGameId(), {
-      playerName: this.poker.currentActor!.name,
-      amount: amount.get(),
-    });
+    const raiseLog = TableLogFactory.createRaiseLog(
+      this.id,
+      this.ensurerGameId(),
+      {
+        playerName: this.poker.currentActor!.name,
+        amount: amount.get(),
+      },
+      this.getSequenceForLog(),
+    );
     return [raiseLog, ...this.generateTableLog(preRound)];
   }
 
@@ -310,10 +371,15 @@ export class Table {
     if (!round) {
       return [
         ...this.actingPlayers().map((player: Player) => {
-          return TableLogFactory.createShowDownLog(this.id, this.ensurerGameId(), {
-            playerName: player.name,
-            hand: player.hand.name,
-          });
+          return TableLogFactory.createShowDownLog(
+            this.id,
+            this.ensurerGameId(),
+            {
+              playerName: player.name,
+              hand: player.hand.name,
+            },
+            this.getSequenceForLog(),
+          );
         }),
         TableLogFactory.createCollectPotLog(
           this.id,
@@ -321,37 +387,53 @@ export class Table {
           this.winners()!.map(player => {
             return { playerName: player.name, amount: player.stackSize };
           }),
+          this.getSequenceForLog(),
         ),
-        TableLogFactory.createEndingHandLog(this.id, this.ensurerGameId(), null),
+        TableLogFactory.createEndingHandLog(this.id, this.ensurerGameId(), null, this.getSequenceForLog()),
       ];
     }
     switch (round.get()) {
       case 'FLOP':
         return [
-          TableLogFactory.createFlopLog(this.id, this.ensurerGameId(), {
-            card1: this.commonCards()[0].toString(),
-            card2: this.commonCards()[1].toString(),
-            card3: this.commonCards()[2].toString(),
-          }),
+          TableLogFactory.createFlopLog(
+            this.id,
+            this.ensurerGameId(),
+            {
+              card1: this.commonCards()[0].toString(),
+              card2: this.commonCards()[1].toString(),
+              card3: this.commonCards()[2].toString(),
+            },
+            this.getSequenceForLog(),
+          ),
         ];
       case 'TURN':
         return [
-          TableLogFactory.createTurnLog(this.id, this.ensurerGameId(), {
-            card1: this.commonCards()[0].toString(),
-            card2: this.commonCards()[1].toString(),
-            card3: this.commonCards()[2].toString(),
-            card4: this.commonCards()[3].toString(),
-          }),
+          TableLogFactory.createTurnLog(
+            this.id,
+            this.ensurerGameId(),
+            {
+              card1: this.commonCards()[0].toString(),
+              card2: this.commonCards()[1].toString(),
+              card3: this.commonCards()[2].toString(),
+              card4: this.commonCards()[3].toString(),
+            },
+            this.getSequenceForLog(),
+          ),
         ];
       case 'RIVER':
         return [
-          TableLogFactory.createRiverLog(this.id, this.ensurerGameId(), {
-            card1: this.commonCards()[0].toString(),
-            card2: this.commonCards()[1].toString(),
-            card3: this.commonCards()[2].toString(),
-            card4: this.commonCards()[3].toString(),
-            card5: this.commonCards()[4].toString(),
-          }),
+          TableLogFactory.createRiverLog(
+            this.id,
+            this.ensurerGameId(),
+            {
+              card1: this.commonCards()[0].toString(),
+              card2: this.commonCards()[1].toString(),
+              card3: this.commonCards()[2].toString(),
+              card4: this.commonCards()[3].toString(),
+              card5: this.commonCards()[4].toString(),
+            },
+            this.getSequenceForLog(),
+          ),
         ];
       default:
         return [];
