@@ -45,14 +45,14 @@ export default function PlayerSeat(props: Props) {
 
   if (table.status === TABLE_STATUS.WAITING) {
     return (
-      <div className='rounded-lg h-[9vh] w-[22vw] xl:w-72 bg-stone-700'>
-        <div className='absolute h-[9vh] w-[10vw] flex flex-col justify-center items-center text-stone-300 text-xs gap-2'>
+      <div className='rounded-lg h-[9vh] w-[22vw] xl:w-72 bg-stone-700 bg-opacity-80'>
+        <div className='absolute h-[9vh] w-[10vw] flex flex-col justify-center items-center text-white text-xs gap-2 opacity-80'>
           <LuClock9 size={40} />
           WAITING
         </div>
         <div className='absolute mt-3 ml-32 flex flex-col justify-center items-start'>
-          <div className='text-sm text-stone-300'>{player.name}</div>
-          <div className='text-base text-white'>{player.stack}</div>
+          <div className={'text-xl font-semibold opacity-80'}>{player.name}</div>
+          <div className={'-mt-1 font-bold text-base'}>{player.stack}</div>
         </div>
         {isYou && (
           <div>
