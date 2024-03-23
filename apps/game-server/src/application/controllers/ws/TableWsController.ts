@@ -24,7 +24,7 @@ export class TableWsController {
     connection.socket.on('close', () => {
       this.webSocketApplicationService.removeConnection(params.tableId, params.userId);
     });
-    connection.socket.on('message', message => {
+    connection.socket.on('message', async message => {
       try {
         const data = JSON.parse(message.toString());
         const { kind, payload } = data as { kind: WebSocketMessageKindEnum; payload: unknown };
@@ -37,40 +37,40 @@ export class TableWsController {
 
         switch (kind) {
           case 'ENTER':
-            this.enter(params, payload, user);
+            await this.enter(params, payload, user);
             break;
           case 'DEAL_CARDS':
-            this.dealCards(params, payload);
+            await this.dealCards(params, payload);
             break;
           case 'STAND_UP':
-            this.standUp(params, payload);
+            await this.standUp(params, payload);
             break;
           case 'AWAY':
-            this.away(params, payload);
+            await this.away(params, payload);
             break;
           case 'BACK':
-            this.back(params, payload);
+            await this.back(params, payload);
             break;
           case 'CALL':
-            this.call(params, payload);
+            await this.call(params, payload);
             break;
           case 'CHECK':
-            this.check(params, payload);
+            await this.check(params, payload);
             break;
           case 'FOLD':
-            this.fold(params, payload);
+            await this.fold(params, payload);
             break;
           case 'BET':
-            this.bet(params, payload);
+            await this.bet(params, payload);
             break;
           case 'RAISE':
-            this.raise(params, payload);
+            await this.raise(params, payload);
             break;
           case 'ADD_ON':
-            this.addOn(params, payload);
+            await this.addOn(params, payload);
             break;
           case 'DELAY_TIME':
-            this.delayTime(params, payload);
+            await this.delayTime(params, payload);
             break;
           default:
             break;
