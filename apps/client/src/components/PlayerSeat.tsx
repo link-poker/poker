@@ -74,7 +74,7 @@ export default function PlayerSeat(props: Props) {
     } else if (isAct) {
       return className + ' bg-white';
     } else {
-      return className + ' bg-stone-700';
+      return className + ' bg-stone-700 bg-opacity-80';
     }
   };
 
@@ -126,21 +126,21 @@ export default function PlayerSeat(props: Props) {
           )}
         </div>
       ) : (
-        <div className='absolute mt-3 ml-14 rounded-md transform -translate-x-1/2'>
-          <IoIosMan size={50} />
+        <div className='absolute mt-11 ml-14 rounded-md transform -translate-x-1/2 -translate-y-1/2 opacity-80'>
+          <IoIosMan size={40} />
           AWAY
         </div>
       )}
       <div className='absolute mt-3 ml-32 flex flex-col justify-center items-start'>
-        <div className={getActionTextClassName('text-sm text-stone-700')}>{player.name}</div>
-        <div className={getActionTextClassName('text-base text-stone-700')}>{player.stack}</div>
+        <div className={getActionTextClassName('text-xl font-semibold opacity-80')}>{player.name}</div>
+        <div className={getActionTextClassName('-mt-1 font-bold text-base')}>{player.stack}</div>
       </div>
       {isYou && (
         <div>
-          <div className='absolute mt-[1.5vh] ml-[18vw] xl:ml-52 transform translate-x-3/4'>
+          <div className='absolute mt-[1.5vh] ml-[18vw] xl:ml-60 transform translate-x-3/4'>
             <div className='text-3xl'>😜</div>
           </div>
-          <div className='absolute mt-[1.5vh] ml-[18vw] xl:ml-52 transform translate-y-1/4'>
+          <div className='absolute mt-[1.5vh] ml-[18vw] xl:ml-60 transform translate-y-1/4'>
             <div className='text-4xl'>😃</div>
           </div>
         </div>
