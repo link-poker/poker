@@ -102,6 +102,34 @@ export class TableApplicationService {
     this.sendPlayerPrivateInfos(table);
   }
 
+  async away(tableIdStr: string, userIdStr: string): Promise<void> {
+    const tableId = new Ulid(tableIdStr);
+    const table = await this.tableRepository.findById(tableId);
+    const userId = new Ulid(userIdStr);
+    table.away(userId);
+    await this.tableRepository.update(table);
+    const message = new WebSocketMessage({
+      kind: 'AWAY',
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
+    });
+    this.webSocketService.broadcastMessage(tableId, message);
+    this.sendPlayerPrivateInfos(table);
+  }
+
+  async back(tableIdStr: string, userIdStr: string): Promise<void> {
+    const tableId = new Ulid(tableIdStr);
+    const table = await this.tableRepository.findById(tableId);
+    const userId = new Ulid(userIdStr);
+    table.back(userId);
+    await this.tableRepository.update(table);
+    const message = new WebSocketMessage({
+      kind: 'BACK',
+      payload: { table: new TableInfoForPlayersData(table.getTableInfoForPlayers()) },
+    });
+    this.webSocketService.broadcastMessage(tableId, message);
+    this.sendPlayerPrivateInfos(table);
+  }
+
   async call(tableIdStr: string, userIdStr: string): Promise<void> {
     const tableId = new Ulid(tableIdStr);
     const table = await this.tableRepository.findById(tableId);

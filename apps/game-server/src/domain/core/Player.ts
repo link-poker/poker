@@ -11,6 +11,7 @@ export type PlayerState = {
   raise: number | undefined;
   holeCards: [CardState, CardState] | undefined;
   folded: boolean;
+  away: boolean;
   showCards: boolean;
   left: boolean;
 };
@@ -30,6 +31,7 @@ export type PlayerInfoForOthers = {
   folded: boolean;
   showCards: boolean;
   left: boolean;
+  away: boolean;
   hand: string | null;
 };
 
@@ -40,6 +42,7 @@ export class Player {
   folded: boolean = false;
   showCards: boolean = false;
   left: boolean = false;
+  away: boolean = false;
 
   constructor(
     public id: string,
@@ -72,6 +75,7 @@ export class Player {
       folded: this.folded,
       showCards: this.showCards,
       left: this.left,
+      away: this.away,
       hand: (this.showCards && this.hand?.name) ?? null,
     };
   }
@@ -234,11 +238,12 @@ export class Player {
       folded: this.folded,
       showCards: this.showCards,
       left: this.left,
+      away: this.away,
     };
   }
 
   restoreState(state: PlayerState): Player {
-    const { id, name, stackSize, bet, raise, holeCards, folded, showCards, left } = state;
+    const { id, name, stackSize, bet, raise, holeCards, folded, showCards, left, away } = state;
     this.id = id;
     this.name = name;
     this.stackSize = stackSize;
@@ -248,6 +253,7 @@ export class Player {
     this.folded = folded;
     this.showCards = showCards;
     this.left = left;
+    this.away = away;
     return this;
   }
 }

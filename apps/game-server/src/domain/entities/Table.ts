@@ -205,9 +205,13 @@ export class Table {
     }
   }
 
-  // cleanUp(): void {
-  //   this.poker.cleanUp();
-  // }
+  away(userId: Ulid): void {
+    this.poker.away(userId.get());
+  }
+
+  back(userId: Ulid): void {
+    this.poker.back(userId.get());
+  }
 
   dealCards(): TableLog[] {
     const preRound = this.currentRound();
@@ -234,26 +238,6 @@ export class Table {
     });
     return [startingHandLog, stackLog, smallBlindLog, bigBlindLog, ...this.generateTableLog(preRound)];
   }
-
-  // nextAction(): void {
-  //   this.poker.nextAction();
-  // }
-
-  // gatherBets(): void {
-  //   this.poker.gatherBets();
-  // }
-
-  // nextRound(): void {
-  //   this.poker.nextRound();
-  // }
-
-  // showdown(): void {
-  //   this.poker.showdown();
-  // }
-
-  // newDeck(): Card[] {
-  //   return this.poker.newDeck();
-  // }
 
   addOn(userId: Ulid, amount: AddOnAmount): void {
     this.poker.addOn(userId.get(), amount.get());

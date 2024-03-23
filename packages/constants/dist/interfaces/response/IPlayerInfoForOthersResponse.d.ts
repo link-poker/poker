@@ -8,5 +8,6 @@ export interface IPlayerInfoForOthersResponse {
     folded: boolean;
     showCards: boolean;
     left: boolean;
+    away: boolean;
     hand: string | null;
 }

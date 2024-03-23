@@ -3,6 +3,8 @@ export const WebSocketMessageKindList = [
   'SIT_DOWN',
   'DEAL_CARDS',
   'STAND_UP',
+  'AWAY',
+  'BACK',
   'CALL',
   'CHECK',
   'FOLD',

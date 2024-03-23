@@ -21,10 +21,10 @@ export default function ActionContainer(props: Props) {
   const currentBet = table.poker.currentBet || 0;
   const isOwner = table.owner.id === user.id;
   const isYourTurn = table.poker.currentActor && table.poker.currentActor.id === user.id;
-  const numberOfPlayers = table.poker.players.filter(
-    (player: IPlayerInfoForOthersResponse | null) => player && player.stack !== 0,
-  ).length;
-  const isNotEnoughPlayers = numberOfPlayers < 2;
+  const isNotEnoughPlayers =
+    table.poker.players.filter(
+      (player: IPlayerInfoForOthersResponse | null) => player && !player.away && !player.left && player.stack !== 0,
+    ).length < 2;
   const isReadyStart = !table.poker.currentRound && !isNotEnoughPlayers;
   const isCheck = table.poker.currentActor?.bet === (currentBet || 0);
   const minBet = currentBet * 2 > stack ? stack : currentBet * 2;

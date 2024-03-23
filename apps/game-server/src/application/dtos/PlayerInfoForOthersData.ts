@@ -11,6 +11,7 @@ export class PlayerInfoForOthersData implements IPlayerInfoForOthersResponse {
   folded: boolean;
   showCards: boolean;
   left: boolean;
+  away: boolean;
   hand: string | null;
 
   constructor(player: PlayerInfoForOthers) {
@@ -23,6 +24,7 @@ export class PlayerInfoForOthersData implements IPlayerInfoForOthersResponse {
     this.folded = player.folded;
     this.showCards = player.showCards;
     this.left = player.left;
+    this.away = player.away;
     this.hand = player.hand;
   }
 }

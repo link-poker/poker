@@ -21,6 +21,12 @@ export const useWebSocket = () => {
       case 'STAND_UP':
         dispatch(tableActions.update(payload.table));
         break;
+      case 'AWAY':
+        dispatch(tableActions.update(payload.table));
+        break;
+      case 'BACK':
+        dispatch(tableActions.update(payload.table));
+        break;
       case 'CALL':
         dispatch(tableActions.update(payload.table));
         break;

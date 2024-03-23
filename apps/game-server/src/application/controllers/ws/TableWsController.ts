@@ -27,7 +27,7 @@ export class TableWsController {
     connection.socket.on('message', message => {
       try {
         const data = JSON.parse(message.toString());
-        const { kind, payload } = data;
+        const { kind, payload } = data as { kind: WebSocketMessageKindEnum; payload: unknown };
         const user = this.webSocketApplicationService.isAuthorizedConnection(
           params.tableId,
           params.userId,
@@ -35,7 +35,7 @@ export class TableWsController {
           connection,
         );
 
-        switch (kind as WebSocketMessageKindEnum) {
+        switch (kind) {
           case 'ENTER':
             this.enter(params, payload, user);
             break;
@@ -44,6 +44,12 @@ export class TableWsController {
             break;
           case 'STAND_UP':
             this.standUp(params, payload);
+            break;
+          case 'AWAY':
+            this.away(params, payload);
+            break;
+          case 'BACK':
+            this.back(params, payload);
             break;
           case 'CALL':
             this.call(params, payload);
@@ -75,44 +81,52 @@ export class TableWsController {
     });
   }
 
-  private async enter(params: Params, payload: any, user: User) {
+  private async enter(params: Params, payload: unknown, user: User) {
     await this.tableApplicationService.enter(params.tableId, user);
   }
 
-  private async dealCards(params: Params, payload: any) {
+  private async dealCards(params: Params, payload: unknown) {
     await this.tableApplicationService.dealCards(params.tableId, params.userId);
   }
 
-  private async standUp(params: Params, payload: any) {
+  private async standUp(params: Params, payload: unknown) {
     await this.tableApplicationService.standUp(params.tableId, params.userId);
   }
 
-  private async call(params: Params, payload: any) {
+  private async away(params: Params, payload: unknown) {
+    await this.tableApplicationService.away(params.tableId, params.userId);
+  }
+
+  private async back(params: Params, payload: unknown) {
+    await this.tableApplicationService.back(params.tableId, params.userId);
+  }
+
+  private async call(params: Params, payload: unknown) {
     await this.tableApplicationService.call(params.tableId, params.userId);
   }
 
-  private async check(params: Params, payload: any) {
+  private async check(params: Params, payload: unknown) {
     await this.tableApplicationService.check(params.tableId, params.userId);
   }
 
-  private async fold(params: Params, payload: any) {
+  private async fold(params: Params, payload: unknown) {
     await this.tableApplicationService.fold(params.tableId, params.userId);
   }
 
-  private async bet(params: Params, payload: any) {
+  private async bet(params: Params, payload: unknown) {
     const { amount } = payload as IBetRequest;
     await this.tableApplicationService.bet(params.tableId, params.userId, amount);
   }
 
-  private async raise(params: Params, payload: any) {
+  private async raise(params: Params, payload: unknown) {
     const { amount } = payload as IRaiseRequest;
     await this.tableApplicationService.raise(params.tableId, params.userId, amount);
   }
 
-  private async addOn(params: Params, payload: any) {
+  private async addOn(params: Params, payload: unknown) {
     const { amount } = payload as IAddOnRequest;
     await this.tableApplicationService.addOn(params.tableId, params.userId, amount);
   }
 
-  private async delayTime(params: Params, payload: any) {}
+  private async delayTime(params: Params, payload: unknown) {}
 }

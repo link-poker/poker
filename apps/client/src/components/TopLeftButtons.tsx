@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { GrLogout } from 'react-icons/gr';
 import { IoMdMenu, IoIosMan } from 'react-icons/io';
 import { PiArmchairFill } from 'react-icons/pi';
+import { useTable } from 'hooks/useTable';
+import { useUser } from 'hooks/useUser';
 import { useWebSocketServiceContext } from 'providers/WebSocketProvider';
 
 type Props = {
@@ -10,14 +11,32 @@ type Props = {
 };
 
 export default function TopLeftButtons(props: Props) {
-  // TODO: use redux to store userState
-  const [userState, setUserState] = useState('AWAY'); // ['AWAY', 'WAITING', 'PLAYING']
   const { showOptionsView } = props;
+  const { user } = useUser();
+  const { table } = useTable();
   const webSocketService = useWebSocketServiceContext();
+  const you = table.poker.players.find(player => player?.id === user.id) || null;
+
   const onClickLeaveSeat = () => {
     if (!webSocketService) return toast.error('WebSocket is not initialized');
     if (!webSocketService.isConnected()) return toast.error('WebSocket is not connected');
     webSocketService.standUp();
+  };
+
+  const onClickAway = () => {
+    if (!webSocketService) return toast.error('WebSocket is not initialized');
+    if (!webSocketService.isConnected()) return toast.error('WebSocket is not connected');
+    if (!you) return toast.error('You are not sitting at the table');
+    if (you.away) return toast.error('You are already away');
+    webSocketService.away();
+  };
+
+  const onClickBack = () => {
+    if (!webSocketService) return toast.error('WebSocket is not initialized');
+    if (!webSocketService.isConnected()) return toast.error('WebSocket is not connected');
+    if (!you) return toast.error('You are not sitting at the table');
+    if (!you.away) return toast.error('You are not away');
+    webSocketService.back();
   };
 
   return (
@@ -37,13 +56,13 @@ export default function TopLeftButtons(props: Props) {
         </button>
       </div>
       <div className='h-[9vh] w-[9vh] flex flex-col justify-center items-center'>
-        {userState === 'AWAY' ? (
-          <button onClick={() => setUserState('WAITING')}>
+        {you && you.away ? (
+          <button onClick={onClickBack}>
             <PiArmchairFill size={50} />
             I&apos;M BACK
           </button>
         ) : (
-          <button onClick={() => setUserState('AWAY')}>
+          <button onClick={onClickAway}>
             <IoIosMan size={50} />
             AWAY
           </button>

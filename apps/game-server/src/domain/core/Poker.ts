@@ -72,13 +72,14 @@ export class Poker {
       player =>
         player &&
         !player.folded &&
+        !player.away &&
         player.stackSize > 0 &&
         (!this.currentBet || !player.raise || (this.currentBet && player.bet < this.currentBet)),
     ) as Player[];
   }
 
   get activePlayers(): Player[] {
-    return this.players.filter(player => player && !player.folded) as Player[];
+    return this.players.filter(player => player && !player.folded && !player.away) as Player[];
   }
 
   get bigBlindPlayer(): Player | null {
@@ -197,10 +198,10 @@ export class Poker {
   standUp(player: Player | string): Player {
     let playersToStandUp: Player[];
     if (typeof player === 'string') {
-      playersToStandUp = this.players.filter(p => p && p.id === player && !p.left) as Player[];
+      playersToStandUp = this.players.filter(p => p && p.id === player) as Player[];
       if (playersToStandUp.length === 0) throw new Error(`No player found.`);
     } else {
-      playersToStandUp = this.players.filter(p => p === player && !p.left) as Player[];
+      playersToStandUp = this.players.filter(p => p === player) as Player[];
     }
     if (playersToStandUp.length !== 1) throw new Error('Something went wrong.');
     const playerToStandUp = playersToStandUp[0];
@@ -224,6 +225,35 @@ export class Poker {
       }
     }
     return playerToStandUp;
+  }
+
+  away(player: Player | string): void {
+    let playersToAway: Player[];
+    if (typeof player === 'string') {
+      playersToAway = this.players.filter(p => p && p.id === player && !p.left) as Player[];
+      if (playersToAway.length === 0) throw new Error(`No player found.`);
+    } else {
+      playersToAway = this.players.filter(p => p === player && !p.left) as Player[];
+    }
+    if (playersToAway.length !== 1) throw new Error('Something went wrong.');
+    const playerToAway = playersToAway[0];
+    playerToAway.away = true;
+    if (this.currentRound && this.currentActor === playerToAway) {
+      this.nextAction();
+    }
+  }
+
+  back(player: Player | string): void {
+    let playersToBack: Player[];
+    if (typeof player === 'string') {
+      playersToBack = this.players.filter(p => p && p.id === player && !p.left) as Player[];
+      if (playersToBack.length === 0) throw new Error(`No player found.`);
+    } else {
+      playersToBack = this.players.filter(p => p === player && !p.left) as Player[];
+    }
+    if (playersToBack.length !== 1) throw new Error('Something went wrong.');
+    const playerToBack = playersToBack[0];
+    playerToBack.away = false;
   }
 
   cleanUp(): void {

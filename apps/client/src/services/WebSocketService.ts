@@ -31,6 +31,14 @@ class WebSocketService {
     this.send({ kind: 'STAND_UP' });
   }
 
+  away() {
+    this.send({ kind: 'AWAY' });
+  }
+
+  back() {
+    this.send({ kind: 'BACK' });
+  }
+
   call() {
     this.send({ kind: 'CALL' });
   }
