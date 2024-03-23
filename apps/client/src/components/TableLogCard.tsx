@@ -12,8 +12,8 @@ export default function TableLogCard() {
 
   return (
     <div>
-      <div className='text-base bg-white text-stone-800 px-2'>Table Log</div>
-      <div className='h-[18vh] w-[40vw] border rounded p-2'>
+      <div className='text-base bg-white text-stone-800 rounded-t px-2'>Table Log</div>
+      <div className='h-[18vh] w-[40vw] border rounded-b p-2'>
         <div className='flex flex-col justify-start text-sm h-full overflow-auto' id='table-log-card'>
           {tableLogs.map((log, index) => (
             <div key={index}>{log.comment}</div>
