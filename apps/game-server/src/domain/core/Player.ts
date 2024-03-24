@@ -57,6 +57,21 @@ export class Player {
     return player;
   }
 
+  toState(): PlayerState {
+    return {
+      id: this.id,
+      name: this.name,
+      stackSize: this.stackSize,
+      bet: this.bet,
+      raise: this.raise,
+      holeCards: this.holeCards ? [this.holeCards[0].toState(), this.holeCards[1].toState()] : undefined,
+      folded: this.folded,
+      showCards: this.showCards,
+      left: this.left,
+      away: this.away,
+    };
+  }
+
   get privateInfo(): PlayerPrivateInfo {
     return {
       holeCards: this.holeCards?.map(card => card.toString()) ?? [],
@@ -76,7 +91,7 @@ export class Player {
       showCards: this.showCards,
       left: this.left,
       away: this.away,
-      hand: (this.showCards && this.hand?.name) ?? null,
+      hand: this.showCards ? this.hand?.name : null,
     };
   }
 
@@ -227,22 +242,7 @@ export class Player {
     return actions;
   }
 
-  toState(): PlayerState {
-    return {
-      id: this.id,
-      name: this.name,
-      stackSize: this.stackSize,
-      bet: this.bet,
-      raise: this.raise,
-      holeCards: this.holeCards ? [this.holeCards[0].toState(), this.holeCards[1].toState()] : undefined,
-      folded: this.folded,
-      showCards: this.showCards,
-      left: this.left,
-      away: this.away,
-    };
-  }
-
-  restoreState(state: PlayerState): Player {
+  private restoreState(state: PlayerState) {
     const { id, name, stackSize, bet, raise, holeCards, folded, showCards, left, away } = state;
     this.id = id;
     this.name = name;
@@ -254,7 +254,6 @@ export class Player {
     this.showCards = showCards;
     this.left = left;
     this.away = away;
-    return this;
   }
 }
 type Action = (typeof Action)[keyof typeof Action];
