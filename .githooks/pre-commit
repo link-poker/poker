@@ -11,6 +11,15 @@ else
   echo "No changes detected in packages"
 fi
 
+# check if there are changes in client
+# client require a test before push to ensure that tests are passing
+if git diff --cached --name-only | grep -q "^apps/client"; then
+  echo "Building for client ..."
+  pnpm run client build
+else
+  echo "No changes detected in client"
+fi
+
 # check if there are changes in game-server
 # game-server require a test before push to ensure that tests are passing
 if git diff --cached --name-only | grep -q "^apps/game-server"; then
