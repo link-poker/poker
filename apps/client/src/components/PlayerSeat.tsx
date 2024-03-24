@@ -19,7 +19,7 @@ export default function PlayerSeat(props: Props) {
   const { user } = useUser();
   const { playerPrivateInfo } = usePlayerPrivateInfo();
   const playerSeatNumber = table.poker.players.findIndex(
-    (player: IPlayerInfoForOthersResponse | null) => player && player.id === user.id,
+    (player: IPlayerInfoForOthersResponse | undefined) => player && player.id === user.id,
   );
   const player =
     playerSeatNumber === -1
@@ -28,11 +28,11 @@ export default function PlayerSeat(props: Props) {
   const isAct = player && table.poker.currentActor?.id === player.id;
   const isYou = player && player.id === user.id;
   const isAlreadySitDown = table.poker.players.some(
-    (player: IPlayerInfoForOthersResponse | null) => player && player.id === user.id,
+    (player: IPlayerInfoForOthersResponse | undefined) => player && player.id === user.id,
   );
-  const holeCardsNullable = isYou ? playerPrivateInfo.holeCards : player ? player.holeCards : null;
-  const holeCards = holeCardsNullable && holeCardsNullable.length != 0 ? holeCardsNullable : ['Blue_Back', 'Blue_Back'];
-  const hand = isYou ? playerPrivateInfo.hand : player ? player.hand : null;
+  const holeCards = isYou ? playerPrivateInfo.holeCards : player ? player.holeCards : undefined;
+  const ensureHoleCards = holeCards && holeCards.length != 0 ? holeCards : ['Blue_Back', 'Blue_Back'];
+  const hand = isYou ? playerPrivateInfo.hand : player && player.hand;
   const isWinner = table.poker.winners?.find((winner: IPlayerInfoForOthersResponse) => winner.id === player?.id);
 
   if (!player && table.status === TABLE_STATUS.WAITING && !isAlreadySitDown) {
@@ -114,10 +114,10 @@ export default function PlayerSeat(props: Props) {
       {player && !player.away ? (
         <div className='flex flex-row'>
           <div key={'hole1'} className='absolute -mt-3 -ml-4 -rotate-12'>
-            <Image alt='card' src={`/cards/${holeCards[0]}.svg`} width={70} height={100} />
+            <Image alt='card' src={`/cards/${ensureHoleCards[0]}.svg`} width={70} height={100} />
           </div>
           <div key={'hole2'} className='absolute -mt-3 ml-8 rotate-12'>
-            <Image alt='card' src={`/cards/${holeCards[1]}.svg`} width={70} height={100} />
+            <Image alt='card' src={`/cards/${ensureHoleCards[1]}.svg`} width={70} height={100} />
           </div>
           {hand && (
             <div className='absolute mt-16 ml-10 bg-red-400 px-2 rounded-md transform -translate-x-1/2'>

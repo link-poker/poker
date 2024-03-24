@@ -23,12 +23,12 @@ export default function ActionContainer(props: Props) {
   const isYourTurn = table.poker.currentActor && table.poker.currentActor.id === user.id;
   const isNotEnoughPlayers =
     table.poker.players.filter(
-      (player: IPlayerInfoForOthersResponse | null) => player && !player.away && !player.left && player.stack !== 0,
+      (player: IPlayerInfoForOthersResponse | undefined) =>
+        player && !player.away && !player.left && player.stack !== 0,
     ).length < 2;
   const isReadyStart = !table.poker.currentRound && !isNotEnoughPlayers;
   const isCheck = table.poker.currentActor?.bet === (currentBet || 0);
   const minBet = currentBet * 2 > stack ? stack : currentBet * 2;
-  const isBet = currentBet === null;
   const isOnlyCallOrFold = minBet === stack;
 
   const onClickBet = () => {
@@ -73,7 +73,7 @@ export default function ActionContainer(props: Props) {
             <div className='flex flex-row justify-end gap-2'>
               {!isOnlyCallOrFold && (
                 <>
-                  {isBet ? (
+                  {currentBet ? (
                     <button className='outline-cyan-btn rounded-xl px-6 py-6 text-2xl' onClick={onClickBet}>
                       BET
                     </button>

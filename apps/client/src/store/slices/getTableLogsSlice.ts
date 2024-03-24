@@ -7,8 +7,6 @@ const httpService = new HttpService();
 
 const initialState: ResponseState<{ tableLogs: ITableLogResponse[] }> = {
   status: 'idle',
-  error: null,
-  response: null,
 };
 
 export const getTableLogs = createAsyncThunk('gatTableLogs', async (userId: string) => {
@@ -31,7 +29,7 @@ const getTableLogsSlice = createSlice({
       })
       .addCase(getTableLogs.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || null;
+        state.error = action.error.message;
       });
   },
 });

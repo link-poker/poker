@@ -1,10 +1,7 @@
 import { IPlayerPrivateInfoResponse } from '@link-poker/constants';
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: IPlayerPrivateInfoResponse = {
-  holeCards: null,
-  hand: null,
-};
+const initialState: IPlayerPrivateInfoResponse = {};
 
 const playerPrivateInfoSlice = createSlice({
   name: 'playerPrivateInfo',

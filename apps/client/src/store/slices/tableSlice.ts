@@ -22,17 +22,8 @@ const initialTableState: ITableResponse = {
     players: [],
     activePlayers: [],
     actingPlayers: [],
-    currentActor: null,
-    currentRound: null,
-    currentBet: null,
-    currentPot: null,
-    dealer: null,
-    lastActor: null,
     sidePots: [],
-    smallBlindPlayer: null,
-    bigBlindPlayer: null,
     commonCards: [],
-    winners: null,
   },
 };
 

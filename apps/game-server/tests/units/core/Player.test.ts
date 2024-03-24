@@ -102,14 +102,14 @@ describe('Player', () => {
     it('should be able to get privateInfo', () => {
       const player = poker.players[PLAYERS.ALICE.SEAT]!;
       expect(player.privateInfo.holeCards).toHaveLength(0);
-      expect(player.privateInfo.hand).toBeNull();
+      expect(player.privateInfo.hand).toBeUndefined();
     });
 
     it('should be able to get privateInfo with holeCards', () => {
       poker.dealCards(Ulid.create().get());
       const player = poker.players[PLAYERS.ALICE.SEAT]!;
       expect(player.privateInfo.holeCards).toHaveLength(2);
-      expect(player.privateInfo.hand).not.toBeNull();
+      expect(player.privateInfo.hand).not.toBeUndefined();
     });
   });
 
@@ -126,13 +126,13 @@ describe('Player', () => {
       expect(player.infoForOthers.name).toEqual(player.name);
       expect(player.infoForOthers.stackSize).toEqual(player.stackSize);
       expect(player.infoForOthers.bet).toEqual(player.bet);
-      expect(player.infoForOthers.raise).toBeNull();
+      expect(player.infoForOthers.raise).toBeUndefined();
       expect(player.infoForOthers.holeCards).toHaveLength(0);
       expect(player.infoForOthers.folded).toEqual(player.folded);
       expect(player.infoForOthers.showCards).toEqual(player.showCards);
       expect(player.infoForOthers.left).toEqual(player.left);
       expect(player.infoForOthers.away).toEqual(player.away);
-      expect(player.infoForOthers.hand).toBeNull();
+      expect(player.infoForOthers.hand).toBeUndefined();
     });
 
     it('should be able to get infoForOthers with holeCards', () => {
@@ -142,13 +142,13 @@ describe('Player', () => {
       expect(player.infoForOthers.name).toEqual(player.name);
       expect(player.infoForOthers.stackSize).toEqual(player.stackSize);
       expect(player.infoForOthers.bet).toEqual(player.bet);
-      expect(player.infoForOthers.raise).toBeNull();
+      expect(player.infoForOthers.raise).toBeUndefined();
       expect(player.infoForOthers.holeCards).toHaveLength(0);
       expect(player.infoForOthers.folded).toEqual(player.folded);
       expect(player.infoForOthers.showCards).toEqual(player.showCards);
       expect(player.infoForOthers.left).toEqual(player.left);
       expect(player.infoForOthers.away).toEqual(player.away);
-      expect(player.infoForOthers.hand).toBeNull();
+      expect(player.infoForOthers.hand).toBeUndefined();
     });
 
     it('should be able to get infoForOthers with showCards', () => {
@@ -159,13 +159,13 @@ describe('Player', () => {
       expect(player.infoForOthers.name).toEqual(player.name);
       expect(player.infoForOthers.stackSize).toEqual(player.stackSize);
       expect(player.infoForOthers.bet).toEqual(player.bet);
-      expect(player.infoForOthers.raise).toBeNull();
+      expect(player.infoForOthers.raise).toBeUndefined();
       expect(player.infoForOthers.holeCards).toHaveLength(2);
       expect(player.infoForOthers.folded).toEqual(player.folded);
       expect(player.infoForOthers.showCards).toEqual(player.showCards);
       expect(player.infoForOthers.left).toEqual(player.left);
       expect(player.infoForOthers.away).toEqual(player.away);
-      expect(player.infoForOthers.hand).not.toBeNull();
+      expect(player.infoForOthers.hand).not.toBeUndefined();
     });
   });
 
@@ -178,13 +178,13 @@ describe('Player', () => {
 
     it('should be able to get hand', () => {
       const player = poker.players[PLAYERS.ALICE.SEAT]!;
-      expect(player.hand).toBeNull();
+      expect(player.hand).toBeUndefined();
     });
 
     it('should be able to get hand with holeCards', () => {
       poker.dealCards(Ulid.create().get());
       const player = poker.players[PLAYERS.ALICE.SEAT]!;
-      expect(player.hand).not.toBeNull();
+      expect(player.hand).not.toBeUndefined();
     });
   });
 

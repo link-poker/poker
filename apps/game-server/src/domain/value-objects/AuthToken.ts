@@ -11,7 +11,7 @@ export class AuthToken {
     this.value = value as string;
   }
 
-  static init(authToken: string | undefined): AuthToken {
+  static init(authToken?: string): AuthToken {
     if (!authToken) throw new ValidationError('Auth Token is required.');
     authToken = authToken.replace('Bearer ', '');
     return new AuthToken(authToken);

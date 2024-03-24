@@ -7,8 +7,6 @@ const httpService = new HttpService();
 
 const initialState: ResponseState<{ user: IUserResponse }> = {
   status: 'idle',
-  error: null,
-  response: null,
 };
 
 export const getUser = createAsyncThunk('gatUser', async (userId: string) => {
@@ -31,7 +29,7 @@ const getUserSlice = createSlice({
       })
       .addCase(getUser.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || null;
+        state.error = action.error.message;
       });
   },
 });

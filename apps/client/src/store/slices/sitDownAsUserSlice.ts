@@ -7,8 +7,6 @@ const httpService = new HttpService();
 
 const initialState: ResponseState<{ table: ITableResponse; playerPrivateInfo: IPlayerPrivateInfoResponse }> = {
   status: 'idle',
-  error: null,
-  response: null,
 };
 
 export const sitDownAsUser = createAsyncThunk('sitDownAsUser', async (request: ISitDownAsUserRequest) => {
@@ -31,7 +29,7 @@ const sitDownAsUserSlice = createSlice({
       })
       .addCase(sitDownAsUser.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || null;
+        state.error = action.error.message;
       });
   },
 });

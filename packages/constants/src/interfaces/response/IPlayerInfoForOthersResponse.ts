@@ -3,11 +3,11 @@ export interface IPlayerInfoForOthersResponse {
   name: string;
   stack: number;
   bet: number;
-  raise: number | null;
-  holeCards: string[] | null;
+  raise?: number;
+  holeCards?: string[];
   folded: boolean;
   showCards: boolean;
   left: boolean;
   away: boolean;
-  hand: string | null;
+  hand?: string;
 }

@@ -26,7 +26,7 @@ export default function WebSocketServiceProvider({ children, url }: { children: 
 
 export function useWebSocketServiceContext() {
   const context = React.useContext(WebSocketServiceContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useWebSocketContext must be used within a WebSocketProvider');
   }
   return context;

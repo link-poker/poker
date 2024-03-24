@@ -3,7 +3,7 @@ import { PlayerPrivateInfo } from '../../domain/core/Player';
 
 export class PlayerPrivateInfoData implements IPlayerPrivateInfoResponse {
   holeCards: string[];
-  hand: string | null;
+  hand?: string;
 
   constructor(playerPrivateInfo: PlayerPrivateInfo) {
     this.holeCards = playerPrivateInfo.holeCards;

@@ -12,7 +12,7 @@ export default function CommonCards() {
   const turn = commonCardsLength >= 4 ? commonCards[3] : 'Blue_Back';
   const river = commonCardsLength >= 5 ? commonCards[4] : 'Blue_Back';
 
-  if (table.status === TABLE_STATUS.WAITING) return null;
+  if (table.status === TABLE_STATUS.WAITING) return <></>;
 
   return (
     <div className='flex justify-center gap-2'>

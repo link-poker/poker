@@ -33,11 +33,11 @@ export class Pot {
     const { amount, eligiblePlayers, winners } = state;
     this.amount = amount;
     this.eligiblePlayers = eligiblePlayers.map((playerState: PlayerState) => {
-      const player = poker.players.find((p: Player | null) => p?.id === playerState.id);
+      const player = poker.players.find((p: Player | undefined) => p?.id === playerState.id);
       return player || Player.initFromState(playerState, poker);
     });
     this.winners = winners?.map(playerState => {
-      const player = poker.players.find((p: Player | null) => p?.id === playerState.id);
+      const player = poker.players.find((p: Player | undefined) => p?.id === playerState.id);
       return player || Player.initFromState(playerState, poker);
     });
   }

@@ -12,5 +12,5 @@ export default function User() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return null;
+  return <></>;
 }

@@ -8,7 +8,7 @@ export class TableLogTransformer {
     return new TableLog(
       new Ulid(prismaTableLog.id),
       new Ulid(prismaTableLog.tableId),
-      prismaTableLog.gameId ? new Ulid(prismaTableLog.gameId) : null,
+      prismaTableLog.gameId ? new Ulid(prismaTableLog.gameId) : undefined,
       new TableLogType(prismaTableLog.type),
       prismaTableLog.params,
       prismaTableLog.sequence,

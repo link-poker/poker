@@ -42,7 +42,7 @@ export type CollectPotCommentParams = {
   amount: number;
 }[];
 
-export type EndingHandCommentParams = null;
+export type EndingHandCommentParams = Record<string, never>;
 
 export type smallBlindCommentParams = {
   playerName: string;

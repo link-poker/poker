@@ -20,7 +20,7 @@ export default function BetActionContainer(props: Props) {
   const isOwner = table.owner.id === user.id;
   const isNotEnoughPlayers = table.poker.activePlayers.length < 2;
   const isReadyStart = !table.poker.currentRound && table.poker.activePlayers.length >= 2;
-  const isBet = table.poker.currentBet === null;
+  const isBet = !table.poker.currentBet;
   const totalBetExceptYou = table.poker.activePlayers
     .filter((player: IPlayerInfoForOthersResponse) => player.id !== user.id)
     .reduce((acc: number, player: IPlayerInfoForOthersResponse) => acc + player.bet, 0);

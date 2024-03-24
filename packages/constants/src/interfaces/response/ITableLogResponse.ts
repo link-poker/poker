@@ -1,7 +1,7 @@
 export interface ITableLogResponse {
   id: string;
   tableId: string;
-  gameId: string | null;
+  gameId?: string;
   type: string;
   params: string;
   comment: string;

@@ -6,13 +6,13 @@ export class PlayerInfoForOthersData implements IPlayerInfoForOthersResponse {
   name: string;
   stack: number;
   bet: number;
-  raise: number | null;
+  raise?: number;
   holeCards: string[];
   folded: boolean;
   showCards: boolean;
   left: boolean;
   away: boolean;
-  hand: string | null;
+  hand?: string;
 
   constructor(player: PlayerInfoForOthers) {
     this.id = player.id;

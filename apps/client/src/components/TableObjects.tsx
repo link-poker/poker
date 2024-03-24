@@ -3,7 +3,7 @@ import CurrentBet from './CurrentBet';
 import DealerButton from './DealerButton';
 
 type Props = {
-  player: IPlayerInfoForOthersResponse | null;
+  player?: IPlayerInfoForOthersResponse;
   seatNumber: number;
 };
 

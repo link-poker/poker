@@ -4,7 +4,7 @@ export interface IPlayer {
   stack: number;
   bet: number;
   hole: string[];
-  hand: string | null;
+  hand?: string;
   status: string;
   isYou: boolean;
 }

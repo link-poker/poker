@@ -28,24 +28,24 @@ export type TableInfoForPlayers = {
   createdAt: Date;
   updatedAt: Date;
   poker: {
-    gameId: Ulid | null;
+    gameId?: Ulid;
     bigBlind: BigBlind;
     smallBlind: SmallBlind;
     buyIn: BuyIn;
-    players: (PlayerInfoForOthers | null)[]; // array of 10
+    players: (PlayerInfoForOthers | undefined)[]; // array of 10
     actingPlayers: PlayerInfoForOthers[];
     activePlayers: PlayerInfoForOthers[];
-    currentActor: PlayerInfoForOthers | null;
-    currentRound: BettingRound | null;
-    currentBet: CurrentBet | null;
-    currentPot: Pot | null;
-    dealer: PlayerInfoForOthers | null;
-    lastActor: PlayerInfoForOthers | null;
+    currentActor?: PlayerInfoForOthers;
+    currentRound?: BettingRound;
+    currentBet?: CurrentBet;
+    currentPot?: Pot;
+    dealer?: PlayerInfoForOthers;
+    lastActor?: PlayerInfoForOthers;
     sidePots: Pot[];
-    smallBlindPlayer: PlayerInfoForOthers | null;
-    bigBlindPlayer: PlayerInfoForOthers | null;
+    smallBlindPlayer?: PlayerInfoForOthers;
+    bigBlindPlayer?: PlayerInfoForOthers;
     commonCards: string[];
-    winners: PlayerInfoForOthers[] | null;
+    winners?: PlayerInfoForOthers[];
   };
 };
 
@@ -70,10 +70,9 @@ export class Table {
     return JSON.stringify(this.poker.toState());
   }
 
-  getPlayerPrivateInfo(userId: Ulid): PlayerPrivateInfo | null {
+  getPlayerPrivateInfo(userId: Ulid): PlayerPrivateInfo | undefined {
     const player = this.poker.players.find(player => player?.id === userId.get());
-    if (!player) return null;
-    return player.privateInfo;
+    return player?.privateInfo;
   }
 
   getPlayerPrivateInfos(): { userId: Ulid; privateInfo: PlayerPrivateInfo }[] {
@@ -99,30 +98,30 @@ export class Table {
         bigBlind: this.bigBlind(),
         smallBlind: this.smallBlind(),
         buyIn: this.buyIn(),
-        players: this.poker.players.map(player => player?.infoForOthers || null),
+        players: this.poker.players.map(player => player && player.infoForOthers),
         actingPlayers: this.actingPlayers().map(player => player.infoForOthers),
         activePlayers: this.activePlayers().map(player => player.infoForOthers),
-        currentActor: this.currentActor()?.infoForOthers || null,
+        currentActor: this.currentActor()?.infoForOthers,
         currentRound: this.currentRound(),
-        currentBet: this.currentBet() || null,
-        currentPot: this.currentPot() || null,
-        dealer: this.dealer()?.infoForOthers || null,
-        lastActor: this.lastActor()?.infoForOthers || null,
+        currentBet: this.currentBet(),
+        currentPot: this.currentPot(),
+        dealer: this.dealer()?.infoForOthers,
+        lastActor: this.lastActor()?.infoForOthers,
         sidePots: this.sidePots(),
-        smallBlindPlayer: this.smallBlindPlayer()?.infoForOthers || null,
-        bigBlindPlayer: this.bigBlindPlayer()?.infoForOthers || null,
+        smallBlindPlayer: this.smallBlindPlayer()?.infoForOthers,
+        bigBlindPlayer: this.bigBlindPlayer()?.infoForOthers,
         commonCards: this.commonCards().map(card => card.toString()),
-        winners: this.winners()?.map(player => player.infoForOthers) || null,
+        winners: this.winners()?.map(player => player.infoForOthers),
       },
     };
   }
 
-  getPlayer(userId: Ulid): Player | null {
-    return this.poker.players.find(player => player?.id === userId.get()) || null;
+  getPlayer(userId: Ulid): Player | undefined {
+    return this.poker.players.find(player => player?.id === userId.get()) || undefined;
   }
 
-  gameId(): Ulid | null {
-    return this.poker.gameId ? new Ulid(this.poker.gameId) : null;
+  gameId(): Ulid | undefined {
+    return this.poker.gameId ? new Ulid(this.poker.gameId) : undefined;
   }
 
   ensurerGameId(): Ulid {
@@ -150,29 +149,27 @@ export class Table {
     return this.poker.activePlayers;
   }
 
-  currentActor(): Player | null {
+  currentActor(): Player | undefined {
     return this.poker.currentActor;
   }
 
-  currentRound(): BettingRound | null {
-    if (!this.poker.currentRound) return null;
+  currentRound(): BettingRound | undefined {
     return this.poker.currentRound;
   }
 
-  currentBet(): CurrentBet | null {
-    if (!this.poker.currentBet) return null;
-    return new CurrentBet(this.poker.currentBet);
+  currentBet(): CurrentBet | undefined {
+    return this.poker.currentBet ? new CurrentBet(this.poker.currentBet) : undefined;
   }
 
-  currentPot(): Pot | null {
+  currentPot(): Pot | undefined {
     return this.poker.currentPot;
   }
 
-  dealer(): Player | null {
+  dealer(): Player | undefined {
     return this.poker.dealer;
   }
 
-  lastActor(): Player | null {
+  lastActor(): Player | undefined {
     return this.poker.lastActor;
   }
 
@@ -180,11 +177,11 @@ export class Table {
     return this.poker.sidePots;
   }
 
-  smallBlindPlayer(): Player | null {
+  smallBlindPlayer(): Player | undefined {
     return this.poker.smallBlindPlayer;
   }
 
-  bigBlindPlayer(): Player | null {
+  bigBlindPlayer(): Player | undefined {
     return this.poker.bigBlindPlayer;
   }
 
@@ -192,8 +189,8 @@ export class Table {
     return this.poker.communityCards;
   }
 
-  winners(): Player[] | null {
-    return this.poker.winners || null;
+  winners(): Player[] | undefined {
+    return this.poker.winners;
   }
 
   // moveDealer(): void {
@@ -365,7 +362,7 @@ export class Table {
     }
   }
 
-  private generateTableLog(preRound: BettingRound | null): TableLog[] {
+  private generateTableLog(preRound: BettingRound | undefined): TableLog[] {
     const round = this.currentRound();
     if (preRound === round) return [];
     if (!round) {
@@ -389,7 +386,7 @@ export class Table {
           }),
           this.getSequenceForLog(),
         ),
-        TableLogFactory.createEndingHandLog(this.id, this.ensurerGameId(), null, this.getSequenceForLog()),
+        TableLogFactory.createEndingHandLog(this.id, this.ensurerGameId(), {}, this.getSequenceForLog()),
       ];
     }
     switch (round.get()) {

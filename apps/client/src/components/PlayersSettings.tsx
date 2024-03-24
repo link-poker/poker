@@ -1,17 +1,15 @@
-type Props = {
-  players: {
-    name: string;
-    stack: number;
-    bet: number;
-    hole: string[];
-    hand: string | null;
-    status: string;
-    isYou: boolean;
-  }[];
-};
+import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
+import { useTable } from 'hooks/useTable';
+import { useUser } from 'hooks/useUser';
 
-export default function PlayersSetting(props: Props) {
-  const { players } = props;
+export default function PlayersSetting() {
+  const { user } = useUser();
+  const { table } = useTable();
+  const isYou = (player: IPlayerInfoForOthersResponse) => player.name === user?.name;
+  const players: IPlayerInfoForOthersResponse[] =
+    (table?.poker.players.filter(
+      (player: IPlayerInfoForOthersResponse | undefined) => !!player,
+    ) as IPlayerInfoForOthersResponse[]) ?? [];
 
   return (
     <div className='flex flex-col h-[85vh] w-full p-8 overflow-auto'>
@@ -24,7 +22,7 @@ export default function PlayersSetting(props: Props) {
             <div className='text-4xl'>{player.name}</div>
             <div className='text-2xl'>Playing with {player.stack} stack</div>
           </div>
-          {player.isYou && <button className='outline-white-btn p-6 rounded-xl text-4xl'>EDIT</button>}
+          {isYou(player) && <button className='outline-white-btn p-6 rounded-xl text-4xl'>EDIT</button>}
         </div>
       ))}
     </div>

@@ -12,7 +12,6 @@ import TableLogCard from 'components/TableLogCard';
 import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
 import TotalPot from 'components/TotalPot';
-import { you, otherUsers } from 'constants/mock';
 import { useTable } from 'hooks/useTable';
 import { useTableLogs } from 'hooks/useTableLogs';
 import WebSocketProvider from 'providers/WebSocketProvider';
@@ -44,7 +43,7 @@ export default function Table(props: Props) {
   }, [tableId]);
 
   if (showOptionsView) {
-    return <OptionsView backTable={() => setShowOptionsView(false)} players={[you, ...otherUsers]} />;
+    return <OptionsView backTable={() => setShowOptionsView(false)} />;
   }
 
   return (

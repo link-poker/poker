@@ -11,24 +11,24 @@ export class TableInfoForPlayersData implements ITableResponse {
   createdAt: string;
   updatedAt: string;
   poker: {
-    gameId: string | null;
+    gameId?: string;
     bigBlind: number;
     smallBlind: number;
     buyIn: number;
-    players: (IPlayerInfoForOthersResponse | null)[]; // array of 10
+    players: (IPlayerInfoForOthersResponse | undefined)[]; // array of 10
     actingPlayers: IPlayerInfoForOthersResponse[];
     activePlayers: IPlayerInfoForOthersResponse[];
-    currentActor: IPlayerInfoForOthersResponse | null;
-    currentRound: string | null;
-    currentBet: number | null;
-    currentPot: number | null;
-    dealer: IPlayerInfoForOthersResponse | null;
-    lastActor: IPlayerInfoForOthersResponse | null;
+    currentActor?: IPlayerInfoForOthersResponse;
+    currentRound?: string;
+    currentBet?: number;
+    currentPot?: number;
+    dealer?: IPlayerInfoForOthersResponse;
+    lastActor?: IPlayerInfoForOthersResponse;
     sidePots: number[];
-    smallBlindPlayer: IPlayerInfoForOthersResponse | null;
-    bigBlindPlayer: IPlayerInfoForOthersResponse | null;
+    smallBlindPlayer?: IPlayerInfoForOthersResponse;
+    bigBlindPlayer?: IPlayerInfoForOthersResponse;
     commonCards: string[];
-    winners: IPlayerInfoForOthersResponse[] | null;
+    winners?: IPlayerInfoForOthersResponse[];
   };
 
   constructor(tableInfo: TableInfoForPlayers) {
@@ -39,30 +39,25 @@ export class TableInfoForPlayersData implements ITableResponse {
     this.createdAt = tableInfo.createdAt.toISOString();
     this.updatedAt = tableInfo.updatedAt.toISOString();
     this.poker = {
-      gameId: tableInfo.poker.gameId?.get() || null,
+      gameId: tableInfo.poker.gameId?.get(),
       bigBlind: tableInfo.poker.bigBlind.get(),
       smallBlind: tableInfo.poker.smallBlind.get(),
       buyIn: tableInfo.poker.buyIn.get(),
-      players: tableInfo.poker.players.map(player => (player ? new PlayerInfoForOthersData(player) : null)),
+      players: tableInfo.poker.players.map(player => player && new PlayerInfoForOthersData(player)),
       actingPlayers: tableInfo.poker.actingPlayers.map(player => new PlayerInfoForOthersData(player)),
       activePlayers: tableInfo.poker.activePlayers.map(player => new PlayerInfoForOthersData(player)),
-      currentActor: tableInfo.poker.currentActor ? new PlayerInfoForOthersData(tableInfo.poker.currentActor) : null,
-      currentRound: tableInfo.poker.currentRound?.get() || null,
-      currentBet: tableInfo.poker.currentBet?.get() || null,
-      currentPot: tableInfo.poker.currentPot?.amount || null,
-      dealer: tableInfo.poker.dealer ? new PlayerInfoForOthersData(tableInfo.poker.dealer) : null,
-      lastActor: tableInfo.poker.lastActor ? new PlayerInfoForOthersData(tableInfo.poker.lastActor) : null,
+      currentActor: tableInfo.poker.currentActor && new PlayerInfoForOthersData(tableInfo.poker.currentActor),
+      currentRound: tableInfo.poker.currentRound?.get(),
+      currentBet: tableInfo.poker.currentBet?.get(),
+      currentPot: tableInfo.poker.currentPot?.amount,
+      dealer: tableInfo.poker.dealer && new PlayerInfoForOthersData(tableInfo.poker.dealer),
+      lastActor: tableInfo.poker.lastActor && new PlayerInfoForOthersData(tableInfo.poker.lastActor),
       sidePots: tableInfo.poker.sidePots?.map(sidePot => sidePot.amount) || [],
-      bigBlindPlayer: tableInfo.poker.bigBlindPlayer
-        ? new PlayerInfoForOthersData(tableInfo.poker.bigBlindPlayer)
-        : null,
-      smallBlindPlayer: tableInfo.poker.smallBlindPlayer
-        ? new PlayerInfoForOthersData(tableInfo.poker.smallBlindPlayer)
-        : null,
+      bigBlindPlayer: tableInfo.poker.bigBlindPlayer && new PlayerInfoForOthersData(tableInfo.poker.bigBlindPlayer),
+      smallBlindPlayer:
+        tableInfo.poker.smallBlindPlayer && new PlayerInfoForOthersData(tableInfo.poker.smallBlindPlayer),
       commonCards: tableInfo.poker.commonCards.map(card => card.toString()),
-      winners: tableInfo.poker.winners
-        ? tableInfo.poker.winners.map(player => new PlayerInfoForOthersData(player))
-        : null,
+      winners: tableInfo.poker.winners && tableInfo.poker.winners.map(player => new PlayerInfoForOthersData(player)),
     };
   }
 }

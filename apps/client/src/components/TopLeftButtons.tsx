@@ -15,7 +15,7 @@ export default function TopLeftButtons(props: Props) {
   const { user } = useUser();
   const { table } = useTable();
   const webSocketService = useWebSocketServiceContext();
-  const you = table.poker.players.find(player => player?.id === user.id) || null;
+  const you = table.poker.players.find(player => player?.id === user.id);
 
   const onClickLeaveSeat = () => {
     if (!webSocketService) return toast.error('WebSocket is not initialized');

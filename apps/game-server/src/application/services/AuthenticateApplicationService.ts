@@ -16,7 +16,7 @@ export class AuthenticateApplicationService {
     return tokenGenerator.generate(user);
   }
 
-  authenticate(authTokenStr: string | undefined): User {
+  authenticate(authTokenStr?: string): User {
     const tokenValidator = new AuthTokenValidator(ENV_CONFIG.AUTH_TOKEN_SECRET_KEY_BASE64);
     const authToken = AuthToken.init(authTokenStr);
     return tokenValidator.validate(authToken);

@@ -20,7 +20,7 @@ export type PokerState = {
   handNumber: number;
   lastPosition?: number;
   lastRaise?: number;
-  players: (PlayerState | null)[];
+  players: (PlayerState | undefined)[];
   pots: {
     amount: number;
     eligiblePlayers: PlayerState[];
@@ -45,7 +45,18 @@ export class Poker {
   public handNumber: number = 0;
   public lastPosition?: number;
   public lastRaise?: number;
-  public players: (Player | null)[] = [null, null, null, null, null, null, null, null, null, null];
+  public players: (Player | undefined)[] = [
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+  ];
   public pots: Pot[] = [];
   public smallBlindPosition?: number;
   public winners?: Player[];
@@ -82,14 +93,14 @@ export class Poker {
     return this.players.filter(player => player && !player.folded && !player.away) as Player[];
   }
 
-  get bigBlindPlayer(): Player | null {
-    if (this.bigBlindPosition === undefined) return null;
-    return this.players[this.bigBlindPosition];
+  get bigBlindPlayer(): Player | undefined {
+    if (!this.bigBlindPosition) return undefined;
+    return this.players[this.bigBlindPosition]!;
   }
 
-  get currentActor(): Player | null {
-    if (this.currentPosition === undefined) return null;
-    return this.players[this.currentPosition];
+  get currentActor(): Player | undefined {
+    if (!this.currentPosition) return undefined;
+    return this.players[this.currentPosition]!;
   }
 
   get currentPot(): Pot {
@@ -102,14 +113,14 @@ export class Poker {
     return this.pots[this.pots.length - 1];
   }
 
-  get dealer(): Player | null {
-    if (this.dealerPosition === undefined) return null;
-    return this.players[this.dealerPosition];
+  get dealer(): Player | undefined {
+    if (!this.dealerPosition) return undefined;
+    return this.players[this.dealerPosition]!;
   }
 
-  get lastActor(): Player | null {
-    if (this.lastPosition === undefined) return null;
-    return this.players[this.lastPosition];
+  get lastActor(): Player | undefined {
+    if (!this.lastPosition) return undefined;
+    return this.players[this.lastPosition]!;
   }
 
   get sidePots(): Pot[] {
@@ -119,20 +130,20 @@ export class Poker {
     return this.pots.slice(0, this.pots.length - 1);
   }
 
-  get smallBlindPlayer(): Player | null {
-    if (this.smallBlindPosition === undefined) return null;
-    return this.players[this.smallBlindPosition];
+  get smallBlindPlayer(): Player | undefined {
+    if (!this.smallBlindPosition) return undefined;
+    return this.players[this.smallBlindPosition]!;
   }
 
   moveDealer(seatNumber: number) {
-    if (this.players.filter(player => player !== null).length === 0) {
+    if (this.players.filter(player => !!player).length === 0) {
       throw new Error('Move dealer was called but there are no seated players.');
     }
     this.dealerPosition = seatNumber;
     if (this.dealerPosition! >= this.players.length) {
       this.dealerPosition! -= this.players.length * Math.floor(this.dealerPosition! / this.players.length);
     }
-    while (this.dealer === null && this.players.length > 0) {
+    while (!this.dealer && this.players.length > 0) {
       this.dealerPosition!++;
       if (this.dealerPosition! >= this.players.length) {
         this.dealerPosition! -= this.players.length * Math.floor(this.dealerPosition! / this.players.length);
@@ -142,7 +153,7 @@ export class Poker {
     if (this.smallBlindPosition >= this.players.length) {
       this.smallBlindPosition -= this.players.length * Math.floor(this.smallBlindPosition / this.players.length);
     }
-    while ((this.smallBlindPlayer === null || this.smallBlindPlayer.away) && this.players.length > 0) {
+    while ((!this.smallBlindPlayer || this.smallBlindPlayer.away) && this.players.length > 0) {
       this.smallBlindPosition!++;
       if (this.smallBlindPosition! >= this.players.length) {
         this.smallBlindPosition! -= this.players.length * Math.floor(this.smallBlindPosition! / this.players.length);
@@ -152,7 +163,7 @@ export class Poker {
     if (this.bigBlindPosition >= this.players.length) {
       this.bigBlindPosition -= this.players.length * Math.floor(this.bigBlindPosition / this.players.length);
     }
-    while ((this.bigBlindPlayer === null || this.bigBlindPlayer.away) && this.players.length > 0) {
+    while ((!this.bigBlindPlayer || this.bigBlindPlayer.away) && this.players.length > 0) {
       this.bigBlindPosition!++;
       if (this.bigBlindPosition! >= this.players.length) {
         this.bigBlindPosition! -= this.players.length * Math.floor(this.bigBlindPosition! / this.players.length);
@@ -161,8 +172,8 @@ export class Poker {
   }
 
   sitDown(id: string, name: string, buyIn: number, seatNumber?: number): number {
-    // If there are no null seats then the table is full.
-    if (this.players.filter(player => player === null).length === 0) {
+    // If there are no undefined seats then the table is full.
+    if (this.players.filter(player => !player).length === 0) {
       throw new Error('The table is currently full.');
     }
     if (buyIn < this.buyIn) {
@@ -172,13 +183,13 @@ export class Poker {
     if (existingPlayers.length > 0 && !this.debug) {
       throw new Error('Player already joined this table.');
     }
-    if (seatNumber && this.players[seatNumber] !== null) {
+    if (seatNumber && !!this.players[seatNumber]) {
       throw new Error('There is already a player in the requested seat.');
     }
     const newPlayer = new Player(id, name, buyIn, this);
     if (!seatNumber) {
       seatNumber = 0;
-      while (this.players[seatNumber] !== null) {
+      while (this.players[seatNumber]) {
         seatNumber++;
         if (seatNumber >= this.players.length) {
           throw new Error('No available seats!');
@@ -213,7 +224,7 @@ export class Poker {
       }
     } else {
       const playerIndex = this.players.indexOf(playerToStandUp);
-      this.players[playerIndex] = null;
+      this.players[playerIndex] = undefined;
       if (playerIndex === this.dealerPosition) {
         if (this.players.filter(player => !!player).length === 0) {
           delete this.dealerPosition;
@@ -349,7 +360,7 @@ export class Poker {
     if (this.currentPosition >= this.players.length) {
       this.currentPosition -= this.players.length * Math.floor(this.currentPosition / this.players.length);
     }
-    while ((this.currentActor === null || this.currentActor.away) && this.players.length > 0) {
+    while ((!this.currentActor || this.currentActor.away) && this.players.length > 0) {
       this.currentPosition!++;
       if (this.currentPosition! >= this.players.length) {
         this.currentPosition! -= this.players.length * Math.floor(this.currentPosition! / this.players.length);
@@ -389,7 +400,7 @@ export class Poker {
       this.currentPosition! -= this.players.length * Math.floor(this.currentPosition! / this.players.length);
     }
 
-    // if the current actor is null, not an acting player, or if the player has folded or is all-in then move the action again.
+    // if the current actor is undefined, not an acting player, or if the player has folded or is all-in then move the action again.
     if (
       !this.currentActor ||
       !this.actingPlayers.includes(this.currentActor) ||
@@ -421,7 +432,7 @@ export class Poker {
     while (allInPlayers.length > 0) {
       // Find lowest all-in player.
       const lowestAllInBet = allInPlayers
-        .filter(player => player !== null)
+        .filter(player => !!player)
         .map(player => player!.bet)
         .reduce((prevBet, evalBet) => (evalBet < prevBet ? evalBet : prevBet));
       // If other players have bet more than the lowest all-in player then subtract the lowest all-in amount from their bet and add it to the pot.
@@ -471,7 +482,7 @@ export class Poker {
       if (this.currentPosition === this.players.length) {
         this.currentPosition = 0;
       }
-      while (this.currentActor === null && this.players.length > 0) {
+      while (!this.currentActor && this.players.length > 0) {
         this.currentPosition++;
         if (this.currentPosition >= this.players.length) {
           this.currentPosition = 0;
@@ -613,7 +624,7 @@ export class Poker {
       handNumber: this.handNumber,
       lastPosition: this.lastPosition,
       lastRaise: this.lastRaise,
-      players: this.players.map(player => (player ? player.toState() : null)),
+      players: this.players.map(player => player && player.toState()),
       pots: this.pots.map(pot => pot.toState()),
       smallBlind: this.smallBlind,
       smallBlindPosition: this.smallBlindPosition,
@@ -660,7 +671,7 @@ export class Poker {
     this.lastPosition = lastPosition;
     this.lastRaise = lastRaise;
     this.players = players.map(
-      (playerState: PlayerState | null) => playerState && Player.initFromState(playerState, this),
+      (playerState: PlayerState | undefined) => playerState && Player.initFromState(playerState, this),
     );
     this.pots = pots.map((potState: PotState) => {
       return Pot.initFromState(potState, this);
@@ -668,7 +679,7 @@ export class Poker {
     this.smallBlind = smallBlind;
     this.smallBlindPosition = smallBlindPosition;
     this.winners = winners?.map((playerState: PlayerState) => {
-      const player = this.players.find((p: Player | null) => p?.id === playerState.id);
+      const player = this.players.find((p: Player | undefined) => p?.id === playerState.id);
       return player || Player.initFromState(playerState, this);
     });
     this.gameId = gameId;

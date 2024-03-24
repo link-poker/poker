@@ -1,7 +1,7 @@
 import { IPlayerInfoForOthersResponse } from '@link-poker/constants';
 
 type Props = {
-  player: IPlayerInfoForOthersResponse | null;
+  player?: IPlayerInfoForOthersResponse;
 };
 
 const BASE: { [seatNumber: number]: boolean } = {

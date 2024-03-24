@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const ensureNotUndefined = (value: string | undefined): string => {
-  if (value === undefined) throw new Error('Missing environment variable');
+const ensureNotUndefined = (value?: string): string => {
+  if (!value) throw new Error('Missing environment variable');
   return value;
 };
 

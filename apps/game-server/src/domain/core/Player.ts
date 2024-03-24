@@ -8,8 +8,8 @@ export type PlayerState = {
   name: string;
   stackSize: number;
   bet: number;
-  raise: number | undefined;
-  holeCards: [CardState, CardState] | undefined;
+  raise?: number;
+  holeCards?: [CardState, CardState];
   folded: boolean;
   away: boolean;
   showCards: boolean;
@@ -18,7 +18,7 @@ export type PlayerState = {
 
 export type PlayerPrivateInfo = {
   holeCards: string[];
-  hand: string | null;
+  hand?: string;
 };
 
 export type PlayerInfoForOthers = {
@@ -26,13 +26,13 @@ export type PlayerInfoForOthers = {
   name: string;
   stackSize: number;
   bet: number;
-  raise: number | null;
+  raise?: number;
   holeCards: string[];
   folded: boolean;
   showCards: boolean;
   left: boolean;
   away: boolean;
-  hand: string | null;
+  hand: string;
 };
 
 export class Player {
@@ -75,7 +75,7 @@ export class Player {
   get privateInfo(): PlayerPrivateInfo {
     return {
       holeCards: this.holeCards?.map(card => card.toString()) ?? [],
-      hand: this.hand?.name ?? null,
+      hand: this.hand?.name,
     };
   }
 
@@ -85,18 +85,18 @@ export class Player {
       name: this.name,
       stackSize: this.stackSize,
       bet: this.bet,
-      raise: this.raise ?? null,
+      raise: this.raise,
       holeCards: this.showCards ? this.holeCards?.map(card => card.toString()) ?? [] : [],
       folded: this.folded,
       showCards: this.showCards,
       left: this.left,
       away: this.away,
-      hand: this.showCards ? this.hand?.name : null,
+      hand: this.showCards ? this.hand?.name : undefined,
     };
   }
 
-  get hand() {
-    if (!this.holeCards) return null;
+  get hand(): typeof Hand | undefined {
+    if (!this.holeCards) return undefined;
     return Hand.solve(this.holeCards.concat(this.poker.communityCards).map(card => `${card.rank}${card.suit}`));
   }
 
@@ -151,7 +151,7 @@ export class Player {
     if (!legalActions.includes('RAISE') && !legalActions.includes('BET')) {
       throw new Error('Illegal action.');
     }
-    if (amount === undefined || isNaN(amount)) {
+    if (!amount || isNaN(amount)) {
       throw new Error('Amount was not a valid number.');
     }
     if (amount > this.stackSize) {

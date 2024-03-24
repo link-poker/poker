@@ -6,7 +6,7 @@ export class TableLog {
   constructor(
     public readonly id: Ulid,
     public readonly tableId: Ulid,
-    public readonly gameId: Ulid | null,
+    public readonly gameId: Ulid | undefined,
     public readonly type: TableLogType,
     public readonly params: string,
     public readonly sequence: number,

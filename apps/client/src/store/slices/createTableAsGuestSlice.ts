@@ -7,8 +7,6 @@ const httpService = new HttpService();
 
 const initialState: ResponseState<{ user: IUserResponse; table: ITableResponse }> = {
   status: 'idle',
-  error: null,
-  response: null,
 };
 
 export const createTableAsGuest = createAsyncThunk(
@@ -34,7 +32,7 @@ const createTableAsGuestSlice = createSlice({
       })
       .addCase(createTableAsGuest.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || null;
+        state.error = action.error.message;
       });
   },
 });

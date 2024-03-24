@@ -33,7 +33,7 @@ export default function ReconnectBar(props: Props) {
 
   return (
     <div>
-      {webSocketService && showBar ? (
+      {webSocketService && showBar && (
         <div className='w-full py-2 px-4 bg-red-500 text-xl font-semibold'>
           Disconnected from the server because of inactivity, &nbsp;
           <button className='underline' onClick={onClick}>
@@ -41,7 +41,7 @@ export default function ReconnectBar(props: Props) {
           </button>
           &nbsp;to reconnect.
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

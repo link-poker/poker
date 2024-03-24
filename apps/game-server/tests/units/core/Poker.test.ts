@@ -38,7 +38,7 @@ describe('Poker', () => {
     expect(poker.players[PLAYERS.CHARLIE.SEAT]!.id).toEqual(PLAYERS.CHARLIE.ID);
     const player2 = poker.standUp(PLAYERS.BOB.ID);
     expect(player2.id).toEqual(PLAYERS.BOB.ID);
-    expect(poker.players[PLAYERS.BOB.SEAT]).toBeNull();
+    expect(poker.players[PLAYERS.BOB.SEAT]).toBeUndefined();
   });
 
   describe('action', () => {

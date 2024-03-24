@@ -5,7 +5,7 @@ export default function TotalPot() {
   const { table } = useTable();
   const pod = table.poker.currentPot || 0;
   const totalBet = table.poker.players.reduce(
-    (acc: number, player: IPlayerInfoForOthersResponse | null) => acc + (player?.bet || 0),
+    (acc: number, player: IPlayerInfoForOthersResponse | undefined) => acc + (player?.bet || 0),
     0,
   );
   const totalPod = pod + totalBet;
