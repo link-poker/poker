@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
-import { dbHealth, health } from './http/health';
 import { createTestApp } from './app/testApp';
+import { dbHealth, health } from './http/health';
 
 describe('Health Test', () => {
   let app: FastifyInstance;

@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
-import { createTableAsGuest, getTable, sitDownAsGuest } from './http/table';
 import { createTestApp } from './app/testApp';
+import { createTableAsGuest, getTable, sitDownAsGuest } from './http/table';
 
 describe('Table Test', () => {
   let app: FastifyInstance;

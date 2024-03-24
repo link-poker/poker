@@ -1,7 +1,6 @@
 import { Hand } from 'pokersolver';
 import { Poker } from '../../../src/domain/core/Poker';
 import { Ulid } from '../../../src/domain/value-objects/Ulid';
-import { BettingRound } from '../../../src/domain/value-objects/BettingRound';
 
 const POKER = {
   BUY_IN: 1000,

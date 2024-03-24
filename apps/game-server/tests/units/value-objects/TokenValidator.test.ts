@@ -1,7 +1,7 @@
 import { UserFactory } from '../../../src/domain/factories/UserFactory';
-import { UserName } from '../../../src/domain/value-objects/UserName';
-import { AuthTokenValidator } from '../../../src/domain/value-objects/AuthTokenValidator';
 import { AuthTokenGenerator } from '../../../src/domain/value-objects/AuthTokenGenerator';
+import { AuthTokenValidator } from '../../../src/domain/value-objects/AuthTokenValidator';
+import { UserName } from '../../../src/domain/value-objects/UserName';
 
 export const AUTH_TOKEN_SECRET_KEY_BASE64 = 'tsPqOYfJCGGMGdIo+sUSGc67c0GQH/3w9Pc8D+ILuno=';
 
