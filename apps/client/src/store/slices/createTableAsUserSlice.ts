@@ -6,7 +6,7 @@ import { getCreateTableAsUserUrl } from 'utils/url';
 const httpService = new HttpService();
 
 const initialState: ResponseState<{ table: ITableResponse }> = {
-  status: 'idle',
+  status: 'IDLE',
 };
 
 export const createTableAsUser = createAsyncThunk('createTableAsUser', async (request: ICreateTableAsUserRequest) => {
@@ -21,14 +21,14 @@ const createTableAsUserSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(createTableAsUser.pending, state => {
-        state.status = 'loading';
+        state.status = 'LOADING';
       })
       .addCase(createTableAsUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = 'SUCCEEDED';
         state.response = action.payload;
       })
       .addCase(createTableAsUser.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = 'FAILED';
         state.error = action.error.message;
       });
   },

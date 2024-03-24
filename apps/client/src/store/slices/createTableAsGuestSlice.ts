@@ -6,7 +6,7 @@ import { getCreateTableAsGuestUrl } from 'utils/url';
 const httpService = new HttpService();
 
 const initialState: ResponseState<{ user: IUserResponse; table: ITableResponse }> = {
-  status: 'idle',
+  status: 'IDLE',
 };
 
 export const createTableAsGuest = createAsyncThunk(
@@ -24,14 +24,14 @@ const createTableAsGuestSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(createTableAsGuest.pending, state => {
-        state.status = 'loading';
+        state.status = 'LOADING';
       })
       .addCase(createTableAsGuest.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = 'SUCCEEDED';
         state.response = action.payload;
       })
       .addCase(createTableAsGuest.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = 'FAILED';
         state.error = action.error.message;
       });
   },

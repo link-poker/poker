@@ -6,7 +6,7 @@ import { getUserUrl } from 'utils/url';
 const httpService = new HttpService();
 
 const initialState: ResponseState<{ user: IUserResponse }> = {
-  status: 'idle',
+  status: 'IDLE',
 };
 
 export const getUser = createAsyncThunk('gatUser', async (userId: string) => {
@@ -21,14 +21,14 @@ const getUserSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getUser.pending, state => {
-        state.status = 'loading';
+        state.status = 'LOADING';
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = 'SUCCEEDED';
         state.response = action.payload;
       })
       .addCase(getUser.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = 'FAILED';
         state.error = action.error.message;
       });
   },

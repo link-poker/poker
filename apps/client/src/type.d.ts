@@ -1,5 +1,5 @@
 type ResponseState<T> = {
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  status: 'IDLE' | 'LOADING' | 'SUCCEEDED' | 'FAILED';
   error?: string;
   response?: T;
 };

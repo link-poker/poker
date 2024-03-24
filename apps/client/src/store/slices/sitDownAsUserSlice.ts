@@ -6,7 +6,7 @@ import { getSitDownAsUserUrl } from 'utils/url';
 const httpService = new HttpService();
 
 const initialState: ResponseState<{ table: ITableResponse; playerPrivateInfo: IPlayerPrivateInfoResponse }> = {
-  status: 'idle',
+  status: 'IDLE',
 };
 
 export const sitDownAsUser = createAsyncThunk('sitDownAsUser', async (request: ISitDownAsUserRequest) => {
@@ -21,14 +21,14 @@ const sitDownAsUserSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(sitDownAsUser.pending, state => {
-        state.status = 'loading';
+        state.status = 'LOADING';
       })
       .addCase(sitDownAsUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = 'SUCCEEDED';
         state.response = action.payload;
       })
       .addCase(sitDownAsUser.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = 'FAILED';
         state.error = action.error.message;
       });
   },

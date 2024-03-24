@@ -6,7 +6,7 @@ import { getTableUrl } from 'utils/url';
 const httpService = new HttpService();
 
 const initialState: ResponseState<{ table: ITableResponse }> = {
-  status: 'idle',
+  status: 'IDLE',
 };
 
 export const getTable = createAsyncThunk('gatTable', async (tableId: string) => {
@@ -21,14 +21,14 @@ const getTableSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getTable.pending, state => {
-        state.status = 'loading';
+        state.status = 'LOADING';
       })
       .addCase(getTable.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = 'SUCCEEDED';
         state.response = action.payload;
       })
       .addCase(getTable.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = 'FAILED';
         state.error = action.error.message;
       });
   },

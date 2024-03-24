@@ -6,7 +6,7 @@ import { getTableLogsUrl } from 'utils/url';
 const httpService = new HttpService();
 
 const initialState: ResponseState<{ tableLogs: ITableLogResponse[] }> = {
-  status: 'idle',
+  status: 'IDLE',
 };
 
 export const getTableLogs = createAsyncThunk('gatTableLogs', async (userId: string) => {
@@ -21,14 +21,14 @@ const getTableLogsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getTableLogs.pending, state => {
-        state.status = 'loading';
+        state.status = 'LOADING';
       })
       .addCase(getTableLogs.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = 'SUCCEEDED';
         state.response = action.payload;
       })
       .addCase(getTableLogs.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = 'FAILED';
         state.error = action.error.message;
       });
   },
