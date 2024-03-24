@@ -48,11 +48,11 @@ export class Player {
     public id: string,
     public name: string,
     public stackSize: number,
-    public table: Poker,
+    public poker: Poker,
   ) {}
 
-  static initFromState(state: PlayerState, table: Poker) {
-    const player = new Player(state.id, state.name, state.stackSize, table);
+  static initFromState(state: PlayerState, poker: Poker) {
+    const player = new Player(state.id, state.name, state.stackSize, poker);
     player.restoreState(state);
     return player;
   }
@@ -82,11 +82,11 @@ export class Player {
 
   get hand() {
     if (!this.holeCards) return null;
-    return Hand.solve(this.holeCards.concat(this.table.communityCards).map(card => `${card.rank}${card.suit}`));
+    return Hand.solve(this.holeCards.concat(this.poker.communityCards).map(card => `${card.rank}${card.suit}`));
   }
 
   betAction(amount: number) {
-    if (this !== this.table.currentActor) {
+    if (this !== this.poker.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
     if (!this.legalActions().includes('BET')) {
@@ -95,24 +95,24 @@ export class Player {
     if (isNaN(amount)) {
       throw new Error('Amount was not a valid number.');
     }
-    const currentBet = this.table.currentBet;
-    if (currentBet) throw new Error('Illegal action. There is already a bet on the table.');
-    if (amount < this.table.bigBlind) {
+    const currentBet = this.poker.currentBet;
+    if (currentBet) throw new Error('Illegal action. There is already a bet on the poker.');
+    if (amount < this.poker.bigBlind) {
       throw new Error('A bet must be at least as much as the big blind.');
     } else if (amount > this.stackSize) {
-      throw new Error('You cannot bet more than you brought to the table.');
+      throw new Error('You cannot bet more than you brought to the poker.');
     }
     this.raiseAction(amount);
   }
 
   callAction() {
-    if (this !== this.table.currentActor) {
+    if (this !== this.poker.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
     if (!this.legalActions().includes('CALL')) {
       throw new Error('Illegal action.');
     }
-    const currentBet = this.table.currentBet;
+    const currentBet = this.poker.currentBet;
     if (!currentBet) throw new Error('Illegal action. There is no bet to call.');
     const callAmount = currentBet - this.bet;
     // All-in via inability to call
@@ -125,11 +125,11 @@ export class Player {
       this.stackSize -= callAmount;
       this.bet += callAmount;
     }
-    this.table.nextAction();
+    this.poker.nextAction();
   }
 
   raiseAction(amount: number) {
-    if (this !== this.table.currentActor) {
+    if (this !== this.poker.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
     const legalActions = this.legalActions();
@@ -140,11 +140,11 @@ export class Player {
       throw new Error('Amount was not a valid number.');
     }
     if (amount > this.stackSize) {
-      throw new Error('You cannot bet more than you brought to the table.');
+      throw new Error('You cannot bet more than you brought to the poker.');
     }
-    const currentBet = this.table.currentBet;
-    const lastRaise = this.table.lastRaise;
-    const minRaise = lastRaise ?? this.table.bigBlind;
+    const currentBet = this.poker.currentBet;
+    const lastRaise = this.poker.lastRaise;
+    const minRaise = lastRaise ?? this.poker.bigBlind;
     const raiseAmount = currentBet ? amount - currentBet : amount;
     // Do not allow the raise if it's less than the minimum and they aren't going all-in.
     if (raiseAmount < minRaise && amount < this.stackSize) {
@@ -157,58 +157,58 @@ export class Player {
       // When the all-in player is raising for less than the minimum raise then increase the bet amount but do not change last raise value.
       this.bet += this.stackSize;
       this.stackSize = 0;
-      this.table.currentBet = this.bet;
+      this.poker.currentBet = this.bet;
     } else if (amount >= minRaise) {
       this.stackSize -= amount;
       this.bet += amount;
-      this.table.currentBet = this.bet;
+      this.poker.currentBet = this.bet;
       // Only mark raise values if there is a current bet.
       if (currentBet) {
-        this.raise = this.table.lastRaise = amount - currentBet;
+        this.raise = this.poker.lastRaise = amount - currentBet;
       }
       // Set last action to the player behind this one.
-      this.table.lastPosition = this.table.currentPosition! - 1;
-      if (this.table.lastPosition === -1) this.table.lastPosition = this.table.players.length - 1;
-      while (!this.table.lastActor || !this.table.actingPlayers.includes(this.table.lastActor)) {
-        this.table.lastPosition--;
-        if (this.table.lastPosition === -1) this.table.lastPosition = this.table.players.length - 1;
+      this.poker.lastPosition = this.poker.currentPosition! - 1;
+      if (this.poker.lastPosition === -1) this.poker.lastPosition = this.poker.players.length - 1;
+      while (!this.poker.lastActor || !this.poker.actingPlayers.includes(this.poker.lastActor)) {
+        this.poker.lastPosition--;
+        if (this.poker.lastPosition === -1) this.poker.lastPosition = this.poker.players.length - 1;
       }
     }
 
-    this.table.nextAction();
+    this.poker.nextAction();
   }
 
   checkAction() {
-    if (this !== this.table.currentActor) {
+    if (this !== this.poker.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
     if (!this.legalActions().includes('CHECK')) {
       throw new Error('Illegal action.');
     }
-    this.table.nextAction();
+    this.poker.nextAction();
   }
 
   foldAction() {
-    if (this !== this.table.currentActor) {
+    if (this !== this.poker.currentActor) {
       throw new Error('Action invoked on player out of turn!');
     }
     if (!this.legalActions().includes('FOLD')) {
       throw new Error('Illegal action.');
     }
     this.folded = true;
-    this.table.nextAction();
+    this.poker.nextAction();
   }
 
   legalActions(): Action[] {
-    const currentBet = this.table.currentBet;
-    const lastRaise = this.table.lastRaise;
+    const currentBet = this.poker.currentBet;
+    const lastRaise = this.poker.lastRaise;
     const actions: Action[] = [];
     if (!currentBet) {
       actions.push('CHECK', 'BET');
     } else {
       if (this.bet === currentBet) {
         actions.push('CHECK');
-        if (this.stackSize > currentBet && this.table.actingPlayers.length > 0) {
+        if (this.stackSize > currentBet && this.poker.actingPlayers.length > 0) {
           actions.push('RAISE');
         }
       }
@@ -216,7 +216,7 @@ export class Player {
         actions.push('CALL');
         if (
           this.stackSize > currentBet &&
-          this.table.actingPlayers.length > 0 &&
+          this.poker.actingPlayers.length > 0 &&
           (!lastRaise || !this.raise || lastRaise >= this.raise)
         ) {
           actions.push('RAISE');
