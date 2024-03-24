@@ -1,5 +1,6 @@
 import { IUserResponse } from '@link-poker/constants';
 import { createSlice } from '@reduxjs/toolkit';
+import { USER_SLICE_PATH } from 'constants/slicePath';
 
 export const initialUserState: IUserResponse = {
   id: '',
@@ -9,7 +10,7 @@ export const initialUserState: IUserResponse = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: USER_SLICE_PATH,
   initialState: initialUserState,
   reducers: { update: (state, action) => (state = action.payload) },
 });

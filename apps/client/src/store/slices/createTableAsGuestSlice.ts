@@ -1,5 +1,6 @@
 import { ICreateTableAsGuestRequest, ITableResponse, IUserResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { CREATE_TABLE_AS_GUEST_SLICE_PATH } from 'constants/slicePath';
 import { getCreateTableAsGuestUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
 
@@ -10,7 +11,7 @@ const initialState: ResponseState<{ user: IUserResponse; table: ITableResponse }
 };
 
 export const createTableAsGuest = createAsyncThunk(
-  'createTableAsGuest',
+  CREATE_TABLE_AS_GUEST_SLICE_PATH,
   async (request: ICreateTableAsGuestRequest) => {
     const response = await httpService.post(getCreateTableAsGuestUrl(), request.body);
     return response.data;
@@ -18,7 +19,7 @@ export const createTableAsGuest = createAsyncThunk(
 );
 
 const createTableAsGuestSlice = createSlice({
-  name: 'createTableAsGuest',
+  name: CREATE_TABLE_AS_GUEST_SLICE_PATH,
   initialState,
   reducers: {},
   extraReducers: builder => {

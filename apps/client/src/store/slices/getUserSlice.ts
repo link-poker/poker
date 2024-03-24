@@ -1,5 +1,6 @@
 import { IUserResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { GET_USER_SLICE_PATH } from 'constants/slicePath';
 import { getUserUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
 
@@ -9,13 +10,13 @@ const initialState: ResponseState<{ user: IUserResponse }> = {
   status: 'IDLE',
 };
 
-export const getUser = createAsyncThunk('gatUser', async (userId: string) => {
+export const getUser = createAsyncThunk(GET_USER_SLICE_PATH, async (userId: string) => {
   const response = await httpService.get(getUserUrl(userId));
   return response.data;
 });
 
 const getUserSlice = createSlice({
-  name: 'getUser',
+  name: GET_USER_SLICE_PATH,
   initialState,
   reducers: {},
   extraReducers: builder => {

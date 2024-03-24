@@ -1,5 +1,6 @@
 import { ISitDownAsGuestRequest, IPlayerPrivateInfoResponse, ITableResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { SIT_DOWN_AS_GUEST_SLICE_PATH } from 'constants/slicePath';
 import { getSitDownAsGuestUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
 
@@ -9,13 +10,16 @@ const initialState: ResponseState<{ table: ITableResponse; playerPrivateInfo: IP
   status: 'IDLE',
 };
 
-export const sitDownAsGuest = createAsyncThunk('sitDownAsGuest', async (request: ISitDownAsGuestRequest) => {
-  const response = await httpService.post(getSitDownAsGuestUrl(request.params.tableId), request.body);
-  return response.data;
-});
+export const sitDownAsGuest = createAsyncThunk(
+  SIT_DOWN_AS_GUEST_SLICE_PATH,
+  async (request: ISitDownAsGuestRequest) => {
+    const response = await httpService.post(getSitDownAsGuestUrl(request.params.tableId), request.body);
+    return response.data;
+  },
+);
 
 const sitDownAsGuestSlice = createSlice({
-  name: 'sitDownAsGuest',
+  name: SIT_DOWN_AS_GUEST_SLICE_PATH,
   initialState,
   reducers: {},
   extraReducers: builder => {

@@ -1,5 +1,6 @@
 import { ITableLogResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { GET_TABLE_LOGS_SLICE_PATH } from 'constants/slicePath';
 import { getTableLogsUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
 
@@ -9,13 +10,13 @@ const initialState: ResponseState<{ tableLogs: ITableLogResponse[] }> = {
   status: 'IDLE',
 };
 
-export const getTableLogs = createAsyncThunk('gatTableLogs', async (userId: string) => {
+export const getTableLogs = createAsyncThunk(GET_TABLE_LOGS_SLICE_PATH, async (userId: string) => {
   const response = await httpService.get(getTableLogsUrl(userId));
   return response.data;
 });
 
 const getTableLogsSlice = createSlice({
-  name: 'getTableLogs',
+  name: GET_TABLE_LOGS_SLICE_PATH,
   initialState,
   reducers: {},
   extraReducers: builder => {

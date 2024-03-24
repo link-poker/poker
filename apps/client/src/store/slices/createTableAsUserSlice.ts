@@ -1,5 +1,6 @@
 import { ICreateTableAsUserRequest, ITableResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { CREATE_TABLE_AS_USER_SLICE_PATH } from 'constants/slicePath';
 import { getCreateTableAsUserUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
 
@@ -9,13 +10,16 @@ const initialState: ResponseState<{ table: ITableResponse }> = {
   status: 'IDLE',
 };
 
-export const createTableAsUser = createAsyncThunk('createTableAsUser', async (request: ICreateTableAsUserRequest) => {
-  const response = await httpService.post(getCreateTableAsUserUrl(), request.body);
-  return response.data;
-});
+export const createTableAsUser = createAsyncThunk(
+  CREATE_TABLE_AS_USER_SLICE_PATH,
+  async (request: ICreateTableAsUserRequest) => {
+    const response = await httpService.post(getCreateTableAsUserUrl(), request.body);
+    return response.data;
+  },
+);
 
 const createTableAsUserSlice = createSlice({
-  name: 'createTableAsUser',
+  name: CREATE_TABLE_AS_USER_SLICE_PATH,
   initialState,
   reducers: {},
   extraReducers: builder => {

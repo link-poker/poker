@@ -1,5 +1,6 @@
 import { ITableResponse } from '@link-poker/constants';
 import { createSlice } from '@reduxjs/toolkit';
+import { TABLE_SLICE_PATH } from 'constants/slicePath';
 import { TABLE_STATUS } from 'constants/table';
 
 const initialTableState: ITableResponse = {
@@ -28,7 +29,7 @@ const initialTableState: ITableResponse = {
 };
 
 const tableSlice = createSlice({
-  name: 'table',
+  name: TABLE_SLICE_PATH,
   initialState: initialTableState,
   reducers: { update: (state, action) => (state = action.payload) },
 });
