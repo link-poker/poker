@@ -12,12 +12,12 @@ import TableLogCard from 'components/TableLogCard';
 import TopLeftButtons from 'components/TopLeftButtons';
 import TopRightButtons from 'components/TopRightButtons';
 import TotalPot from 'components/TotalPot';
+import { getTableWsUrl, getWatchTableWsUrl } from 'constants/url';
 import { useTable } from 'hooks/useTable';
 import { useTableLogs } from 'hooks/useTableLogs';
 import WebSocketProvider from 'providers/WebSocketProvider';
 import { getAuthInfo } from 'utils/authInfo';
 import { isClientSide } from 'utils/clientSide';
-import { getTableWsUrl, getWatchTableWsUrl } from 'utils/url';
 import OptionsView from 'views/Options';
 
 type Props = {

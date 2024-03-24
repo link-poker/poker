@@ -1,7 +1,7 @@
 import { ICreateTableAsUserRequest, ITableResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getCreateTableAsUserUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
-import { getCreateTableAsUserUrl } from 'utils/url';
 
 const httpService = new HttpService();
 

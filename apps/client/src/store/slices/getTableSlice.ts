@@ -1,7 +1,7 @@
 import { ITableResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getTableUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
-import { getTableUrl } from 'utils/url';
 
 const httpService = new HttpService();
 

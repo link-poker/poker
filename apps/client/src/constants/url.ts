@@ -1,5 +1,5 @@
 import { ENV_CONFIG } from '../configs/env';
-import { getAuthInfo } from './authInfo';
+import { getAuthInfo } from '../utils/authInfo';
 
 const GAME_SERVER_HTTP_URL = ENV_CONFIG.GAME_SERVER_HTTP_URL;
 const GAME_SERVER_WS_URL = ENV_CONFIG.GAME_SERVER_WS_URL;

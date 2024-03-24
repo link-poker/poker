@@ -1,7 +1,7 @@
 import { ISitDownAsUserRequest, IPlayerPrivateInfoResponse, ITableResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getSitDownAsUserUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
-import { getSitDownAsUserUrl } from 'utils/url';
 
 const httpService = new HttpService();
 

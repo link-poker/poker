@@ -1,7 +1,7 @@
 import { IUserResponse } from '@link-poker/constants';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getUserUrl } from 'constants/url';
 import { HttpService } from 'services/HttpService';
-import { getUserUrl } from 'utils/url';
 
 const httpService = new HttpService();
 
