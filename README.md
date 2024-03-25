@@ -1,23 +1,15 @@
 # commit message prefix
 
-| Prefix         | Description                                                                                                                              |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| fix            | Used when there is a problem with an existing feature.                                                                                   |
-| hotfix         | Used when there is a critical issue with an existing feature.                                                                            |
-| add            | Used to add new files or features.                                                                                                       |
-| feat           | Used to add new features or files.                                                                                                       |
-| update         | Used when there is no issue with an existing feature but a modification is desired.                                                      |
-| change         | Used when modifications are made to existing features due to specification changes.                                                      |
-| clean/refactor | Used to modify and improve code.                                                                                                         |
-| improve        | Used to improve code.                                                                                                                    |
-| disable        | Used to temporarily disable a feature.                                                                                                   |
-| remove/delete  | Used to delete files or remove features.                                                                                                 |
-| rename         | Used to change file names.                                                                                                               |
-| move           | Used to move files.                                                                                                                      |
-| upgrade        | Used to upgrade a version.                                                                                                               |
-| revert         | Used to revert to a previous commit.                                                                                                     |
-| docs           | Used to modify documentation.                                                                                                            |
-| style          | Used to correct coding style.                                                                                                            |
-| perf           | Used to improve code performance.                                                                                                        |
-| test           | Used to modify test code or add test code.                                                                                               |
-| chore          | Used to commit automatically generated items with build tools or libraries, or to make modifications that do not fit the above prefixes. |
+| Prefix   | Description                                                                    |
+| -------- | ------------------------------------------------------------------------------ |
+| fix      | A bug or issue in the existing code is corrected.                              |
+| feat     | A new feature is introduced or an existing feature is significantly altered.   |
+| config   | Changes to configuration files that do not affect the code directly.           |
+| refactor | The code is restructured or cleaned up without changing its external behavior. |
+| remove   | Code or files are deleted                                                      |
+| revert   | Reverses a previous commit or changes.                                         |
+| docs     | Modifications or additions to documentation.                                   |
+| test     | Addition, modification, or deletion of test cases.                             |
+| build    | Changes that affect the build system or external dependencies.                 |
+| ci       | Changes to CI (Continuous Integration) configuration files and scripts.        |
+| chore    | Routine tasks or updates that do not modify the application code directly.     |
