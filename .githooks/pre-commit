@@ -5,10 +5,8 @@ set -e
 # check if there are changes in packages
 # Packages require a build before commit to ensure that types are up to date
 if git diff --cached --name-only | grep -q "^packages"; then
-  echo "Building packages ..."
-  pnpm run build:packages
-  pnpm run build:client
-  pnpm run build:game-server
+  echo "Building for packages ..."
+  pnpm run build
 else
   echo "No changes detected in packages"
 fi
@@ -17,7 +15,7 @@ fi
 # client require a test before push to ensure that tests are passing
 if git diff --cached --name-only | grep -q "^apps/client"; then
   echo "Building for client ..."
-  pnpm run client build
+  pnpm run build:client
 else
   echo "No changes detected in client"
 fi
@@ -25,8 +23,10 @@ fi
 # check if there are changes in game-server
 # game-server require a test before push to ensure that tests are passing
 if git diff --cached --name-only | grep -q "^apps/game-server"; then
+  echo "Building for game-server ..."
+  pnpm run build:game-server
   echo "Running tests for game-server ..."
-  pnpm run game-server test
+  pnpm run test:game-server
 else
   echo "No changes detected in game-server"
 fi
