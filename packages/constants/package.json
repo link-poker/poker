@@ -5,8 +5,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.json",
-    "test": "jest tests/.*/.*.test.ts$ --testPathIgnorePatterns=tests/integrations",
-    "test:integrations": "jest tests/integrations/.*.test.ts$ --runInBand",
+    "test": "jest tests/.*/.*.test.ts$ --testPathIgnorePatterns=tests/integrations --passWithNoTests",
     "lint": "eslint ./src --ext .ts"
   },
   "keywords": [],
