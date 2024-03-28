@@ -6,11 +6,11 @@
     "client": "pnpm --filter @link-poker/client",
     "game-server": "pnpm --filter @link-poker/game-server",
     "constants": "pnpm --filter @link-poker/constants",
-    "dev:client": "pnpm client dev",
-    "dev:game-server": "pnpm game-server dev",
-    "build:client": "pnpm client build",
-    "build:game-server": "pnpm game-server build",
+    "build": "turbo run build",
+    "build:client": "turbo run build --filter @link-poker/client",
+    "build:game-server": "turbo run build --filter @link-poker/game-server",
     "build:packages": "sh scripts/build-packages.sh",
+    "test:game-server": "turbo run test --filter @link-poker/game-server",
     "test:client-container": "sh dockers/docker.test.sh dockers/Dockerfile.client apps/client/.env",
     "test:game-server-container": "sh dockers/docker.test.sh dockers/Dockerfile.game-server apps/game-server/.env",
     "remove-node-modules": "sh scripts/remove-node-modules.sh"
@@ -20,5 +20,8 @@
     "tabWidth": 2,
     "singleQuote": true,
     "trailingComma": "es5"
+  },
+  "devDependencies": {
+    "turbo": "^1.13.0"
   }
 }
