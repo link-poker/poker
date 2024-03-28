@@ -13,7 +13,9 @@
     "test:game-server": "turbo run test --filter @link-poker/game-server",
     "test:client-container": "sh dockers/docker.test.sh dockers/Dockerfile.client apps/client/.env",
     "test:game-server-container": "sh dockers/docker.test.sh dockers/Dockerfile.game-server apps/game-server/.env",
-    "remove-node-modules": "sh scripts/remove-node-modules.sh"
+    "remove-node-modules": "sh scripts/remove-node-modules.sh",
+    "release:client": "sh scripts/release-tag.sh client",
+    "release:game-server": "sh scripts/release-tag.sh game-server"
   },
   "prettier": {
     "printWidth": 100,
